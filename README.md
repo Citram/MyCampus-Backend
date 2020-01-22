@@ -27,7 +27,7 @@ We'll be using Django and code mostly in Python.
   
   `virtualenv env`
   
-   pip freeze`
+  `pip freeze`
    
   `pip install django`
   
