@@ -37,5 +37,5 @@ We'll be using Django and code mostly in Python.
   
   You'll be able to see the development verison of the application on  `http://localhost:8080/`
   
-  You can also access the admin view by going to `http://localhost:8080/`
+  You can also access the admin view by going to `http://localhost:8080/admin`
 
