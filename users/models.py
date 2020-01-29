@@ -1,7 +1,8 @@
 from django.db import models
 from django import forms
 from hashid_field import HashidAutoField
-from events.models import Event
+import datetime
+
 
 
 # Create your models here.
@@ -107,8 +108,11 @@ class Review(models.Model):
     #comment text
     comment = models.CharField(max_length=300)
 
+    #date & time
+    time = models.DateTimeField(auto_now=True)
+
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
     recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
 
 class Report(models.Model):
@@ -132,8 +136,11 @@ class Report(models.Model):
 
     details = models.CharField(max_length=300)
 
+    #date & time
+    time = models.DateTimeField(auto_now=True)
+
     #many-to-one relations
-    author = models.ForeignKey(Student,on_delete=models.CASCADE)
+    author = models.ForeignKey(Student,on_delete=models.SET_NULL)
     recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 

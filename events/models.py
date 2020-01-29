@@ -1,5 +1,59 @@
 from django.db import models
+from users.models import RegularUser, Student
+from hashid_field import HashidAutoField
+import datetime
 
 # Create your models here.
+class Address(models.Model):
+
+    city = models.CharField(max_length=20)
+    street = models.CharField(max_length=200)
+    number = models.CharField(max_length=20)
+    postalcode = models.CharField(max_length=6)
+
 class Event(models.Model):
-    pass
+
+    id = HashidAutoField(primary_key=True)
+
+    name = models.CharField(max_length=100)
+
+    date = models.DateField(default=datetime.date.today())
+
+    fee = models.DecimalField(default=0)
+
+    max_capacity = models.PositiveSmallIntegerField()
+    min_capacity = models.PositiveSmallIntegerField(default=1)
+
+    #TODO
+    EVENT_OUTDOOR = 'OUT'
+    EVENT_GAMING = 'GAM'
+
+    CATEGORIES = [
+        (EVENT_OUTDOOR, '1'),
+        (EVENT_OUTDOOR, '2')
+    ]
+
+    description = models.CharField(max_length=500)
+    category = models.CharField(
+        max_length=3,
+        choices=CATEGORIES
+    )
+
+    address = models.ForeignKey(Address, on_delete=models.PROTECT)
+
+    organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
+    attendees = models.ManyToManyField(Student)
+
+class Comment(models.Model):
+
+    id = HashidAutoField(primary_key=True)
+
+    details = models.CharField(max_length=300)
+
+    #date & time
+    time = models.DateTimeField(auto_now=True)
+
+    #many-to-one relations
+    author = models.ForeignKey(RegularUser, on_delete=models.SET_NULL)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
