@@ -18,7 +18,7 @@ class User(models.Model):
         'mail.mcgill.ca'
         'mcgill.ca'
     ]
-    email_validator = EmailValidator(message='Please enter a valid McGill email address', 
+    email_validator = EmailValidator(message='Please enter a valid McGill email address',
                                      whitelist=email_domains)
     email = models.EmailField(null=False, blank=False, unique=True, validators=[email_validator])
 
