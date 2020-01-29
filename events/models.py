@@ -5,14 +5,18 @@ import datetime
 
 # Create your models here.
 class Address(models.Model):
-
+    """
+    address for an event, could be unnecessary
+    """
     city = models.CharField(max_length=20)
     street = models.CharField(max_length=200)
     number = models.CharField(max_length=20)
     postalcode = models.CharField(max_length=6)
 
 class Event(models.Model):
-
+    """
+    Event organized by a student or a student body
+    """
     id = HashidAutoField(primary_key=True)
 
     name = models.CharField(max_length=100)
@@ -45,10 +49,12 @@ class Event(models.Model):
     attendees = models.ManyToManyField(Student)
 
 class Comment(models.Model):
-
+    """
+    a message left on the page of an event
+    """
     id = HashidAutoField(primary_key=True)
 
-    details = models.CharField(max_length=300)
+    message = models.CharField(max_length=300)
 
     #date & time
     time = models.DateTimeField(auto_now=True)
