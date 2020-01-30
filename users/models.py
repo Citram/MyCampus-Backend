@@ -175,12 +175,12 @@ class UserFlag(models.Model):
     recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 #================= VALIDATORS =================#
-def username_validator(input_username):
+def username_validator(username):
     """
     validates the a specific username is valid
     """
     #TODO
     return True
 
-def user_rating_validator(input_rating):
-    return (input_rating >= 1 and input_rating <= 5)
+def user_rating_validator(rating):
+    return (rating >= 1 and rating <= 5)

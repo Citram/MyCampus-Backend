@@ -1,32 +1,35 @@
 import re
 from django import forms
-from django.core.validators import EmailValidator
+from .models import Event, Address
 
-class EventForm(forms.Form):
-    #event name
-    name = forms.CharField(label='Name', validators=[validate_event_name])
-    
-    #event datetime
-    datetime = forms.DateTimeField(label='Event start time', validators=[validate_event_datetime])
 
-    #participation fee
-    fee = forms.DecimalField(label='Event start time', min_value=0, max_digits=5, decimal_places=2)
+class EventForm(forms.ModelForm):
+    """
+        not sure about this one, but for documentation on ModelForm, see
+        https://docs.djangoproject.com/en/3.0/topics/forms/modelforms/
 
-    #capacities
-    #TODO: find to way to properly validate the numbers
-    max_capacity = forms.IntegerField(label='Maximum capacity for the event', min_value=1)
-    min_capacity = forms.IntegerField(label='Minimum number of people required')
+    """
+    class Meta:
+        model = Event
+        fields = [
+            'name',
+            'date',
+            'fee',
+            'max_capacity',
+            'min_capacity',
+            'description',
+            'category'
+        ]
 
-    #event category
-    #TODO
-    EVENT_OUTDOOR = 'OUT'
-    EVENT_GAMING = 'GAM'
-
-    CATEGORIES = [
-        (EVENT_OUTDOOR, 'Outdoor events'),
-        (EVENT_GAMING, 'Games')
-    ]
-    category = forms.ChoiceField(label='Event category', choices=CATEGORIES, validators=[validate_event_category])
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = [
+            'city',
+            'street',
+            'number',
+            'postalcode'
+        ]
 
 class CommentForm(forms.Form):
 
