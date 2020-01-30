@@ -11,6 +11,7 @@ class User(models.Model):
 
     #login info
     id = models.CharField(max_length=20, primary_key=True, validators=[username_validator])
+
     password = models.CharField(max_length=64, widget=forms.PasswordInput)
 
     #email and validations
@@ -85,7 +86,7 @@ class Student(RegularUser):
         (FACULTY_CONTINUING_STUDIES, 'School of Continuing Studies'),
         (FACULTY_DENTISTRY, 'Faculty of Dentistry'),
         (FACULTY_EDUCATION, 'Faculty of Education'),
-        (FACULTY_ENGINEERING, 'FACULTY_EDUCATION'),
+        (FACULTY_ENGINEERING, 'Faculty of Engineering'),
         (FACULTY_GRADUATE_AND_POSTDOCTORAL_STUDIES, 'Graduate and Postdoctoral Studies'),
         (FACULTY_LAW, 'Faculty of Law'),
         (FACULTY_MANAGEMENT, 'Desautels Faculty of Management'),

@@ -6,15 +6,6 @@ class EventForm(forms.Form):
     #event name
     name = forms.CharField(label='Name', validators=[validate_event_name])
     
-    #email and validations
-    email_domains = [
-        'mail.mcgill.ca'
-        'mcgill.ca'
-    ]
-    email_validator = EmailValidator(message='Please enter a valid McGill email address',
-                                     whitelist=email_domains)
-    email = forms.EmailField(null=False, blank=False, unique=True, validators=[email_validator])
-
     #event datetime
     datetime = forms.DateTimeField(label='Event start time', validators=[validate_event_datetime])
 
@@ -44,7 +35,7 @@ class CommentForm(forms.Form):
 
 #==================== event validators ====================#
 def validate_event_name(name):
-    pattern = re.compile('[a-zA-Z]+')
+    pattern = re.compile('[a-zA-Z]+') #must contain at least one character
     return pattern.match(name)
 
 def validate_event_datetime(datetime):
@@ -62,3 +53,6 @@ def validate_event_description(description):
 #==================== comment validators ====================#
 def validate_comment_datetime(datetime):
     pass
+
+def validate_comment_message(message):
+    return (message is not None and message.strip() != "")

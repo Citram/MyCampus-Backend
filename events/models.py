@@ -33,8 +33,8 @@ class Event(models.Model):
     EVENT_GAMING = 'GAM'
 
     CATEGORIES = [
-        (EVENT_OUTDOOR, '1'),
-        (EVENT_OUTDOOR, '2')
+        (EVENT_OUTDOOR, 'Outdoor events'),
+        (EVENT_GAMING, 'Games')
     ]
 
     description = models.CharField(max_length=500)
@@ -44,7 +44,6 @@ class Event(models.Model):
     )
 
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
-
     organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
     attendees = models.ManyToManyField(Student)
 
