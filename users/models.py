@@ -29,7 +29,7 @@ class User(models.Model):
 
     #email and validations
     email_domains = [
-        'mail.mcgill.ca'
+        'gmail.com',
         'mcgill.ca'
     ]
     email_validator = EmailValidator(message='Please enter a valid McGill email address',
