@@ -2,14 +2,8 @@ from django.db import models
 from django import forms
 from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
+from events.models import Event
 
-def username_validator(username):
-    """
-    validates the a specific username is valid
-    """
-    #TODO
-    return True
-    
 class User(models.Model):
     """
     Abstract user class which includes admin, students and organizations
@@ -148,7 +142,7 @@ class Review(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.SET_NULL)
     recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
 class UserFlag(models.Model):
     """
@@ -179,6 +173,14 @@ class UserFlag(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.SET_NULL)
     recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+#================= VALIDATORS =================#
+def username_validator(username):
+    """
+    validates the a specific username is valid
+    """
+    #TODO
+    return True
 
 def user_rating_validator(rating):
     return (rating >= 1 and rating <= 5)
