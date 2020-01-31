@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'mycampus_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+# Postgres Database from mycampus-backend created with heroku.
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql_psycopg2',
