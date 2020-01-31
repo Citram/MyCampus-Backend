@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+HASHID_FIELD_SALT = "hahahah" #magic salt
 # Application definition
 
 INSTALLED_APPS = [
