@@ -1,22 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
+# accounts/views.py
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy #we use reverse_lazy to redirect the user to the login page upon successful registration
+from django.views import generic
 
-def users(request):
-    return HttpResponse("Hello, world. You're at the users page.")
-
-    #This is the function to create a session on signup
-def create_session(request):
-    request.session['name'] = 'username'
-    request.session['password'] = 'password123'
-    return HttpResponse("<h1>dataflair<br> the session is set</h1>")
-    #This is the function to access the session on login. -> request.session.get('name') for the username, or id, ect from the database
-def access_session(request):
-    response = "<h1>Welcome to Sessions of MyCampus</h1><br>"
-    if request.session.get('name'):
-        response += "Name : {0} <br>".format(request.session.get('name'))
-    if request.session.get('password'):
-        response += "Password : {0} <br>".format(request.session.get('password'))
-        return HttpResponse(response)
-    else:
-        return redirect('create/')
+# We’re subclassing the generic class-based view CreateView in our SignUp class.
+# We specify the use of the built-in UserCreationForm and the not-yet-created template at signup.html
+class SignUp(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'
