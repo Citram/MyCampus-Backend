@@ -55,7 +55,7 @@ class RegularUser(User):
     rating_avg = models.DecimalField(max_digits=3, decimal_places=2, validators=[user_rating_validator])
 
     class Meta:
-        abstract = True
+        abstract = False
 
 class Student(RegularUser):
     """
@@ -153,8 +153,8 @@ class Review(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
-    recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING) #author of comment deleted, comment stays
+    #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
     #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
 
 class UserFlag(models.Model):
@@ -184,7 +184,7 @@ class UserFlag(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
-    recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 
