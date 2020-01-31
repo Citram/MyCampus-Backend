@@ -75,8 +75,13 @@ WSGI_APPLICATION = 'mycampus_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+       'NAME':'dac009epqo9i2t',
+       'USER':'chpiszhwmbnnpp',
+       'PASSWORD':'29c18fe4a75795f662225381e1898c6e0a5e75450e1707904522821eb0e9acd8',
+       'HOST':'ec2-52-203-98-126.compute-1.amazonaws.com',
+       'POST':'5432',
+      'ATOMATIC_REQUESTS':True,
     }
 }
 
