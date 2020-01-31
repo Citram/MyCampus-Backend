@@ -2,7 +2,20 @@ from django.db import models
 from django import forms
 from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
-from events.models import Event
+#from events.models import *
+
+#================= VALIDATORS =================#
+def username_validator(username):
+    """
+    validates the a specific username is valid
+    Username doesn't have special characters, UTFA 
+    """
+    #TODO
+    return True
+
+
+def user_rating_validator(rating):
+    return (rating >= 1 and rating <= 5)
 
 class User(models.Model):
     """
@@ -12,7 +25,7 @@ class User(models.Model):
     #login info
     id = models.CharField(max_length=20, primary_key=True, validators=[username_validator])
 
-    password = models.CharField(max_length=64, widget=forms.PasswordInput)
+    password = models.CharField(max_length=64)
 
     #email and validations
     email_domains = [
@@ -104,7 +117,7 @@ class Student(RegularUser):
     )
 
     #not sure this is entirely correct
-    following = models.ManyToManyField(RegularUser)
+    #following = models.ManyToManyField(RegularUser)
 
 class Organization(RegularUser):
     """
@@ -142,7 +155,7 @@ class Review(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.SET_NULL)
     recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
 
 class UserFlag(models.Model):
     """
@@ -174,13 +187,4 @@ class UserFlag(models.Model):
     author = models.ForeignKey(Student, on_delete=models.SET_NULL)
     recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
 
-#================= VALIDATORS =================#
-def username_validator(username):
-    """
-    validates the a specific username is valid
-    """
-    #TODO
-    return True
 
-def user_rating_validator(rating):
-    return (rating >= 1 and rating <= 5)
