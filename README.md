@@ -42,3 +42,7 @@ We'll be using Django and code mostly in Python.
   To get access to the python shell
   
   `python manage.py shell`
+  
+  Admin log-in information
+  
+  Django admin: `mycampusbestcampus` password : `ecse428`
