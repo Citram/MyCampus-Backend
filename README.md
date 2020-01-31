@@ -39,3 +39,6 @@ We'll be using Django and code mostly in Python.
   
   You can also access the admin view by going to `http://localhost:8080/admin`
 
+  To get access to the python shell
+  
+  `python manage.py shell`
