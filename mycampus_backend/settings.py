@@ -16,6 +16,9 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+#Login and logout links to redirect! 
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -33,10 +36,12 @@ else:
 
 ALLOWED_HOSTS = []
 
-
+HASHID_FIELD_SALT = "hahahah" #magic salt
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
+    'events',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,7 +65,7 @@ ROOT_URLCONF = 'mycampus_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,11 +83,16 @@ WSGI_APPLICATION = 'mycampus_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+# Postgres Database from mycampus-backend created with heroku.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+       'NAME':'dac009epqo9i2t',
+       'USER':'chpiszhwmbnnpp',
+       'PASSWORD':'29c18fe4a75795f662225381e1898c6e0a5e75450e1707904522821eb0e9acd8',
+       'HOST':'ec2-52-203-98-126.compute-1.amazonaws.com',
+       'POST':'5432',
+      'ATOMATIC_REQUESTS':True,
     }
 }
 
