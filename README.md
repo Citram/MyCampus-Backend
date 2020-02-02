@@ -1,6 +1,6 @@
 # MyCampus-Backend 
 
-[![Build Status](https://travis-ci.org/Citram/MyCampus-Backend.svg?branch=master)](https://travis-ci.org/Citram/MyCampus-Backend)
+[![Build Status](https://api.travis-ci.org/Citram/MyCampus-Backend.svg?branch=master)](https://travis-ci.org/Citram/MyCampus-Backend)
 
 This is the repo for the ECSE428 group project backend.The goal of the project is to develop a platform to help students connect with other students, create events such as sports and social activities, and to have clubs on campus hold their events on their main page for students to participate in.
 
