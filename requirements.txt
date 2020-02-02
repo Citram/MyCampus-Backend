@@ -4,7 +4,6 @@ Django==3.0.2
 django-hashid-field==3.1.1
 django-heroku==0.3.1
 hashids==1.2.0
-object-detection==0.1
 psycopg2==2.8.4
 pytz==2019.3
 sqlparse==0.3.0
