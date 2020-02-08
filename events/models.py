@@ -21,7 +21,7 @@ class Event(models.Model):
 
     name = models.CharField(max_length=100)
 
-    date = models.DateField(default=datetime.date.today())
+    datetime = models.DateTimeField(default=datetime.date.today())
 
     fee = models.DecimalField(default=0, decimal_places=3, max_digits = 1000)
  
