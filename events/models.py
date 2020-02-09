@@ -21,7 +21,7 @@ class Event(models.Model):
 
     name = models.CharField(max_length=100)
 
-    date = models.DateField(default=datetime.date.today())
+    datetime = models.DateTimeField(default=datetime.date.today())
 
     fee = models.DecimalField(default=0, decimal_places=3, max_digits = 1000)
  
@@ -41,6 +41,13 @@ class Event(models.Model):
     category = models.CharField(
         max_length=3,
         choices=CATEGORIES
+    )
+
+    address = models.OneToOneField(
+        Address,
+        on_delete=models.CASCADE,
+        null=True,
+        default=0
     )
 
     #address = models.ForeignKey(Address, on_delete=models.PROTECT)
