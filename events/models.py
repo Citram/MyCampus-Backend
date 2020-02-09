@@ -43,6 +43,13 @@ class Event(models.Model):
         choices=CATEGORIES
     )
 
+    address = models.OneToOneField(
+        Address,
+        on_delete=models.CASCADE,
+        null=True,
+        default=0
+    )
+
     #address = models.ForeignKey(Address, on_delete=models.PROTECT)
     #organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
     #attendees = models.ManyToManyField(Student)
