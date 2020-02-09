@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from events.models import Event, Address
-from pygeocoder import Geocoder
+#from pygeocoder import Geocoder
 
 class EventForm(ModelForm):
     class Meta:
@@ -14,7 +14,7 @@ class AddressForm(ModelForm):
     
     def clean(self):
         string_address = self.cleaned_data['number'] + " " + self.cleaned_data['street'] + ", " + self.cleaned_data['city'] + " " + self.cleaned_data['postalcode']
-        g = Geocoder()
+        # g = Geocoder()
 
         # #if not g.geocode(string_address).valid_address:
         #     #raise forms.ValidationError("Address is not valid.")
