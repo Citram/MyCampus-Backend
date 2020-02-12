@@ -4,19 +4,6 @@ from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
 import events
 
-#================= VALIDATORS =================#
-def username_validator(username):
-    """
-    validates the a specific username is valid
-    Username doesn't have special characters, uses ASCII
-    """
-    #TODO
-    return True
-
-
-def user_rating_validator(rating):
-    return (rating >= 1 and rating <= 5)
-
 class User(models.Model):
     """
     Abstract user class which includes admin, students and organizations
@@ -121,7 +108,7 @@ class Student(RegularUser):
 
 class Organization(RegularUser):
     """
-    A club or a student body
+    A club or a eventstudent body
     """
     pass
 
@@ -191,6 +178,3 @@ class UserFlag(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
     #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
-    #many-to-one relations
-    author = models.ForeignKey(Student,on_delete=models.CASCADE)
-    recepient = models.ForeignKey(Student, on_delete=models.CASCADE)

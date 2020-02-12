@@ -4,50 +4,74 @@ from django.core.validators import EmailValidator
 
 
 #=========================== User forms ===========================#
-class UserForm(forms.Form):
+class AdminForm(forms.ModelForm):
 
-    id = forms.CharField(label='Your username',
-                         help_text='Your username may consist of upper and lower characters, numbers and periods',
-                         max_length=20, validators=[username_validator])
+    class Meta:
+        model = Admin
+        fields = [
+            'id',
+            'password',
+            'email'
+        ]
 
-    password = forms.CharField(label='password',max_length=64, widget=forms.PasswordInput) #password restrictions?
+    def clean_email(self):
+        #TODO
 
-    #email and validations
-    email_domains = [
-        'mail.mcgill.ca'
-        'mcgill.ca'
-    ]
-    email_validator = EmailValidator(message='Please enter a valid McGill email address',
-                                     whitelist=email_domains)
-    email = forms.EmailField(null=False, blank=False, unique=True, validators=[email_validator])
+    def clean_id(self):
+        #TODO
 
-class AdminForm(UserForm):
-    #subject ot change
-    pass
+    def clean_password(self):
+        #TODO
 
-class RegularUserForm(UserForm):
+class OrganizationForm(forms.ModelForm):
 
-    name = forms.CharField(label='Your organization\'s name: ', max_length=30,
-                           min_length=2, validators=[organization_name_validator])
-    description = forms.CharField(label='A short discription about your organization', max_length=400)
+      
+   class Meta:
+        model = Organization
+        fields = [
+            'id',
+            'password',
+            'email',
+            'name',
+            'description'
+        ]
 
-class StudentForm(RegularUserForm):
+    def clean_email(self):
+        #TODO
 
-    #override
-    name = forms.CharField(label='Your name: ', max_length=30, min_length=2, validators=[student_name_validator])
-    description = forms.CharField(label='A short discription about yourself', max_length=400)
+    def clean_id(self):
+        #TODO
 
-    age = forms.IntegerField(label='Your age', min_value=12, max_value=120)
+    def clean_password(self):
+        #TODO
 
-    #ThErE aRe OnLy TwO gEnDeRs
+    def clean_name(self):
+        #TODO
+
+    def clean_description(slef):
+        #TODO
+
+class StudentForm(forms.ModelForm):
+
+    class Meta:
+        model = Student
+        fields = [
+            'id',
+            'password',
+            'email',
+            'name',
+            'description',
+            'age',
+            'gender',
+            'faculty'
+        ]
+
     MALE = 'M'
     FEMALE = 'F'
     GENDERS = [
         (MALE, 'Male'),
         (FEMALE, 'Female')
     ]
-
-    gender = forms.ChoiceField(choices=GENDERS, label='Your gender', required=False)
 
     #faculties
     FACULTY_AGRICULTURAL_AND_ENVIRONMENTAL_SCIENCES = 'AGR'
@@ -80,16 +104,90 @@ class StudentForm(RegularUserForm):
         (ALUMNI, 'Alumni'),
     ]
 
-    faculty = forms.ChoiceField(choices=FACULTIES, label='Your faculty', required=False)
+    def clean_email(self):
+        #TODO
 
-class OrganizationForm(RegularUserForm):
-    pass
+    def clean_id(self):
+        #TODO
 
-#=========================== Comment form ===========================#
+    def clean_password(self):
+        #TODO
 
+    def clean_name(self):
+        #TODO
+
+    def clean_description(slef):
+        #TODO
+
+    def clean_age(self):
+        #TODO
+
+    def clean_gender(self):
+        #TODO
+
+    def clean_faculty(self):
+        #TODO
+
+#=========================== Review form ===========================#
+
+class ReviewForm(forms.ModelForm):
+
+    class Meta:
+        model = Review
+        fields = [
+            'rating',
+            'comment',
+            'author',
+            'event'
+        ]
+
+        widgets = {
+            'author' : forms.HiddenInput(),
+            'event' : forms.HiddenInput()
+        }
+
+    def clean_rating(self):
+        #TODO
+
+    def clean_comment(self):
+        #TODO
+
+    # def clean_author(self):
+    #     #TODO
+
+    # def clean_event(self):
+    #     #TODO
 
 #=========================== Flag form ===========================#
 
+class UserFlagForm(forms.ModelForm):
+
+    class Meta:
+        model = UserFlag
+        fields = [
+            'flag_type',
+            'details',
+            'author',
+            'recepient'
+        ]
+
+        widgets = {
+            'author' : forms.HiddenInput(),
+            'recepient' : forms.HiddenInput()
+        }
+
+    def clean_flag_type(self):
+        #TODO
+
+    def clean_details(self):
+        #TODO
+
+    # def clean_author(self):
+    #     #TODO
+
+    # def clean_recipient(self):
+    # 
+    
 
 #================ validators ================#
 def username_validator(username):
