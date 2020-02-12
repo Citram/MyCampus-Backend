@@ -2,7 +2,20 @@ from django.db import models
 from django import forms
 from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
-from events.models import Event
+import events
+
+#================= VALIDATORS =================#
+def username_validator(username):
+    """
+    validates the a specific username is valid
+    Username doesn't have special characters, uses ASCII
+    """
+    #TODO
+    return True
+
+
+def user_rating_validator(rating):
+    return (rating >= 1 and rating <= 5)
 
 class User(models.Model):
     """
@@ -42,7 +55,7 @@ class RegularUser(User):
     rating_avg = models.DecimalField(max_digits=3, decimal_places=2, validators=[user_rating_validator])
 
     class Meta:
-        abstract = True
+        abstract = False
 
 class Student(RegularUser):
     """
@@ -104,7 +117,7 @@ class Student(RegularUser):
     )
 
     #not sure this is entirely correct
-    following = models.ManyToManyField(RegularUser)
+    #following = models.ManyToManyField(RegularUser)
 
 class Organization(RegularUser):
     """
@@ -140,14 +153,19 @@ class Review(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
-    recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING) #author of comment deleted, comment stays
+    #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
+    #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
 
 class UserFlag(models.Model):
     """
     a flag about another user for an admin to review
     """
+    #many-to-one relations
+    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
+    recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
+    event = models.ForeignKey(events.models.Event, on_delete=models.CASCADE)
+
     #hashed id 
     id = HashidAutoField(primary_key=True)
 
@@ -171,16 +189,8 @@ class UserFlag(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
+    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
+    #many-to-one relations
+    author = models.ForeignKey(Student,on_delete=models.CASCADE)
     recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
-
-#================= VALIDATORS =================#
-def username_validator(username):
-    """
-    validates the a specific username is valid
-    """
-    #TODO
-    return True
-
-def user_rating_validator(rating):
-    return (rating >= 1 and rating <= 5)

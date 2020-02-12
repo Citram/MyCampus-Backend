@@ -21,6 +21,28 @@ class EventForm(forms.ModelForm):
             'category'
         ]
 
+    def clean_name(self):
+        #TODO
+        return
+
+    def clean_date(self):
+        #TODO
+
+    def clean_fee(self):
+        #TODO
+
+    def clean_max_capacity(self):
+        #TODO
+
+    def clean_min_capacity(self):
+        #TODO
+    
+    def clean_description(self):
+        #TODO
+
+    def clean_category(self):
+        #TODO
+
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
@@ -32,30 +54,13 @@ class AddressForm(forms.ModelForm):
         ]
 
 class CommentForm(forms.Form):
-
     #massage
     message = forms.Textarea('Your message: ')
 
-#==================== event validators ====================#
-def validate_event_name(name):
-    pattern = re.compile('[a-zA-Z]+') #must contain at least one character
-    return pattern.match(name)
+    #pass in hidden field for event id from view???
 
-def validate_event_datetime(datetime):
-    pass
+    def clean_message(self):
+        message_input = self.cleaned_data['message']
+        if message_input is None or message_input.strip()=='':
+            raise forms.ValidationError('You cannot enter an empty message.')
 
-def validate_event_capacities(min_cap, max_cap):
-    pass
-
-def validate_event_category(category):
-    pass
-
-def validate_event_description(description):
-    return (description is not None and description.strip() != "")
-
-#==================== comment validators ====================#
-def validate_comment_datetime(datetime):
-    pass
-
-def validate_comment_message(message):
-    return (message is not None and message.strip() != "")
