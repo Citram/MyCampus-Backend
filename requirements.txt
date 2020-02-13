@@ -9,4 +9,5 @@ pytz==2019.3
 sqlparse==0.3.0
 whitenoise==5.0.1
 geocoder==1.38.1   
+gunicorn==20.0.4
 
