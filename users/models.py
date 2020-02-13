@@ -186,6 +186,8 @@ class UserFlag(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
     #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+
 class Question(models.Model):	
     # ...	
     def __str__(self):	
