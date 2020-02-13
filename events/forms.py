@@ -1,11 +1,12 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from events.models import Event, Address
+from django.forms.fields import CharField
 #from pygeocoder import Geocoder
 
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'datetime', 'fee', 'max_capacity', 'min_capacity', 'description', 'category']
+        fields = ['name', 'date', 'fee', 'max_capacity', 'min_capacity', 'description', 'category']
 
 class AddressForm(ModelForm):
     class Meta:
@@ -20,5 +21,9 @@ class AddressForm(ModelForm):
         #     #raise forms.ValidationError("Address is not valid.")
         #     pass
         return self.cleaned_data
+
+class DeleteEventForm(Form):
+    id_field = CharField()
+
 
 
