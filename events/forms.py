@@ -22,6 +22,16 @@ class AddressForm(ModelForm):
         #     pass
         return self.cleaned_data
 
+    # def __init__(self, *args, **kwargs):
+    #     self.address = kwargs.pop('address')   # the address instance
+    #     super().__init__(*args, **kwargs)
+
+    # def save(self):
+    #     event = super().save(commit=False)
+    #     event.address = self.address
+    #     event.save()
+    #     return event
+
 class DeleteEventForm(Form):
     id_field = CharField()
 
