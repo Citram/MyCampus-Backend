@@ -1,15 +1,17 @@
 <!-- templates/base.html Simple html for template with block contents only -->
-
+{% load static %}
 <!DOCTYPE html>
 <html>
+<!-- HEADER AND STYLESHEETS -->
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/w3schools.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fontRaleway.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modal.css' %}">
 </head>
 <body>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+    {% block content %}{% endblock %}
 </body>
 </html>
+
