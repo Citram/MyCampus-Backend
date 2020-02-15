@@ -1,5 +1,4 @@
 from django.db import models
-from users.models import RegularUser, Student
 from hashid_field import HashidAutoField
 import datetime
 
@@ -44,8 +43,8 @@ class Event(models.Model):
     )
 
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
-    organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
-    attendees = models.ManyToManyField(Student)
+    organizer = models.ForeignKey('users.RegularUser', on_delete=models.PROTECT)
+    attendees = models.ManyToManyField('users.Student')
 
 class Comment(models.Model):
     """
@@ -59,6 +58,6 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(RegularUser, on_delete=models.SET_NULL)
+    author = models.ForeignKey('users.RegularUser', on_delete=models.SET_NULL)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 

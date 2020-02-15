@@ -1,8 +1,6 @@
 from django.db import models
-from django import forms
 from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
-import events
 
 class User(models.Model):
     """
@@ -10,9 +8,9 @@ class User(models.Model):
     """
 
     #login info
-    id = models.CharField(max_length=20, primary_key=True, validators=[username_validator])
+    id = models.CharField(max_length=20, primary_key=True)
 
-    password = models.CharField(max_length=64, widget=forms.PasswordInput)
+    password = models.CharField(max_length=64)
 
     #email and validations
     email_domains = [
@@ -39,7 +37,7 @@ class RegularUser(User):
     """
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=400)
-    rating_avg = models.DecimalField(max_digits=3, decimal_places=2, validators=[user_rating_validator])
+    rating_avg = models.DecimalField(max_digits=3, decimal_places=2)
 
     class Meta:
         abstract = False
@@ -151,7 +149,7 @@ class UserFlag(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.SET_NULL)
     recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    event = models.ForeignKey(events.models.Event, on_delete=models.CASCADE)
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
 
     #hashed id 
     id = HashidAutoField(primary_key=True)

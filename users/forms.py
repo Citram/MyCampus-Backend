@@ -65,6 +65,9 @@ class StudentForm(forms.ModelForm):
             'gender',
             'faculty'
         ]
+        widgets = {
+            'password' : forms.PasswordInput()
+        }
 
     MALE = 'M'
     FEMALE = 'F'
