@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import re
 import datetime
 from django import forms
@@ -79,4 +80,8 @@ class CommentForm(forms.Form):
         message_input = self.cleaned_data['message']
         if message_input is None or message_input.strip()=='':
             raise forms.ValidationError('You cannot enter an empty message.')
+
+class DeleteEventForm(Form):
+    id_field = CharField()
+
 

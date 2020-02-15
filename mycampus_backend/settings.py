@@ -11,23 +11,32 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+#Login and logout links to redirect! 
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(f6+e*ezkjs_-212*_ryvooh$*a$5%+l9$&g^1&z!oydq^sm-2'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG == True:
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = '(f6+e*ezkjs_-212*_ryvooh$*a$5%+l9$&g^1&z!oydq^sm-2'
+else:
+    SECRET_KEY = os.environ['SECRET_KEY']
+
 
 ALLOWED_HOSTS = []
 
-
+HASHID_FIELD_SALT = "hahahah" #magic salt
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,7 +65,7 @@ ROOT_URLCONF = 'mycampus_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,15 +83,25 @@ WSGI_APPLICATION = 'mycampus_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+# Postgres Database from mycampus-backend created with heroku.
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mycampusdb',
         'USER': 'mycampusadmin',
         'PASSWORD': 'ecse428',
         'HOST': 'localhost',
         'PORT': '',
+=======
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+       'NAME':'dac009epqo9i2t',
+       'USER':'chpiszhwmbnnpp',
+       'PASSWORD':'29c18fe4a75795f662225381e1898c6e0a5e75450e1707904522821eb0e9acd8',
+       'HOST':'ec2-52-203-98-126.compute-1.amazonaws.com',
+       'POST':'5432',
+      'ATOMATIC_REQUESTS':True,
+>>>>>>> 07e90519c84121839e5a70c7559837fa9d328871
     }
 }
 
@@ -124,3 +143,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())

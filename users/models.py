@@ -106,7 +106,7 @@ class Student(RegularUser):
 
 class Organization(RegularUser):
     """
-    A club or a eventstudent body
+    A club or a student body
     """
     pass
 

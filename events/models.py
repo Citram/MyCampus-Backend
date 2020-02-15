@@ -22,7 +22,7 @@ class Event(models.Model):
 
     date = models.DateField(default=datetime.date.today())
 
-    fee = models.DecimalField(default=0)
+    fee = models.DecimalField(default=0, decimal_places=3, max_digits = 1000)
 
     max_capacity = models.PositiveSmallIntegerField()
     min_capacity = models.PositiveSmallIntegerField(default=1)

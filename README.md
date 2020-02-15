@@ -1,5 +1,7 @@
 # MyCampus-Backend 
 
+[![Build Status](https://api.travis-ci.org/Citram/MyCampus-Backend.svg?branch=master)](https://travis-ci.org/Citram/MyCampus-Backend)
+
 This is the repo for the ECSE428 group project backend.The goal of the project is to develop a platform to help students connect with other students, create events such as sports and social activities, and to have clubs on campus hold their events on their main page for students to participate in.
 
 We'll be using Django and code mostly in Python.
@@ -38,5 +40,15 @@ We'll be using Django and code mostly in Python.
   
   You'll be able to see the development verison of the application on  `http://localhost:8080/`
   
-  You can also access the admin view by going to `http://localhost:8080/`
+  You can also access the admin view by going to `http://localhost:8080/admin`
 
+  To get access to the python shell
+  
+  `python manage.py shell`
+  
+  Admin log-in information
+  
+  Django admin: `mycampusbestcampus` password : `ecse428123`
+  
+   New superuser in case the admin doesn't work : 
+  `python manage.py createsuperuser` Warning : Doesn't work on gitbash
