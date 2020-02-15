@@ -1,8 +1,11 @@
 from .models import *
+from users.models import *
 import datetime
 
 def create_event(name, datetime, fee, min_capacity, max_capacity, description, category):
-    pass
+    event = Event(name=name,date=datetime,fee=fee,min_capacity=min_capacity,description=description,category=category)
+    event.save()
+    return True
 
 def get_events_by_category(category):
     pass
@@ -16,8 +19,12 @@ def get_event_by_id(id):
 def get_events_by_words_in_name(words):
     pass
 
-def delete_event(event):
-    pass
+def delete_event(event_id):
+    try:
+        Event.objects.get(id=event_id).delete()
+    except:
+        return False
+    return True
 
 def create_comment(event, user, message):
     pass
@@ -27,6 +34,20 @@ def set_comment(event, user, massage):
 
 def delete_comment(comment_id):
     pass
+
+def join_event (user_id, event_id):
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        raise
+    try:
+        user = Student.objects.get(user_id)
+    except:
+        raise
+
+    event.attendees.add(user)
+    event.save()
+    return True
 
 #================= Validators =================#
 def validate_create_event(user, name, datetime, fee, min_capacity, max_capacity):

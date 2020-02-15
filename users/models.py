@@ -8,6 +8,17 @@ class User(models.Model):
     """
 
     #login info
+    ADMIN = 'A'
+    USER = 'U'
+    PRIVILEGE = [
+        (ADMIN, 'Admin'),
+        (USER, 'Regular User')
+    ]
+    privilege = models.CharField(
+        max_length=1,
+        choices=PRIVILEGE
+        )
+
     id = models.CharField(max_length=20, primary_key=True)
 
     password = models.CharField(max_length=64)
@@ -28,8 +39,8 @@ class Admin(User):
     """
     The admin of the webset with a specific set of pivileges (maybe)
     """
-    #TODO
-    privilege = models.IntegerField()
+
+    
 
 class RegularUser(User):
     """
@@ -38,9 +49,6 @@ class RegularUser(User):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=400)
     rating_avg = models.DecimalField(max_digits=3, decimal_places=2)
-
-    class Meta:
-        abstract = False
 
 class Student(RegularUser):
     """

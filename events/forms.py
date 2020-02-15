@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import re
 import datetime
 from django import forms
@@ -27,38 +26,54 @@ class EventForm(forms.ModelForm):
         name_input = self.cleaned_data['name']
         if name_input is None or name_input.strip() == '':
             raise forms.ValidationError('You cannot enter an empty name.')
+        else:
+            return name_input
 
     def clean_date(self):
         date_input = self.cleaned_data['date']
         if date_input.date < datetime.date.today:
             raise forms.ValidationError('You cannot enter an event date that is before today.')
+        else:
+            return date_input
 
     def clean_fee(self):
         fee_input = self.cleaned_data['fee']
         if fee_input < 0 or fee_input > 500:
             raise forms.ValidationError('You cannot enter a fee that is negative and you cannot try to scam people.')
+        else:
+            return fee_input
 
     def clean_max_capacity(self):
         max_capacity_input = self.cleaned_data['max_capacity']
         if max_capacity_input < 1 or max_capacity_input > 9000:
             raise forms.ValidationError('You cannot enter a maximum capacity less than 1 or more than 9000.')
+        else:
+            return max_capacity_input
 
     def clean_min_capacity(self):
         min_capacity_input = self.cleaned_data['min_capacity']
         if min_capacity_input < 1 or min_capacity_input > 9000:
             raise forms.ValidationError('You cannot enter a minimum capacity less than 1 or more than 9000.')
+        elif min_capacity_input > self.cleaned_data['max_capacity']:
+            raise forms.ValidationError('You cannot enter a minimum capacity higher than your maximum capacity.')
+        else:
+            return min_capacity_input
+            
     
     def clean_description(self):
         description_input = self.cleaned_data['description']
         if description_input is None or description_input.strip() == '':
             raise forms.ValidationError('You cannot enter an empty description.')
+        else:
+            return description_input
 
     def clean_category(self):
         category_input = self.cleaned_data['category']
         for option in Event.CATEGORIES:
             if category_input == option[0]:
-                return
+                return category_input
         raise forms.ValidationError('You cannot enter an invalid event category.')
+
 
 class AddressForm(forms.ModelForm):
     class Meta:
@@ -69,6 +84,7 @@ class AddressForm(forms.ModelForm):
             'number',
             'postalcode'
         ]
+
 
 class CommentForm(forms.Form):
     #massage
@@ -81,7 +97,14 @@ class CommentForm(forms.Form):
         if message_input is None or message_input.strip()=='':
             raise forms.ValidationError('You cannot enter an empty message.')
 
-class DeleteEventForm(Form):
-    id_field = CharField()
+class DeleteEventForm(forms.Form):
+    id_field = forms.CharField()
+
+class RegistrationForm(forms.Form):
+    event_id = forms.CharField(widget=forms.HiddenInput())
+    
+
+
+
 
 

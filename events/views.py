@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import EventForm, AddressForm
 from .models import Event, Address
+from users import models as user_models
 from django.http import Http404, HttpResponse
-from events.forms import DeleteEventForm
+from events.forms import DeleteEventForm, RegistrationForm
+from django.core.exceptions import ObjectDoesNotExist
+from . import services
 
 # Create your views here.
 def create_event(request):
@@ -30,11 +33,8 @@ def delete_event(request):
         delete_form = DeleteEventForm(request.POST)
         if delete_form.is_valid():
             id_field = delete_form.data['id_field']
-            try:
-                Event.objects.get(id=id_field).delete()
-            except:
-                return HttpResponse("Event with id " + id_field + " not found.")
-            return HttpResponse("Event deleted.")
+            if services.delete_event(id_field):
+                return HttpResponse("Event deleted.")
         else:
             return HttpResponse("Delete ID not valid.")
         # try:
@@ -49,3 +49,21 @@ def delete_event(request):
                 })
 
 
+def register_for_event(request):
+    if request.method == 'POST':
+        registration_form = RegistrationForm(request.POST)
+        if registration_form.is_valid():
+            current_user = request.user 
+            user_id = current_user.id
+            event_id = registration_form.data['event_id']
+            try:
+                services.join_event(user_id, event_id)
+                return HttpResponse("Successfully joined the event.")
+            except ObjectDoesNotExist as error:
+                return HttpResponse(error)
+    else:
+        registration_form = registration_form()
+        return render(request, 'events/register.html', {
+            'registration_form': registration_form
+        })
+        

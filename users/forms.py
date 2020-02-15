@@ -1,6 +1,7 @@
 import re
 from django import forms
 from django.core.validators import EmailValidator
+from .models import Admin, Organization, Student, Review, UserFlag
 
 
 #=========================== User forms ===========================#
@@ -15,18 +16,35 @@ class AdminForm(forms.ModelForm):
         ]
 
     def clean_email(self):
-        #TODO
+        email_input = self.cleaned_data['email']
+        if '@mcgill.ca'in email_input or '@mail.mcgill.ca' in email_input:
+            return email_input
+        else:
+            raise forms.ValidationError('Please enter a valid McGill email address')
 
     def clean_id(self):
-        #TODO
+        id_input = self.cleaned_data['id']
+        pattern = re.compile('^[\\p{L}\\p{Nd}.]{5,20}$')
+        if not (pattern.match(id_input)):
+            raise forms.ValidationError(
+                'Your username must be between 5 and 20 characters long and only contain letters, numbers and the period')
+        else:
+            return id_input
 
     def clean_password(self):
-        #TODO
+        password_input = self.cleaned_data['password']
+        pattern = re.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
+        if not (pattern.match(password_input)):
+            raise forms.ValidationError(
+                'Your password must be at least 8 characters long and contain at least a letter, a number and a special character.')
+        else:
+            return password_input
+        
 
-class OrganizationForm(forms.ModelForm):
+class OrganizationForm(AdminForm):
 
       
-   class Meta:
+    class Meta:
         model = Organization
         fields = [
             'id',
@@ -36,22 +54,24 @@ class OrganizationForm(forms.ModelForm):
             'description'
         ]
 
-    def clean_email(self):
-        #TODO
-
-    def clean_id(self):
-        #TODO
-
-    def clean_password(self):
-        #TODO
-
     def clean_name(self):
-        #TODO
+        name_input = self.cleaned_data['name']
+        pattern  = re.compile("^[A-Za-z]+((\\s)?((\\'|\\-|\\.)?([A-Za-z])+))*$")
+        if not (pattern.match(name_input)):
+            raise forms.ValidationError(
+                'Please enter a valid name.')
+        else:
+            return name_input
+        
 
-    def clean_description(slef):
-        #TODO
+    def clean_description(self):
+        description_input = self.cleaned_data['description']
+        if description_input is None or description_input.strip() == '':
+            raise forms.ValidationError('You cannot enter an empty description.')
+        else:
+            return description_input
 
-class StudentForm(forms.ModelForm):
+class StudentForm(OrganizationForm):
 
     class Meta:
         model = Student

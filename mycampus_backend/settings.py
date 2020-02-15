@@ -86,14 +86,6 @@ WSGI_APPLICATION = 'mycampus_backend.wsgi.application'
 # Postgres Database from mycampus-backend created with heroku.
 DATABASES = {
     'default': {
-<<<<<<< HEAD
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mycampusdb',
-        'USER': 'mycampusadmin',
-        'PASSWORD': 'ecse428',
-        'HOST': 'localhost',
-        'PORT': '',
-=======
         'ENGINE':'django.db.backends.postgresql_psycopg2',
        'NAME':'dac009epqo9i2t',
        'USER':'chpiszhwmbnnpp',
@@ -101,7 +93,6 @@ DATABASES = {
        'HOST':'ec2-52-203-98-126.compute-1.amazonaws.com',
        'POST':'5432',
       'ATOMATIC_REQUESTS':True,
->>>>>>> 07e90519c84121839e5a70c7559837fa9d328871
     }
 }
 
