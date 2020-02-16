@@ -13,4 +13,4 @@ install:
 script:
 - python manage.py collectstatic
 - python manage.py test
-- python manage.py events/features
+- python manage.py behave events/features
