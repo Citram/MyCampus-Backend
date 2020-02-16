@@ -4,7 +4,6 @@ from django import forms
 from .models import Event, Address
 from django.utils.translation import gettext_lazy as _
 
-
 class EventForm(forms.ModelForm):
     """
         not sure about this one, but for documentation on ModelForm, see
@@ -15,7 +14,7 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = [
             'name',
-            'date',
+            'datetime',
             'fee',
             'max_capacity',
             'min_capacity',
@@ -104,6 +103,8 @@ class DeleteEventForm(forms.Form):
 
 class RegistrationForm(forms.Form):
     event_id = forms.CharField(widget=forms.HiddenInput())
+
+
     
 
 

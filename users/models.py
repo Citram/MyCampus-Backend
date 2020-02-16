@@ -148,7 +148,7 @@ class Review(models.Model):
     #many-to-one relations
     author = models.ForeignKey(Student, on_delete=models.SET('Deleted')) #author of comment deleted, comment stays
     #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
 
 class UserFlag(models.Model):
     """
@@ -181,6 +181,3 @@ class UserFlag(models.Model):
     #date & time
     time = models.DateTimeField(auto_now=True)
 
-    #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.SET('Deleted'))
-    #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
