@@ -11,6 +11,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../static/css/fontRaleway.css">
+  <link rel="stylesheet" href="../static/css/w3schools.css">
   <link rel="stylesheet" href="../static/css/modal.css">
   <!--TODO: Remove if icons work <link rel="stylesheet" href="font-awesome.min.css"> -->
   <style>
@@ -206,8 +207,13 @@
             <br> Fee:{{event.fee}}
             </p>
             <button class="editbtn" onclick="" style="width:100%"><b>Edit</b></button>
-            <button class="createbtn" onclick="window.location.href='/events/delete/'" style="width:100%"><b>Delete</b></button>
-            <!-- TODO: ADD KEYWORDS (Optional) -->
+            <form action="{% url 'delete_event' %}"
+                  method="post">
+                  {% csrf_token %}
+                  <input hidden value = "{{event.id}}" name = "id_field">
+            <button style="width:100%" class="createbtn" type="submit">Delete</button>
+            </form>
+                        <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
       </div>
       
