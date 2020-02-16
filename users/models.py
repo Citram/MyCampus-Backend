@@ -48,7 +48,7 @@ class RegularUser(User):
     """
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=400)
-    rating_avg = models.DecimalField(max_digits=3, decimal_places=2)
+    rating_avg = models.DecimalField(max_digits=3, decimal_places=2, default=0)
 
 class Student(RegularUser):
     """

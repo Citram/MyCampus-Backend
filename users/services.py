@@ -14,8 +14,7 @@ def create_organization(user_id, password_input, email_input, name_input, descri
         password=password_input, 
         email=email_input,
         name=name_input,
-        description=description_input,
-        rating_avg = 3.00
+        description=description_input
     )
     organization.save()
     
@@ -29,8 +28,7 @@ def create_student(user_id, password_input, email_input, name_input, description
         description=description_input,
         age=age_input,
         gender=gender_input,
-        faculty=faculty_input,
-        rating_avg = 3.00
+        faculty=faculty_input
     )
     student.save()
 
@@ -38,27 +36,28 @@ def search_users_by_id(id_input):
     '''
     PARTIAL search for a student of which the id CONTAINS the id_input
     '''
-    students = Student.objects.all().filter(id__icontains=id_input)
-    if len(students) == 0:
+    users = RegularUser.objects.all().filter(id__icontains=id_input)
+    if len(users) == 0:
         raise UnsuccessfulOperationError('No users exists with that id', 'user_id')
-    return students
+    return users
 
 def get_user_by_id(id_input):
     '''
-    EXACT search for a student of which the id MATCHES the id_input
+    EXACT search for a student or organization of which the id MATCHES the id_input
     '''
     try:
-        student = Student.objects.get(id=id_input)
+        user = RegularUser.objects.get(id=id_input)
     except ObjectDoesNotExist:
         raise UnsuccessfulOperationError ('No user exist with the id ' + id_input, 'id_input')
+    return user
 
 def search_user_by_name(names):
-    students = Student.objects.all()
+    users = RegularUser.objects.all()
     for name in names:
-        students = students.filter(name__icontains=name)
-    if len(students) == 0:
+        users = users.filter(name__icontains=name)
+    if len(users) == 0:
         raise UnsuccessfulOperationError('No users exists with that name', 'name')
-    return students
+    return users
 
 def set_basic_user_details(user, password_input, email_input):
     '''
@@ -100,6 +99,13 @@ def create_review(user_id, event_id, rating_input, comment_input):
     review.author=user
     review.event=event
     review.save()
+    #update rating
+    rating_sum = 0
+    for review in user.reviews:
+        rating_sum += review.rating
+    avg = float("{0:.2f}".format(rating_sum/len(user.reviews)))
+    user.rating_avg = avg
+    user.save()
 
 def delete_review(review_id):
     try:
