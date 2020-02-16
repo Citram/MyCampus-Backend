@@ -107,10 +107,17 @@ def create_review(user_id, event_id, rating_input, comment_input):
     user.rating_avg = avg
     user.save()
 
-def delete_review(review_id):
+def delete_review(user_id, review_id):
+    #check review exists
     try:
-        Review.objects.get(id=review_id).delete()
+        review = Review.objects.get(id=review_id)
     except ObjectDoesNotExist:
         raise UnsuccessfulOperationError ('No reviews exists with the id ' + review_id, 'review_id')
+    #check author
+    if user_id != review.author.id:
+        raise UnsuccessfulOperationError ('You cannot delete this review', 'user_id')
+    review.delete()
 
+
+    
 

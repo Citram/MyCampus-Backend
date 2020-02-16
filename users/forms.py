@@ -136,18 +136,12 @@ class ReviewForm(forms.ModelForm):
         }
 
     def clean_rating(self):
-        rating_input = self.cleaned_data['age']
-        if not rating_input >= 1 or rating_input <= 5:
+        rating_input = self.cleaned_data['rating']
+        if not isinstance(rating_input, int) or rating_input >= 1 or rating_input <= 5:
             raise forms.ValidationError(_('Please enter a valid rating.'))
         else:
             return rating_input
-
-
-    # def clean_author(self):
-    #     #TODO
-
-    # def clean_event(self):
-    #     #TODO
+        
 
 #=========================== Flag form ===========================#
 
