@@ -5,7 +5,442 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
+  <!DOCTYPE html>
+  <html>
+  <title>MyCampus</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="w3schools.css">
+  <link rel="stylesheet" href="fontRaleway.css">
+  <link rel="stylesheet" href="modal.css">
+  <!--TODO: Remove if icons work <link rel="stylesheet" href="font-awesome.min.css"> -->
+  <style>
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+  
+  .bgimg {
+    background-image: url("mcgillflowers.jpg");
+    min-height: 100%;
+    background-position: center;
+    background-size:cover;
+  }
+  
+  .button {
+    background-color: rgb(211, 211, 211); /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom:15px;
+    border: 2px solid rgb(211, 211, 211);
+  }
+  
+  .button:hover {
+    background-color: red; 
+    color: white; 
+    border: 2px solid red;
+  }
+  
+  .editbtn {
+    background-color: rgb(0, 174, 255); /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom:15px;
+    border: 2px solid rgb(0, 174, 255);
+  }
+  
+  .editbtn:hover {
+    background-color: white; 
+    color: black; 
+    border: 2px solid rgb(0, 174, 255);
+  }
+  
+  .createbtn {
+    background-color: red; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom:15px;
+  }
+  
+  .createbtn:hover {
+    background-color: rgb(197, 7, 7); 
+    color: white; 
+  }
+  
+  /*************FOR TAB DESIGN****************/
+  /* Style the tab */
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  
+  /************** FOR THE SEARCH BAR ***************/
+  /* Style the search box */
+  #mySearch {
+    width: 100%;
+    font-size: 18px;
+    padding: 11px;
+    border: 1px solid #ddd;
+    margin-bottom:15px;
+  }
+  
+  </style>
+  
+  <!-- To be able to use icons -->
+  <head>
+      <script src="https://kit.fontawesome.com/d7a246b8a1.js" crossorigin="anonymous"></script>
+  </head>
+  
+  <body class="w3-light-grey w3-content" style="max-width:1600px">
+  
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="myProfile"><br>
+    
+    <div class="w3-container">
+      <div class="w3-bar-block" style="padding-bottom: 5px;">
+        <a href="#settings" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
+          <i class="fas fa-cog w3-hover-opacity" style="padding-bottom:5px"></i>Settings</a>
+      </div>
+      <center><a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+        <i class="fa fa-remove"></i>
+      </a>
+      <img src="redAvatar.png" style="width:45%;" class="w3-round"><br><br>
+      <h4><b>PROFILE</b></h4>
+      <p class="w3-text-grey">{{ user.username }}</p>
+    </div>
+    </center>
+    <div class="w3-panel w3-large">
+        <button class="createbtn" onclick="document.getElementById('id01').style.display='block'"
+        style="width:100%">Create New Event!</button>
+    </div>
+    <!--TODO: Display Followers and Following -->
+  </nav>
+  
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+  
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <!-- Header -->
+    <header id="mycampus">
+      <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+      <div class="w3-container">
+      <h1><b>MyCampus Events</b></h1>
+      <div class="w3-section w3-bottombar w3-padding-16">
+        <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search event.." title="Type in a event name">
+        <space></space>
+        <span class="w3-margin-right">Filter:</span> 
+        <button class="w3-button w3-black">ALL</button>
+        <button class="w3-button w3-white"><i class="far fa-futbol"></i> Sports</button>
+        <button class="w3-button w3-white w3-hide-small"><i class="fas fa-school"></i> Educational</button>
+        <button class="w3-button w3-white w3-hide-small"><i class="fas fa-cocktail"></i> Social</button>
+        <!--We can add more filter categories-->
+      </div>
+  
+       <!--CREATE NEW EVENT BUTTON MODAL-->
+  <div id="id01" class="profilemodal">
+    <form class="profilemodal-content animate" action="/action_page.php" method="post">
+        <div class="container">
+                <h1>Create an event!</h1>
+                <hr>
+            
+                <label for="eventname"><b>Event Name</b></label>
+                <input type="text" placeholder="Enter the name of your event" name="eventname" required>
+            
+                <label for="eventdescription"><b>Event Description</b></label>
+                <input type="text" placeholder="Enter event description" name="eventdescription" required>
+            
+                <label for="eventdate"><b>Date</b></label>
+                <input type="date" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                
+                <label for="eventtime"><b>Time</b></label>
+                <input type="time" id="evtime" name="eventtime" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                <br>
+                <label for="eventlocation" ><b>Event Location</b></label>
+                <input type="text" placeholder="Enter the location of your event" name="eventlocation" required>
+            
+                <label for="eventkeywords"><b>Keywords</b></label>
+                <input type="text" placeholder="Enter any keywords" name="eventkeywords" required>
+            
+                <button type="submit" class="createbtn" style="width:100%">Create Event</button>
+          </div>
+    </form>
+  </div>
+  
+  <!--EDIT EVENT POP-UP-->
+  <div id="id02" class="profilemodal">
+    <form class="profilemodal-content animate" action="/action_page.php" method="post">
+        <div class="container">
+                <h1>Edit your event!</h1>
+                <hr>
+            
+                <label for="eventname"><b>Event Name</b></label>
+                <input type="text" placeholder="Enter the name of your event" name="eventname" required>
+            
+                <label for="eventdescription"><b>Event Description</b></label>
+                <input type="text" placeholder="Enter event description" name="eventdescription" required>
+            
+                <label for="eventdate"><b>Date</b></label>
+                <input type="date" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                
+                <label for="eventtime"><b>Time</b></label>
+                <input type="time" id="evtime" name="eventtime" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                <br>
+                <label for="eventlocation" ><b>Event Location</b></label>
+                <input type="text" placeholder="Enter the location of your event" name="eventlocation" required>
+            
+                <label for="eventkeywords"><b>Keywords</b></label>
+                <input type="text" placeholder="Enter any keywords" name="eventkeywords" required>
+            
+                <button type="submit" class="editbtn" style="width:100%">Submit</button>
+          </div>
+    </form>
+  </div>
+  
+      <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'Hosted')">Hosted Events</button>
+        <button class="tablinks" onclick="openCity(event, 'Registered')">Registered Events</button>
+      </div>
+  
+      </div>
+    </header>
+    
+    <!-- First Photo Grid-->
+    <div id= "Hosted" class="tabcontent w3-row-padding">
+      <div class="w3-third w3-container w3-margin-bottom">
+        <img src="event4_pottery.jpg" alt="Pottery" style="width:100%" class="w3-hover-opacity">
+        <div class="w3-container w3-white">
+          <h3><b>Pottery</b></h3>
+          <h5> Who wants to go do some pottery?! </h5>
+  
+          <hr class="w3-border-red" style="margin:auto;width:auto">
+            <p> When:
+              <br>Time:
+            <br> Location:
+            </p>
+            <button class="editbtn" onclick="document.getElementById('id02').style.display='block'" style="width:100%"><b>Edit</b></button>
+          <!-- TODO: ADD KEYWORDS (Optional) -->
+        </div>
+      </div>
+      <div class="w3-third w3-container w3-margin-bottom">
+          <img src="event5_wine.jpg" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
+          <div class="w3-container w3-white">
+            <h3><b>Wine Tasting</b></h3>
+            <h5> I want to forget about midterms and go wine tasting. Who else is down? </h5>
+            <hr class="w3-border-red" style="margin:auto;width:auto">
+            <p> When:
+              <br>Time:
+            <br> Location:
+            </p>
+            <button class="editbtn" onclick="document.getElementById('id02').style.display='block'" style="width:100%"><b>Edit</b></button>
+           <!-- TODO: ADD KEYWORDS (Optional) -->
+          </div>
+      </div>
+      <div class="w3-third w3-container w3-margin-bottom">
+          <img src="event6_movienight.jpg" alt="MovieNight" style="width:100%" class="w3-hover-opacity">
+          <div class="w3-container w3-white">
+            <h3><b>Movie Night</b></h3>
+            <h5> This week we will be screening Incredibles 2! Popcorn provided! </h5>
+            <hr class="w3-border-red" style="margin:auto;width:auto">
+            <p> When:
+              <br>Time:
+            <br> Location:
+            </p>
+            <button class="editbtn" onclick="document.getElementById('id02').style.display='block'" style="width:100%"><b>Edit</b></button>
+            <!-- TODO: ADD KEYWORDS (Optional) -->
+          </div>
+      </div>
+    </div>
+    
+    <!-- Second Photo Grid-->
+    <div id="Registered" class="tabcontent w3-row-padding">
+      <div class="w3-third w3-container w3-margin-bottom">
+          <img src="event1_soccer.jpg" alt="Soccer" style="width:100%" class="w3-hover-opacity">
+          <div class="w3-container w3-white">
+            <h3><b>Soccer</b></h3>
+            <h5> Join my team to play some soccer on weekends! </h5>
+            <hr class="w3-border-red" style="margin:auto;width:auto">
+            <p> When:
+              <br>Time:
+            <br> Location:
+            </p>
+            <button class="button" style="width:100%"><b>Unregister</b></button>
+            <!-- TODO: ADD KEYWORDS (Optional) -->
+          </div>
+        </div>
+        <div class="w3-third w3-container w3-margin-bottom">
+            <img src="event2_bball.jpg" alt="BBall" style="width:100%" class="w3-hover-opacity">
+            <div class="w3-container w3-white">
+              <h3><b>Basketball</b></h3>
+              <h5> Join my team to play some basketball on weekends! </h5>
+              <hr class="w3-border-red" style="margin:auto;width:auto">
+            <p> When:
+              <br>Time:
+            <br> Location:
+            </p>
+            <button class="button" style="width:100%"><b>Unregister</b></button>
+              <!-- TODO: ADD KEYWORDS (Optional) -->
+            </div>
+        </div>
+        <div class="w3-third w3-container w3-margin-bottom">
+            <img src="event3_ski.png" alt="Ski" style="width:100%" class="w3-hover-opacity">
+            <div class="w3-container w3-white">
+              <h3><b>Ski</b></h3>
+              <h5> Let's go to St Bruno this weekend! </h5>
+              <hr class="w3-border-red" style="margin:auto;width:auto">
+            <p> When:
+              <br>Time:
+            <br> Location:
+            </p>
+            <button class="button" style="width:100%"><b>Unregister</b></button>
+              <!-- TODO: ADD KEYWORDS (Optional) -->
+            </div>
+        </div>
+      </div>
+    
+    <!-- Pagination -->
+    <div class="w3-center w3-padding-32">
+      <div class="w3-bar">
+        <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
+        <a href="#" class="w3-bar-item w3-black w3-button">1</a>
+        <!--<a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
+        <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
+        <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a> -->
+        <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-32 w3-dark-grey">
+    <div class="w3-row-padding">
+       <div class="w3-third">
+        <h3>POPULAR TAGS</h3>
+        <p>
+          <span class="w3-tag w3-black w3-margin-bottom">Educational</span> <span class="w3-tag w3-grey w3-small w3-margin-bottom">Sports</span> <span class="w3-tag w3-grey w3-small w3-margin-bottom">Social</span>
+          <!--<span class="w3-tag w3-grey w3-small w3-margin-bottom">IKEA</span> <span class="w3-tag w3-grey w3-small w3-margin-bottom">NORWAY</span> <span class="w3-tag w3-grey w3-small w3-margin-bottom">DIY</span>-->
+        </p>
+      </div>
+  
+    </div>
+    </footer>
+    
+    <div class="w3-black w3-center w3-padding-24">Powered by <img src=" citramwhite_Logo.png" height=50px></div>
+  
+  <!-- End page content -->
+  </div>
+  
+  <script>
+  // Script to open and close sidebar
+  function w3_open() {
+      document.getElementById("myProfile").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+  }
+   
+  function w3_close() {
+      document.getElementById("myProfile").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+  }
+  
+  //Script for TAB bar (Registered and Hosted events)
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  
+  //Script for SEARCH BAR
+  function myFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("mySearch");
+    filter = input.value.toUpperCase();
+    
+    ul = document.getElementById("Hosted");
+    li = ul.getElementsByTagName("div");
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("h3")[0];
+      if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+    // TODO: implement for Registered 
+  
+    //Script for Create Event modal
+    // Get the modal
+    var modal1 = document.getElementById('id01');
+    var modal2 = document.getElementById('id02');
+  
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal1) {
+        modal1.style.display = "none";
+      }
+      if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
+    }
+  
+  
+  //TODO: implement filtering script 
+  
+  </script>
+  
+  </body>
+
   <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
   <p>You are not logged in</p>
