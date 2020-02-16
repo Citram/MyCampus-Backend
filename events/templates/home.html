@@ -10,7 +10,9 @@
   <title>MyCampus</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" href="../static/css/fontRaleway.css">
+  <link rel="stylesheet" href="../static/css/w3schools.css">
+  <link rel="stylesheet" href="../static/css/modal.css">
   <!--TODO: Remove if icons work <link rel="stylesheet" href="font-awesome.min.css"> -->
   <style>
   body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
@@ -148,6 +150,7 @@
       <img src="{% static '/images/redAvatar.png'%}" style="width:45%;" class="w3-round"><br><br>
       <h4><b>PROFILE</b></h4>
       <p class="w3-text-grey">{{ user.username }}</p>
+      <p><a href="{% url 'logout' %}">logout</a></p>
     </div>
     </center>
     <div class="w3-panel w3-large">
@@ -164,7 +167,6 @@
   <div class="w3-main" style="margin-left:300px">
     <!-- Header -->
     <header id="mycampus">
-      <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
       <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
       <div class="w3-container">
       <h1><b>MyCampus Events</b></h1>
@@ -223,10 +225,10 @@
                 <input type="text" placeholder="Enter event description" name="eventdescription" required>
             
                 <label for="eventdate"><b>Date</b></label>
-                <input type="date" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                <input type="date" id="evdate2" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
                 
                 <label for="eventtime"><b>Time</b></label>
-                <input type="time" id="evtime" name="eventtime" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                <input type="time" id="evtime2" name="eventtime" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
                 <br>
                 <label for="eventlocation" ><b>Event Location</b></label>
                 <input type="text" placeholder="Enter the location of your event" name="eventlocation" required>
@@ -439,7 +441,7 @@
   
   </body>
 
-  <p><a href="{% url 'logout' %}">logout</a></p>
+ 
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">login</a>
