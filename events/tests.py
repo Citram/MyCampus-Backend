@@ -324,5 +324,5 @@ class EventViewTest(TestCase):
     def test_response_please(self):
        c = Client()
     #    response = HttpResponse()
-       response = c.post('/dashboard/login/')
+       response = c.post('/login/')
        self.assertEqual(200, response.status_code)
