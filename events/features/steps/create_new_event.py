@@ -52,6 +52,15 @@ def step_impl(context):
     g_events = events
     g_addresses = addresses
 
+@when(u'the student requests to create an event with at least one invalid field')
+def step_impl(context):
+    events, addresses = create_events(context, True)
+    global g_addresses
+    global g_events
+    g_events = events
+    g_addresses = addresses
+
+
 @then(u'the request should be invalidated')
 def step_impl(step):
     global g_addresses

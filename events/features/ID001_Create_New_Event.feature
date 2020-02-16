@@ -40,3 +40,16 @@ So that I can reach out to other students on the system
   
      Then the request should be invalidated
       And an error message "This field is required" should be printed
+
+        
+  Scenario: Student creates Event without specifying at least one invalid field (Error Flow)
+    Given Student "Lisa Bard" is logged in
+     When the student requests to create an event with at least one invalid field
+      | evt_name        | evt_date   | min_cap | max_cap | evt_details           | fee | category | city     | street     | number | postalcode | 
+      | Java Workshop   | 2021-01-01 | -1      | 10      | Join java workshop!   | 7   | GAM      | Montreal | Sherbrooke | 400    | H1A0B3     | 
+      | C++ Workshop    | 2019-02-01 | 1       | 30      | Advanced C++          | 7   | OUT      | Ottawa   | Main St.   | 21     | 123456     | 
+      | Python Workshop | 2021-01-01 | 1       | 10000   | Join python workshop! | 7   | GAM      | Montreal | Sherbrooke | 400    | H1A0B3     | 
+      | Go Workshop     | 2021-02-01 | 1       | 30      | Advanced Go           | -7  | OUT      | Ottawa   | Main St.   | 21     | 123456     | 
+     Then the request should be invalidated
+  
+  
