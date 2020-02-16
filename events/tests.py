@@ -3,6 +3,41 @@ from .forms import EventForm, AddressForm, DeleteEventForm
 from .models import Event, Address, Comment
 import datetime
 
+
+
+# Address form test sutie
+class AddressFormTest(TestCase):
+    data_address = {
+        'city': 'Montreal',
+        'street': 'Sherbrooke Av.',
+        'number': '1980',
+        'postalcode': 'H6J3T5'
+    }
+
+        # Address object must exist in the database first to not violate any foreign key constraint in the Event model
+    def test_create_address_form(self):
+        address_form = AddressForm(EventFormTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+        addresses = Address.objects.all()
+        address = addresses[0]
+        self.assertEqual(1, len(addresses))
+        self.assertEqual(address.city, EventFormTest.data_address.get('city'))
+        self.assertEqual(address.street, EventFormTest.data_address.get('street'))
+        self.assertEqual(address.number, EventFormTest.data_address.get('number'))
+        self.assertEqual(address.postalcode, EventFormTest.data_address.get('postalcode'))
+
+    def test_create_address_form_empty_city(self):
+        address_form = AddressForm({
+            'city': '',
+            'street': AddressFormTest.data_address.get('street'),
+            'number': AddressFormTest.data_address.get('number'),
+            'postalcode': AddressFormTest.data_address.get('postalcode')
+        })
+
+        self.assertFormError(address_form.is_valid())
+
+
 # Event Test Suite
 class EventFormTest(TestCase):
     
@@ -23,19 +58,6 @@ class EventFormTest(TestCase):
         'number': '1980',
         'postalcode': 'H6J3T5'
     }
-    
-    # Address object must exist in the database first to not violate any foreign key constraint in the Event model
-    def test_create_address(self):
-        address_form = AddressForm(EventFormTest.data_address)
-        self.assertTrue(address_form.is_valid())
-        test_address = address_form.save()
-        addresses = Address.objects.all()
-        address = addresses[0]
-        self.assertEqual(1, len(addresses))
-        self.assertEqual(address.city, EventFormTest.data_address.get('city'))
-        self.assertEqual(address.street, EventFormTest.data_address.get('street'))
-        self.assertEqual(address.number, EventFormTest.data_address.get('number'))
-        self.assertEqual(address.postalcode, EventFormTest.data_address.get('postalcode'))
 
     def test_create_event(self):
         address_form = AddressForm(EventFormTest.data_address)

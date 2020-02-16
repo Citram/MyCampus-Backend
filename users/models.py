@@ -2,6 +2,19 @@ from django.db import models
 from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
 
+#================= VALIDATORS =================#
+def username_validator(username):
+    """
+    validates the a specific username is valid
+    Username doesn't have special characters, UTFA 
+    """
+    #TODO
+    return True
+
+
+def user_rating_validator(rating):
+    return (rating >= 1 and rating <= 5)
+
 class User(models.Model):
     """
     Abstract user class which includes admin, students and organizations
