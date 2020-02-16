@@ -227,18 +227,6 @@ class EventFormTest(TestCase):
             })
 
             self.assertFalse(event_form.is_valid())
-    def test_create_event_empty_min_capacity(self):
-            event_form = EventForm({
-                'name': EventFormTest.data_event.get('name'),
-                'datetime': EventFormTest.data_event.get('datetime'),
-                'fee': EventFormTest.data_event.get('fee'),
-                'max_capacity': EventFormTest.data_event.get('max_capacity'),
-                'min_capacity': None,
-                'description': EventFormTest.data_event.get('description'),
-                'category': EventFormTest.data_event.get('category')
-            })
-
-            self.assertFalse(event_form.is_valid())
 
     def test_create_event_invalid_min_capacity(self):
             event_form = EventForm({

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'behave_django',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'mycampus_backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 # Postgres Database from mycampus-backend created with heroku.
 
-if 'test' in sys.argv:
+if 'test' or 'behave' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
