@@ -18,9 +18,9 @@ def create_event(request):
             form_event.address = form_address
             form_event.save()
             return redirect('create_event')
-    # else:
-    #     form_event = EventForm()
-    #     form_address = AddressForm()
+    else:
+         form_event = EventForm()
+         form_address = AddressForm()
     return render(request,
                   'events/create.html',
                   {
