@@ -92,3 +92,7 @@ def create_comment(request):
         )
         
 def query_event_by_category(request):
+    if request.method == 'GET':
+        pass
+    else: 
+        pass

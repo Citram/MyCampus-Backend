@@ -4,6 +4,44 @@ import datetime
 from django.http import JsonResponse
 from django.db.models import Q
 
+#====== Exception class ======#
+class UnsuccessfulOperationError(Exception):
+    def __init__(self, message, error_source):
+        super(UnsuccessfulOperationError, self).__init__(message)
+        self.error_source = error_source
+
+#================= Helper functions =================#
+def parse_datetime(time_string):
+    """
+    Parses the datetime string, from the ***toUTCString()*** method using javascript, into a datetime object
+    Example, takes "Tue, 22 Nov 2011 06:00:00 GMT" into the corresponding object
+    See this for details: https://stackoverflow.com/questions/8153631/js-date-object-to-python-datetime
+    """
+    datetimeobj = datetime.datetime.strptime(time_string, "%a, %d %b %Y %H:%M:%S %Z")
+    return datetimeobj
+
+def events_to_json(events):
+    """
+    renders a list of events to a dictionary to be passed into a JsonResponse
+    dictionary (list of events) contains a list of dictionaries (events)
+    each event contains id, name, date, fee, capacities
+    """
+    result = {}
+    index = 0
+    for e in events:
+        event = {}
+        event['id'] = e.id
+        event['name'] = e.name
+        event['date'] = e.date
+        event['fee'] = e.fee
+        event['max_capacity'] = e.max_capacity
+        event['min_capacity'] = e.min_capacity
+        result['event'+str(index)] = event
+        index += 1
+    return result
+
+#================= Services =================#
+
 def create_event(name_input, datetime_input, fee_input, min_capacity_input, max_capacity_input, description_input, category_input):
     event = Event(
         name=name_input,date=parse_datetime(datetime_input),
@@ -66,11 +104,20 @@ def create_comment(event_id, user_id, message_input):
     comment.event = event
     comment.save()
 
-def set_comment(event, user, massage):
-    pass
+def set_comment(comment_id, massage_input):
+    try:
+        comment = Comment.objects.get(id=comment_id)
+    except:
+        raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
+    comment.message = massage_input
+    comment.save()
 
 def delete_comment(comment_id):
-    pass
+    try:
+        comment = Comment.objects.get(id=comment_id)
+    except:
+        raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
+    comment.delere()
 
 def join_event (user_id, event_id):
     try:
@@ -86,38 +133,6 @@ def join_event (user_id, event_id):
     event.save()
     return True
 
-#================= Helper functions =================#
-def parse_datetime(time_string):
-    """
-    Parses the datetime string, from the ***toUTCString()*** method using javascript, into a datetime object
-    Example, takes "Tue, 22 Nov 2011 06:00:00 GMT" into the corresponding object
-    See this for details: https://stackoverflow.com/questions/8153631/js-date-object-to-python-datetime
-    """
-    datetimeobj = datetime.datetime.strptime(time_string, "%a, %d %b %Y %H:%M:%S %Z")
-    return datetimeobj
 
-def events_to_json(events):
-    """
-    renders a list of events to a dictionary to be passed into a JsonResponse
-    dictionary (list of events) contains a list of dictionaries (events)
-    each event contains id, name, date, fee, capacities
-    """
-    result = {}
-    index = 0
-    for e in events:
-        event = {}
-        event['id'] = e.id
-        event['name'] = e.name
-        event['date'] = e.date
-        event['fee'] = e.fee
-        event['max_capacity'] = e.max_capacity
-        event['min_capacity'] = e.min_capacity
-        result['event'+str(index)] = event
-        index += 1
-    return result
 
-class UnsuccessfulOperationError(Exception):
 
-    def __init__(self, message, error_source):
-        super(UnsuccessfulOperationError, self).__init__(message)
-        self.error_source = error_source

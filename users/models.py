@@ -146,7 +146,7 @@ class Review(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING) #author of comment deleted, comment stays
+    author = models.ForeignKey(Student, on_delete=models.SET('Deleted')) #author of comment deleted, comment stays
     #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
     #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
 
@@ -155,9 +155,9 @@ class UserFlag(models.Model):
     a flag about another user for an admin to review
     """
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.SET_NULL)
-    recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.SET('Deleted'))
+    recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE, related_name='recepient')
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE, related_name='author')
 
     #hashed id 
     id = HashidAutoField(primary_key=True)
@@ -182,5 +182,5 @@ class UserFlag(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(Student, on_delete=models.SET('Deleted'))
     #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)

@@ -43,8 +43,8 @@ class Event(models.Model):
     )
 
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
-    organizer = models.ForeignKey('users.RegularUser', on_delete=models.PROTECT)
-    attendees = models.ManyToManyField('users.Student')
+    organizer = models.ForeignKey('users.RegularUser', on_delete=models.PROTECT, related_name='organizer')
+    attendees = models.ManyToManyField('users.Student', related_name='atendees')
 
 class Comment(models.Model):
     """
@@ -58,6 +58,6 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey('users.RegularUser', on_delete=models.SET_NULL)
+    author = models.ForeignKey('users.RegularUser', on_delete=models.SET('Deleted'))
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 

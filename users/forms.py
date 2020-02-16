@@ -174,9 +174,11 @@ class UserFlagForm(forms.ModelForm):
         }
 
     def clean_flag_type(self):
+        pass
         #TODO
 
     def clean_details(self):
+        pass
         #TODO
 
     # def clean_author(self):
