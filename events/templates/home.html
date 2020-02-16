@@ -153,7 +153,7 @@
     </div>
     </center>
     <div class="w3-panel w3-large">
-        <button class="createbtn" onclick="window.location.href='/dashboard/events/create/'"
+        <button class="createbtn" onclick="window.location.href='/events/create/'"
         style="width:100%">Create New Event!</button>
     </div>
     <!--TODO: Display Followers and Following -->
@@ -188,54 +188,31 @@
   
       </div>
     </header>
-    
+
     <!-- First Photo Grid-->
     <div id= "Hosted" class="tabcontent w3-row-padding" style="display : block;">
+      
+      {% for event in data_dbs %}
       <div class="w3-third w3-container w3-margin-bottom">
-        <img src="{% static '/images/event4_pottery.jpg'%}" alt="Pottery" style="width:100%" class="w3-hover-opacity">
-        <div class="w3-container w3-white">
-          <h3><b>Pottery</b></h3>
-          <h5> Who wants to go do some pottery?! </h5>
-  
-          <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="editbtn" onclick="document.getElementById('id02').style.display='block'" style="width:100%"><b>Edit</b></button>
-          <!-- TODO: ADD KEYWORDS (Optional) -->
-        </div>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom">
-          <img src="{% static '/images/event5_wine.jpg'%}" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
+          <img src="{% static '/images/event6_movienight.jpg'%}" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
           <div class="w3-container w3-white">
-            <h3><b>Wine Tasting</b></h3>
-            <h5> I want to forget about midterms and go wine tasting. Who else is down? </h5>
+            <h3><b>{{ event.name }}</b></h3>
+            <h5> {{event.description}}</h5>
             <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
+            <p> When: {{event.datetime}}
+              <br>Type : {{event.category}}
+              <br>Max Capacity : {{event.max_capacity}}
+            <br> Location:{{event.address_id}}
+            <br> Fee:{{event.fee}}
             </p>
-            <button class="editbtn" onclick="document.getElementById('id02').style.display='block'" style="width:100%"><b>Edit</b></button>
-           <!-- TODO: ADD KEYWORDS (Optional) -->
-          </div>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom">
-          <img src="{% static '/images/event6_movienight.jpg'%}" alt="MovieNight" style="width:100%" class="w3-hover-opacity">
-          <div class="w3-container w3-white">
-            <h3><b>Movie Night</b></h3>
-            <h5> This week we will be screening Incredibles 2! Popcorn provided! </h5>
-            <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="editbtn" onclick="document.getElementById('id02').style.display='block'" style="width:100%"><b>Edit</b></button>
+            <button class="editbtn" onclick="" style="width:100%"><b>Edit</b></button>
+            <button class="createbtn" onclick="window.location.href='/events/delete/'" style="width:100%"><b>Delete</b></button>
             <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
       </div>
-    </div>
-    
+      
+      {% endfor %}
+   
     <!-- Second Photo Grid-->
     <div id="Registered" class="tabcontent w3-row-padding">
       <div class="w3-third w3-container w3-margin-bottom">

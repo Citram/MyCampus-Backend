@@ -52,6 +52,12 @@ def delete_event(request):
                     'delete_form': delete_form
                 })
 
+def get_all_events(request):
+
+    data_dbs =  Event.objects.all()
+    data_out = {'data_dbs': data_dbs}     
+    return render(request, 'home.html', data_out)
+
 
 def register_for_event(request):
     if request.method == 'POST':

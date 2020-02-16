@@ -19,10 +19,11 @@ from django.views.generic.base import TemplateView # new
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', include('users.urls')),
-    path('dashboard/', include('events.urls')),
+    path('', include('users.urls')),
+    path('', include('events.urls')),
+    path("/", include('events.urls')),
 
-    path('dashboard/', include('django.contrib.auth.urls')), # dashboard login page
+    path('', include('django.contrib.auth.urls')), # dashboard login page
     path('', TemplateView.as_view(template_name='home.html'), name='home'), # Template view for redirecting home to home.html
     ]
 
