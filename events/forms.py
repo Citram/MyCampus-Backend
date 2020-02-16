@@ -14,7 +14,7 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = [
             'name',
-            'date',
+            'datetime',
             'fee',
             'max_capacity',
             'min_capacity',
@@ -67,7 +67,6 @@ class EventForm(forms.ModelForm):
             raise forms.ValidationError(_('You cannot enter an empty description.'))
         else:
             return description_input
-
     def clean_category(self):
         category_input = self.cleaned_data['category']
         for option in Event.CATEGORIES:
