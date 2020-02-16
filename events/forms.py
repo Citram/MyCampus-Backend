@@ -6,7 +6,7 @@ from django.forms.fields import CharField
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'fee', 'max_capacity', 'min_capacity', 'description', 'category']
+        fields = ['name', 'datetime', 'fee', 'max_capacity', 'min_capacity', 'description', 'category']
 
 class AddressForm(ModelForm):
     class Meta:
