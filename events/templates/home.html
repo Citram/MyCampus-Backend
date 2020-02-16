@@ -1,6 +1,6 @@
 <!-- templates/home.html Home page with hi and then the session user.username! -->
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
@@ -10,9 +10,7 @@
   <title>MyCampus</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="w3schools.css">
-  <link rel="stylesheet" href="fontRaleway.css">
-  <link rel="stylesheet" href="modal.css">
+
   <!--TODO: Remove if icons work <link rel="stylesheet" href="font-awesome.min.css"> -->
   <style>
   body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
@@ -147,7 +145,7 @@
       <center><a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
         <i class="fa fa-remove"></i>
       </a>
-      <img src="redAvatar.png" style="width:45%;" class="w3-round"><br><br>
+      <img src="{% static '/images/redAvatar.png'%}" style="width:45%;" class="w3-round"><br><br>
       <h4><b>PROFILE</b></h4>
       <p class="w3-text-grey">{{ user.username }}</p>
     </div>
@@ -252,7 +250,7 @@
     <!-- First Photo Grid-->
     <div id= "Hosted" class="tabcontent w3-row-padding">
       <div class="w3-third w3-container w3-margin-bottom">
-        <img src="event4_pottery.jpg" alt="Pottery" style="width:100%" class="w3-hover-opacity">
+        <img src="{% static '/images/event4_pottery.jpg'%}" alt="Pottery" style="width:100%" class="w3-hover-opacity">
         <div class="w3-container w3-white">
           <h3><b>Pottery</b></h3>
           <h5> Who wants to go do some pottery?! </h5>
@@ -267,7 +265,7 @@
         </div>
       </div>
       <div class="w3-third w3-container w3-margin-bottom">
-          <img src="event5_wine.jpg" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
+          <img src="{% static '/images/event5_wine.jpg'%}" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
           <div class="w3-container w3-white">
             <h3><b>Wine Tasting</b></h3>
             <h5> I want to forget about midterms and go wine tasting. Who else is down? </h5>
@@ -281,7 +279,7 @@
           </div>
       </div>
       <div class="w3-third w3-container w3-margin-bottom">
-          <img src="event6_movienight.jpg" alt="MovieNight" style="width:100%" class="w3-hover-opacity">
+          <img src="{% static '/images/event6_movienight.jpg'%}" alt="MovieNight" style="width:100%" class="w3-hover-opacity">
           <div class="w3-container w3-white">
             <h3><b>Movie Night</b></h3>
             <h5> This week we will be screening Incredibles 2! Popcorn provided! </h5>
@@ -299,7 +297,7 @@
     <!-- Second Photo Grid-->
     <div id="Registered" class="tabcontent w3-row-padding">
       <div class="w3-third w3-container w3-margin-bottom">
-          <img src="event1_soccer.jpg" alt="Soccer" style="width:100%" class="w3-hover-opacity">
+          <img src="{% static '/images/event1_soccer.jpg'%}" alt="Soccer" style="width:100%" class="w3-hover-opacity">
           <div class="w3-container w3-white">
             <h3><b>Soccer</b></h3>
             <h5> Join my team to play some soccer on weekends! </h5>
@@ -313,7 +311,7 @@
           </div>
         </div>
         <div class="w3-third w3-container w3-margin-bottom">
-            <img src="event2_bball.jpg" alt="BBall" style="width:100%" class="w3-hover-opacity">
+            <img src="{% static '/images/event2_bball.jpg'%}" alt="BBall" style="width:100%" class="w3-hover-opacity">
             <div class="w3-container w3-white">
               <h3><b>Basketball</b></h3>
               <h5> Join my team to play some basketball on weekends! </h5>
@@ -327,7 +325,7 @@
             </div>
         </div>
         <div class="w3-third w3-container w3-margin-bottom">
-            <img src="event3_ski.png" alt="Ski" style="width:100%" class="w3-hover-opacity">
+            <img src="{% static '/images/event3_ski.png'%}" alt="Ski" style="width:100%" class="w3-hover-opacity">
             <div class="w3-container w3-white">
               <h3><b>Ski</b></h3>
               <h5> Let's go to St Bruno this weekend! </h5>
@@ -368,7 +366,7 @@
     </div>
     </footer>
     
-    <div class="w3-black w3-center w3-padding-24">Powered by <img src=" citramwhite_Logo.png" height=50px></div>
+    <div class="w3-black w3-center w3-padding-24">Powered by <img src="{% static '/images/citramwhite_Logo.png'%}" height=50px></div>
   
   <!-- End page content -->
   </div>
