@@ -39,7 +39,7 @@ def delete_event(request):
             except services.UnsuccessfulOperationError:
                 return HttpResponse("Delete ID not valid.")
             
-            return HttpResponse("Event deleted.")
+            return render(request, 'home.html')
        
         # try:
         #     id = request.POST.get('id', '')
