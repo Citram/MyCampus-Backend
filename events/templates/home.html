@@ -154,7 +154,7 @@
     </div>
     </center>
     <div class="w3-panel w3-large">
-        <button class="createbtn" onclick="window.location.href='/dashboard/events/create/'"
+        <button class="createbtn" onclick="window.location.href='/events/create/'"
         style="width:100%">Create New Event!</button>
     </div>
     <!--TODO: Display Followers and Following -->
@@ -189,6 +189,19 @@
   
       </div>
     </header>
+
+    <table>
+        <tr>
+            <th>Field 1</th>
+            <th>Field 2</th>
+        </tr>
+        {% for event in data_dbs %}
+        <tr> 
+            <td>{{ event.name }}</td>
+            <td>{{ event.category }}</td>
+        </tr>
+        {% endfor %}
+    </table>
     
     <!-- First Photo Grid-->
     <div id= "Hosted" class="tabcontent w3-row-padding" style="display : block;">
