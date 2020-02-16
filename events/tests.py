@@ -334,7 +334,7 @@ class EventViewTest(TestCase):
     def test_response_please(self):
         c = Client()
         response = HttpResponse()
-        response = c.post('/dashboard/events/create/', self.data_event)
+        response = c.post('/dashboard/events/create/', data={self.data_event, self.data_address})
         self.assertEqual(200, response.status_code)
 
 
