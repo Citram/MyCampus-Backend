@@ -30,9 +30,9 @@ class EventForm(forms.ModelForm):
         else:
             return name_input
 
-    def clean_date(self):
-        date_input = self.cleaned_data['date']
-        if date_input.date() < datetime.date.today():
+    def clean_datetime(self):
+        date_input = self.cleaned_data['datetime']
+        if date_input < datetime.date.today():
             raise forms.ValidationError(_('You cannot enter an event date that is before today.'))
         else:
             return date_input
