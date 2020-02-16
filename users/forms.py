@@ -2,6 +2,7 @@ import re
 from django import forms
 from django.core.validators import EmailValidator
 from .models import Admin, Organization, Student, Review, UserFlag
+from django.utils.translation import gettext_lazy as _ #not sure if this is needed but apparently its good?
 
 
 #=========================== User forms ===========================#
@@ -20,14 +21,14 @@ class AdminForm(forms.ModelForm):
         if '@mcgill.ca'in email_input or '@mail.mcgill.ca' in email_input:
             return email_input
         else:
-            raise forms.ValidationError('Please enter a valid McGill email address')
+            raise forms.ValidationError(_('Please enter a valid McGill email address'))
 
     def clean_id(self):
         id_input = self.cleaned_data['id']
         pattern = re.compile('^[\\p{L}\\p{Nd}.]{5,20}$')
         if not (pattern.match(id_input)):
-            raise forms.ValidationError(
-                'Your username must be between 5 and 20 characters long and only contain letters, numbers and the period')
+            raise forms.ValidationError(_(
+                'Your username must be between 5 and 20 characters long and only contain letters, numbers and the period'))
         else:
             return id_input
 
@@ -35,8 +36,8 @@ class AdminForm(forms.ModelForm):
         password_input = self.cleaned_data['password']
         pattern = re.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
         if not (pattern.match(password_input)):
-            raise forms.ValidationError(
-                'Your password must be at least 8 characters long and contain at least a letter, a number and a special character.')
+            raise forms.ValidationError(_(
+                'Your password must be at least 8 characters long and contain at least a letter, a number and a special character.'))
         else:
             return password_input
         
@@ -58,8 +59,8 @@ class OrganizationForm(AdminForm):
         name_input = self.cleaned_data['name']
         pattern  = re.compile("^[A-Za-z]+((\\s)?((\\'|\\-|\\.)?([A-Za-z])+))*$")
         if not (pattern.match(name_input)):
-            raise forms.ValidationError(
-                'Please enter a valid name.')
+            raise forms.ValidationError(_(
+                'Please enter a valid name.'))
         else:
             return name_input
         
@@ -67,11 +68,23 @@ class OrganizationForm(AdminForm):
     def clean_description(self):
         description_input = self.cleaned_data['description']
         if description_input is None or description_input.strip() == '':
-            raise forms.ValidationError('You cannot enter an empty description.')
+            raise forms.ValidationError(_('You cannot enter an empty description.'))
         else:
             return description_input
 
 class StudentForm(OrganizationForm):
+
+
+    faculty = forms.ChoiceField(
+        choices=Student.FACULTIES,
+        required=False
+    )
+
+    
+    gender = forms.ChoiceField(
+        choices=Student.GENDERS,
+        required=False
+    )
 
     class Meta:
         model = Student
@@ -89,67 +102,20 @@ class StudentForm(OrganizationForm):
             'password' : forms.PasswordInput()
         }
 
-    MALE = 'M'
-    FEMALE = 'F'
-    GENDERS = [
-        (MALE, 'Male'),
-        (FEMALE, 'Female')
-    ]
-
-    #faculties
-    FACULTY_AGRICULTURAL_AND_ENVIRONMENTAL_SCIENCES = 'AGR'
-    FACULTY_ARTS = 'ART'
-    FACULTY_CONTINUING_STUDIES = 'CNT'
-    FACULTY_DENTISTRY = 'DNT'
-    FACULTY_EDUCATION = 'EDU'
-    FACULTY_ENGINEERING = 'ENG'
-    FACULTY_GRADUATE_AND_POSTDOCTORAL_STUDIES = 'GRD'
-    FACULTY_LAW = 'LAW'
-    FACULTY_MANAGEMENT = 'MNG'
-    FACULTY_MEDICINE = 'MED'
-    FACULTY_MUSIC = 'MUS'
-    FACULTY_SCIENCE = 'SCI'
-    ALUMNI = 'ALU'
-
-    FACULTIES = [
-        (FACULTY_AGRICULTURAL_AND_ENVIRONMENTAL_SCIENCES, 'Faculty of Agricultural and Environmental Sciences'),
-        (FACULTY_ARTS, 'Faculty of Arts'),
-        (FACULTY_CONTINUING_STUDIES, 'School of Continuing Studies'),
-        (FACULTY_DENTISTRY, 'Faculty of Dentistry'),
-        (FACULTY_EDUCATION, 'Faculty of Education'),
-        (FACULTY_ENGINEERING, 'Faculty of Engineering'),
-        (FACULTY_GRADUATE_AND_POSTDOCTORAL_STUDIES, 'Graduate and Postdoctoral Studies'),
-        (FACULTY_LAW, 'Faculty of Law'),
-        (FACULTY_MANAGEMENT, 'Desautels Faculty of Management'),
-        (FACULTY_MEDICINE, 'Faculty of Medicine'),
-        (FACULTY_MUSIC, 'Schulich School of Music'),
-        (FACULTY_SCIENCE, 'Faculty of Science'),
-        (ALUMNI, 'Alumni'),
-    ]
-
-    def clean_email(self):
-        #TODO
-
-    def clean_id(self):
-        #TODO
-
-    def clean_password(self):
-        #TODO
-
-    def clean_name(self):
-        #TODO
-
-    def clean_description(slef):
-        #TODO
-
     def clean_age(self):
-        #TODO
+        age_input = self.cleaned_data['age']
+        if not age_input > 16 or age_input < 100:
+            raise forms.ValidationError(_('Please enter a valid age.'))
+        else:
+            return age_input
 
     def clean_gender(self):
-        #TODO
+        sex_input = self.cleaned_data['gender']
+        if sex_input in None or sex_input != 'M' or sex_input != 'F':
+            raise forms.ValidationError(_('Please enter a valid gender.'))
+        else:
+            return sex_input
 
-    def clean_faculty(self):
-        #TODO
 
 #=========================== Review form ===========================#
 
@@ -170,10 +136,12 @@ class ReviewForm(forms.ModelForm):
         }
 
     def clean_rating(self):
-        #TODO
+        rating_input = self.cleaned_data['age']
+        if not rating_input >= 1 or rating_input <= 5:
+            raise forms.ValidationError(_('Please enter a valid rating.'))
+        else:
+            return rating_input
 
-    def clean_comment(self):
-        #TODO
 
     # def clean_author(self):
     #     #TODO
@@ -184,6 +152,11 @@ class ReviewForm(forms.ModelForm):
 #=========================== Flag form ===========================#
 
 class UserFlagForm(forms.ModelForm):
+
+    flag_type = forms.ChoiceField(
+        choices=UserFlag.TYPES
+    )
+
 
     class Meta:
         model = UserFlag
@@ -196,7 +169,8 @@ class UserFlagForm(forms.ModelForm):
 
         widgets = {
             'author' : forms.HiddenInput(),
-            'recepient' : forms.HiddenInput()
+            'recepient' : forms.HiddenInput(),
+            'details' : forms.Textarea()
         }
 
     def clean_flag_type(self):
@@ -211,16 +185,3 @@ class UserFlagForm(forms.ModelForm):
     # def clean_recipient(self):
     # 
     
-
-#================ validators ================#
-def username_validator(username):
-    pattern = re.compile("^[A-Za-z\\d.]*$") #upper,lower, digits and '.' only
-    return pattern.match(username)
-
-def organization_name_validator(name):
-    pattern = re.compile("") #TODO
-    return pattern.match(name)
-
-def student_name_validator(name):
-    pattern = re.compile("") #TODO
-    return pattern.match(name)

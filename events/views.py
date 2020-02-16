@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import EventForm, AddressForm
+from .forms import EventForm, AddressForm, CommentForm
 from .models import Event, Address
 from users import models as user_models
 from django.http import Http404, HttpResponse
@@ -33,10 +33,14 @@ def delete_event(request):
         delete_form = DeleteEventForm(request.POST)
         if delete_form.is_valid():
             id_field = delete_form.data['id_field']
-            if services.delete_event(id_field):
-                return HttpResponse("Event deleted.")
-        else:
-            return HttpResponse("Delete ID not valid.")
+
+            try :
+                services.delete_event(id_field)
+            except services.UnsuccessfulOperationError:
+                return HttpResponse("Delete ID not valid.")
+            
+            return HttpResponse("Event deleted.")
+       
         # try:
         #     id = request.POST.get('id', '')
         # except:
@@ -53,17 +57,38 @@ def register_for_event(request):
     if request.method == 'POST':
         registration_form = RegistrationForm(request.POST)
         if registration_form.is_valid():
-            current_user = request.user 
+            current_user = request.session['id'] #TODO: check
             user_id = current_user.id
-            event_id = registration_form.data['event_id']
+            event_id = registration_form.data['event_id'] 
             try:
                 services.join_event(user_id, event_id)
                 return HttpResponse("Successfully joined the event.")
+            except services.UnsuccessfulOperationError as e:
+                return HttpResponse(e.message)
+    else:
+        registration_form = RegistrationForm()
+        return render(
+            request, 
+            'events/register.html', 
+            {'registration_form': registration_form}
+        )
+
+def create_comment(request):
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            current_user = request.session['id'] 
+            user_id = current_user.id
+            event_id = comment_form.data['event_id'] 
+            try:
+                services.create_comment(event_id,user_id,comment_form.data['message'])
             except ObjectDoesNotExist as error:
                 return HttpResponse(error)
     else:
-        registration_form = registration_form()
-        return render(request, 'events/register.html', {
-            'registration_form': registration_form
-        })
+        comment_form = CommentForm()
+        return render(
+            request,
+            {'comment_form': comment_form}
+        )
         
+def query_event_by_category(request):
