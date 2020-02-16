@@ -206,7 +206,34 @@
             <br> Location:{{event.address_id}}
             <br> Fee:{{event.fee}}
             </p>
-            <button class="editbtn" onclick="" style="width:100%"><b>Edit</b></button>
+            <!--EDIT EVENT POP-UP-->
+<div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
+    <form class="profilemodal-content animate" method="POST">
+      <div class="container">
+                <h1>Edit your event!</h1>
+                <hr>
+            
+                <label for="eventname"><b>Event Name</b></label>
+                <input type="text" value={{event.name}} name="eventname" required>
+            
+                <label for="eventdescription"><b>Event Description</b></label>
+                <input type="text" value={{event.description}} name="eventdescription" required>
+            
+                <label for="eventdate"><b>Date</b></label>
+                <input value = "{{event.datetime}}" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+                <br>
+                <label for="eventlocation" ><b>Event Location</b></label>
+                <input type="text" value="{{event.address_id}}" name="eventlocation" required>
+            
+                <label for="eventkeywords"><b>Fee</b></label>
+                <input type="text" value={{event.fee}} name="eventkeywords" required>
+            
+                <button type="submit" class="editbtn" style="width:100%">Submit</button>
+          </div>
+    </form>
+  </div>
+
+            <button class="editbtn" onclick="myfunction();" style="width:100%"><b>Edit</b></button>
             <br>
             <form action="{% url 'delete_event' %}"
                   method="post">
@@ -217,6 +244,14 @@
             <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>     
       </div>
+      <script>function myfunction(){
+          document.getElementById("id02{{event.name}}").style.display = "block";
+      }
+        
+        //TODO: implement filtering script 
+        
+        </script>
+
       
       {% endfor %}
    
@@ -265,6 +300,8 @@
             </div>
         </div>
       </div>
+
+      
     
     <!-- Pagination -->
     <div class="w3-center w3-padding-32" style="margin-top : 60%">
@@ -357,9 +394,7 @@
         modal2.style.display = "none";
       }
     }
-  
-  
-  //TODO: implement filtering script 
+
   
   </script>
   
