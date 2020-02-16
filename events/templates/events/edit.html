@@ -181,7 +181,7 @@
         <button class="w3-button w3-white w3-hide-small"><i class="fas fa-cocktail"></i> Social</button>
         <!--We can add more filter categories-->
       </div>
-      <h1>Add new event</h1>
+      <h1>Edit event</h1>
       
       <form action="{% url 'create_event' %}"
             method="post">
@@ -189,6 +189,7 @@
             {{ event_form.as_p }}
             {{ address_form.as_p }}
             <center>
+                <!-- Will also add an alert for  -->
       <button class="editbtn" type="submit">Create</button>
       </center>  
     </form>
