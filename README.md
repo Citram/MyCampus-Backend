@@ -10,6 +10,7 @@ We'll be using Django and code mostly in Python.
 * [Python3](https://www.python.org/downloads/)
 * [pip](https://pypi.org/project/pip/)
 * [MySQL](https://www.mysql.com/)
+* [Django_Hashid_Field](https://github.com/nshafer/django-hashid-field)
 
 ## Setup
 

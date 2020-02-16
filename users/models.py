@@ -1,21 +1,6 @@
 from django.db import models
-from django import forms
 from hashid_field import HashidAutoField
 from django.core.validators import EmailValidator
-#from events.models import *
-
-#================= VALIDATORS =================#
-def username_validator(username):
-    """
-    validates the a specific username is valid
-    Username doesn't have special characters, UTFA 
-    """
-    #TODO
-    return True
-
-
-def user_rating_validator(rating):
-    return (rating >= 1 and rating <= 5)
 
 class User(models.Model):
     """
@@ -23,13 +8,24 @@ class User(models.Model):
     """
 
     #login info
-    id = models.CharField(max_length=20, primary_key=True, validators=[username_validator])
+    ADMIN = 'A'
+    USER = 'U'
+    PRIVILEGE = [
+        (ADMIN, 'Admin'),
+        (USER, 'Regular User')
+    ]
+    privilege = models.CharField(
+        max_length=1,
+        choices=PRIVILEGE
+        )
+
+    id = models.CharField(max_length=20, primary_key=True)
 
     password = models.CharField(max_length=64)
 
     #email and validations
     email_domains = [
-        'gmail.com',
+        'mail.mcgill.ca'
         'mcgill.ca'
     ]
     email_validator = EmailValidator(message='Please enter a valid McGill email address',
@@ -43,8 +39,8 @@ class Admin(User):
     """
     The admin of the webset with a specific set of pivileges (maybe)
     """
-    #TODO
-    privilege = models.IntegerField()
+
+    
 
 class RegularUser(User):
     """
@@ -52,10 +48,7 @@ class RegularUser(User):
     """
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=400)
-    rating_avg = models.DecimalField(max_digits=3, decimal_places=2, validators=[user_rating_validator])
-
-    class Meta:
-        abstract = False
+    rating_avg = models.DecimalField(max_digits=3, decimal_places=2)
 
 class Student(RegularUser):
     """
@@ -153,7 +146,7 @@ class Review(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING) #author of comment deleted, comment stays
+    author = models.ForeignKey(Student, on_delete=models.SET('Deleted')) #author of comment deleted, comment stays
     #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
     #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
 
@@ -161,6 +154,11 @@ class UserFlag(models.Model):
     """
     a flag about another user for an admin to review
     """
+    #many-to-one relations
+    author = models.ForeignKey(Student, on_delete=models.SET('Deleted'))
+    recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE, related_name='recepient')
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE, related_name='author')
+
     #hashed id 
     id = HashidAutoField(primary_key=True)
 
@@ -184,20 +182,5 @@ class UserFlag(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(Student, on_delete=models.SET('Deleted'))
     #recepient = models.ForeignKey(Student, on_delete=models.CASCADE)
-
-
-class Question(models.Model):
-    # ...
-    def __str__(self):
-        return self.question_text
-
-from django.db import models
-from django.utils import timezone
-import datetime
-
-class Question(models.Model):
-    # ...
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)

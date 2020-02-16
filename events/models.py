@@ -1,5 +1,4 @@
 from django.db import models
-#from users.models import RegularUser
 from hashid_field import HashidAutoField
 import datetime
 
@@ -21,10 +20,10 @@ class Event(models.Model):
 
     name = models.CharField(max_length=100)
 
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=datetime.date.today())
 
     fee = models.DecimalField(default=0, decimal_places=3, max_digits = 1000)
- 
+
     max_capacity = models.PositiveSmallIntegerField()
     min_capacity = models.PositiveSmallIntegerField(default=1)
 
@@ -43,16 +42,9 @@ class Event(models.Model):
         choices=CATEGORIES
     )
 
-    address = models.OneToOneField(
-        Address,
-        on_delete=models.CASCADE,
-        null=True,
-        default=0
-    )
-
-    #address = models.ForeignKey(Address, on_delete=models.PROTECT)
-    #organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
-    #attendees = models.ManyToManyField(Student)
+    address = models.ForeignKey(Address, on_delete=models.PROTECT)
+    organizer = models.ForeignKey('users.RegularUser', on_delete=models.PROTECT, related_name='organizer')
+    attendees = models.ManyToManyField('users.Student', related_name='atendees')
 
 class Comment(models.Model):
     """
@@ -66,5 +58,6 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now=True)
 
     #many-to-one relations
-    #author = models.ForeignKey(RegularUser, on_delete=models.SET_NULL)
-    #event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    author = models.ForeignKey('users.RegularUser', on_delete=models.SET('Deleted'))
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
