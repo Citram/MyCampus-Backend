@@ -89,6 +89,18 @@ def delete_event(event_id):
     except:
         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
 
+def editFinal_event(event_id, name_input):
+    try:
+        event = Event.objects.get(id=event_id)
+        event.name = name_input
+
+        event.save()
+        
+    except:
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+
+
+
 def create_comment(event_id, user_id, message_input):
     try:
         event = Event.objects.get(id=event_id)
@@ -117,7 +129,7 @@ def delete_comment(comment_id):
         comment = Comment.objects.get(id=comment_id)
     except:
         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
-    comment.delere()
+    comment.delete()
 
 def join_event (user_id, event_id):
     try:
