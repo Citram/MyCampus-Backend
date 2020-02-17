@@ -12,4 +12,3 @@ install:
 # run test scripts
 script:
 - python manage.py test
-- python manage.py behave events/features
