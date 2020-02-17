@@ -185,13 +185,13 @@
       <h1>Edit event</h1>
       
       <form action="{% url 'create_event' %}"
-            method="post">
+            method="put">
             {% csrf_token %}
             {{ event_form.as_p }}
             {{ address_form.as_p }}
             <center>
                 <!-- Will also add an alert for  -->
-      <button class="editbtn" type="submit">Create</button>
+      <button class="editbtn" type="submit">Edit</button>
       </center>  
     </form>
   

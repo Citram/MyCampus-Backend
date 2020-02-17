@@ -206,7 +206,7 @@
             <br> Location:{{event.address_id}}
             <br> Fee:{{event.fee}}
             </p>
-            <button class="editbtn" onclick="" style="width:100%"><b>Edit</b></button>
+            <button class="editbtn" onclick="window.location.href='/events/edit/{{event.id}}'" style="width:100%"><b>Edit</b></button>
             <form action="{% url 'delete_event' %}"
                   method="post">
                   {% csrf_token %}
