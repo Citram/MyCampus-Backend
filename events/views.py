@@ -37,7 +37,7 @@ def edit_event(request):
             description_input = request.POST.get("eventdescription", "")
 
             try :
-                services.editFinal_event(event_id, name_input)
+                services.editFinal_event(event_id, name_input, datetime_input, fee_input, description_input)
             except services.UnsuccessfulOperationError:
                 return HttpResponse("Event ID not valid.")
             

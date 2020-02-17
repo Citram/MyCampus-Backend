@@ -89,11 +89,13 @@ def delete_event(event_id):
     except:
         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
 
-def editFinal_event(event_id, name_input):
+def editFinal_event(event_id, name_input,  datetime_input,  fee_input, description_input):
     try:
         event = Event.objects.get(id=event_id)
         event.name = name_input
-
+        event.fee = fee_input
+        event.description = description_input
+        #will need to add datetime afterwards
         event.save()
         
     except:
