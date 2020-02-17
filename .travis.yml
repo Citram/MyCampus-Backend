@@ -11,5 +11,4 @@ install:
 
 # run test scripts
 script:
-- python manage.py collectstatic
 - python manage.py test
