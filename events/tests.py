@@ -289,6 +289,46 @@ class EventFormTest(TestCase):
 
             self.assertFalse(event_form.is_valid())
 
+'''
+class EventDeleteFormTest(TestCase):
+
+    sample_data_event = {
+        'name': 'Dungeon & Dragons',
+        'fee': 69,
+        'max_capacity': 420,
+        'min_capacity': 69,
+        'datetime': "2022-02-02",
+        'description': 'Random event',
+        'category': 'GAM'
+    }
+
+    sample_data_address = {
+        'city': 'Montreal',
+        'street': 'Sherbrooke Av.',
+        'number': '1980',
+        'postalcode': 'H6J3T5'
+    }
+
+    def delete_event(self):
+        address_form = AddressForm(EventFormTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventFormTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address
+        test_event.save()
+        events = Event.objects[0]
+        event = events[0]
+
+        delete_form = DeleteEventForm(EventDeleteFormTest.sample_data_event)
+        
+        
+'''
+
+
 # Test suite for Event views
 class EventViewTest(TestCase):
     c = Client()
