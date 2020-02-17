@@ -11,7 +11,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../static/css/fontRaleway.css">
-  <link rel="stylesheet" href="../static/css/w3schools.css">
   <link rel="stylesheet" href="../static/css/modal.css">
   <!--TODO: Remove if icons work <link rel="stylesheet" href="font-awesome.min.css"> -->
   <style>
@@ -206,6 +205,7 @@
             <br> Location:{{event.address_id}}
             <br> Fee:{{event.fee}}
             </p>
+<<<<<<< HEAD
             <!--EDIT EVENT POP-UP-->
 <div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
     <form class="profilemodal-content animate" method="POST">
@@ -243,6 +243,12 @@
             </form>
             <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>     
+=======
+            <button class="editbtn" onclick="" style="width:100%"><b>Edit</b></button>
+            <button class="createbtn" onclick="window.location.href='/events/delete/'" style="width:100%"><b>Delete</b></button>
+            <!-- TODO: ADD KEYWORDS (Optional) -->
+          </div>
+>>>>>>> parent of 5ed424e... Added delete event works on button click!
       </div>
       <script>function myfunction(){
           document.getElementById("id02{{event.name}}").style.display = "block";
