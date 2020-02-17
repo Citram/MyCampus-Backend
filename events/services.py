@@ -83,11 +83,17 @@ def get_events_by_words_in_name(words):
         result = JsonResponse(events_to_json(events))
         return result
 
+def delete_event_by_name(event_name):
+    try:
+        Event.objects.get(name=event_name).delete()
+    except:
+        raise UnsuccessfulOperationError('Event not found with name ', 'event_name')
+
 def delete_event(event_id):
     try:
         Event.objects.get(id=event_id).delete()
     except:
-        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+        raise UnsuccessfulOperationError('Event not found with id ', 'event_id')
 
 def editFinal_event(event_id, name_input,  datetime_input,  fee_input, description_input):
     try:

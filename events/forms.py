@@ -3,6 +3,7 @@ import datetime
 from django import forms
 from .models import Event, Address
 from django.utils.translation import gettext_lazy as _
+from django.forms.fields import IntegerField
 
 
 class EventForm(forms.ModelForm):
@@ -10,6 +11,7 @@ class EventForm(forms.ModelForm):
         not sure about this one, but for documentation on ModelForm, see
         https://docs.djangoproject.com/en/3.0/topics/forms/modelforms/
     """
+    min_capacity = IntegerField(required = False)
     class Meta:
         model = Event
         fields = [
@@ -53,7 +55,9 @@ class EventForm(forms.ModelForm):
 
     def clean_min_capacity(self):
         min_capacity_input = self.cleaned_data['min_capacity']
-        if min_capacity_input < 1 or min_capacity_input > 9000 or None:
+        if min_capacity_input is None: # Field is optional
+            return min_capacity_input
+        if min_capacity_input < 1 or min_capacity_input > 9000:
             raise forms.ValidationError(_('You cannot enter a minimum capacity less than 1 or more than 9000.'))
         # elif min_capacity_input > self.cleaned_data['max_capacity']:
         #     raise forms.ValidationError(_('You cannot enter a minimum capacity higher than your maximum capacity.'))
