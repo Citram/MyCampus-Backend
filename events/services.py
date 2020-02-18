@@ -42,6 +42,8 @@ def events_to_json(events):
 
 #================= Services =================#
 
+
+#========================= Event services ============================#
 def create_event(name_input, datetime_input, fee_input, min_capacity_input, max_capacity_input, description_input, category_input):
     event = Event(
         name=name_input,date=parse_datetime(datetime_input),
@@ -51,7 +53,12 @@ def create_event(name_input, datetime_input, fee_input, min_capacity_input, max_
     )
     event.save()
 
+def set_event(name_input, datetime_input, fee_input, min_capacity_input, max_capacity_input, description_input, category_input):
+    #TODO
+    return
 
+
+#======================== Query services ===============================#
 def get_events_by_category(category_input):
     events = Event.objects.filter(category=category_input)
     if len(events) == 0:
@@ -89,6 +96,7 @@ def delete_event(event_id):
     except:
         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
 
+#======================== Comment services ===============================#
 def create_comment(event_id, user_id, message_input):
     try:
         event = Event.objects.get(id=event_id)
@@ -119,6 +127,7 @@ def delete_comment(comment_id):
         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
     comment.delere()
 
+#================== Joining and leaving events========================#
 def join_event (user_id, event_id):
     try:
         event = Event.objects.get(id=event_id)
@@ -132,7 +141,22 @@ def join_event (user_id, event_id):
     event.attendees.add(user)
     event.save()
     return True
+    
+def leave_event(user_id, event_id):
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+    try:
+        user = Student.objects.get(user_id)
+    except:
+        raise UnsuccessfulOperationError('User not found with id', 'user_id')
 
+    if not user in event.attendees.all():
+        raise UnsuccessfulOperationError('User does not attend the event', 'event.attendees')
+    else:
+        event.attendees.remove(user)
+    return True
 
 
 
