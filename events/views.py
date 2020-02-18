@@ -32,8 +32,9 @@ def delete_event(request):
     if request.method == 'POST':
         delete_form = DeleteEventForm(request.POST)
         if delete_form.is_valid():
-            id_field = delete_form.data['id_field']
-
+            id_field = delete_form.data['id_field'] 
+            if id_field != request.session['id']: #you can delete only your own stuff
+                return HttpResponse("You cannot delete this event") #might be easier just to verify the sessions?
             try :
                 services.delete_event(id_field)
             except services.UnsuccessfulOperationError:
@@ -52,13 +53,16 @@ def delete_event(request):
                     'delete_form': delete_form
                 })
 
+def get_all_events(request):
+    data_dbs =  Event.objects.all()
+    data_out = {'data_dbs': data_dbs}     
+    return render(request, 'home.html', data_out)
 
 def register_for_event(request):
     if request.method == 'POST':
         registration_form = RegistrationForm(request.POST)
         if registration_form.is_valid():
-            current_user = request.session['id'] #TODO: check
-            user_id = current_user.id
+            user_id = request.session['id'] #TODO: check
             event_id = registration_form.data['event_id'] 
             try:
                 services.join_event(user_id, event_id)
@@ -77,8 +81,7 @@ def create_comment(request):
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            current_user = request.session['id'] 
-            user_id = current_user.id
+            user_id = request.session['id'] 
             event_id = comment_form.data['event_id'] 
             try:
                 services.create_comment(event_id,user_id,comment_form.data['message'])

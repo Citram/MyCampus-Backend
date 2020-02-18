@@ -148,14 +148,14 @@
         <i class="fa fa-remove"></i>
       </a>
       <img src="{% static '/images/redAvatar.png'%}" style="width:45%;" class="w3-round"><br><br>
-      <h4><b>{{ user.username }}</b></h4>
-      <p class="w3-text-grey">My Profile</p>
+      <h4><b>PROFILE</b></h4>
+      <p class="w3-text-grey">{{ user.username }}</p>
       <p><a href="{% url 'logout' %}">logout</a></p>
     </div>
     </center>
     <div class="w3-panel w3-large">
-        <button class="createbtn" onclick="window.location.href='/events/create/'"
-        style="width:100%">Create New Event!</button>
+        <button class="createbtn" onclick="window.location.href='/'"
+        style="width:100%">My Events</button>
     </div>
     <!--TODO: Display Followers and Following -->
   </nav>
@@ -170,7 +170,9 @@
       <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
       <div class="w3-container">
       <h1><b>MyCampus Events</b></h1>
+      
       <div class="w3-section w3-bottombar w3-padding-16">
+
         <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search event.." title="Type in a event name">
         <space></space>
         <span class="w3-margin-right">Filter:</span> 
@@ -180,131 +182,25 @@
         <button class="w3-button w3-white w3-hide-small"><i class="fas fa-cocktail"></i> Social</button>
         <!--We can add more filter categories-->
       </div>
-
-  
-      <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'Hosted')">Hosted Events</button>
-        <button class="tablinks" onclick="openCity(event, 'Registered')">Registered Events</button>
-      </div>
+      <h1>Edit event</h1>
+      
+      <form action="{% url 'create_event' %}"
+            method="post">
+            {% csrf_token %}
+            {{ event_form.as_p }}
+            {{ address_form.as_p }}
+            <center>
+                <!-- Will also add an alert for  -->
+      <button class="editbtn" type="submit">Create</button>
+      </center>  
+    </form>
   
       </div>
     </header>
-
-    <!-- First Photo Grid-->
-    <div id= "Hosted" class="tabcontent w3-row-padding" style="display : block;">
-      
-      {% for event in data_dbs %}
-      <div class="w3-third w3-container w3-margin-bottom">
-          <img src="{% static '/images/event6_movienight.jpg'%}" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
-          <div class="w3-container w3-white">
-            <h3><b>{{ event.name }}</b></h3>
-            <h5> {{event.description}}</h5>
-            <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When: {{event.datetime}}
-              <br>Type : {{event.category}}
-              <br>Max Capacity : {{event.max_capacity}}
-            <br> Location:{{event.address_id}}
-            <br> Fee:{{event.fee}}
-            </p>
-            <!--EDIT EVENT POP-UP-->
-<div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
-    <form class="profilemodal-content animate" method="POST">
-      <div class="container">
-                <h1>Edit your event!</h1>
-                <hr>
-            
-                <label for="eventname"><b>Event Name</b></label>
-                <input type="text" value={{event.name}} name="eventname" required>
-            
-                <label for="eventdescription"><b>Event Description</b></label>
-                <input type="text" value={{event.description}} name="eventdescription" required>
-            
-                <label for="eventdate"><b>Date</b></label>
-                <input value = "{{event.datetime}}" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
-                <br>
-                <label for="eventlocation" ><b>Event Location</b></label>
-                <input type="text" value="{{event.address_id}}" name="eventlocation" required>
-            
-                <label for="eventkeywords"><b>Fee</b></label>
-                <input type="text" value={{event.fee}} name="eventkeywords" required>
-            
-                <button type="submit" class="editbtn" style="width:100%">Submit</button>
-          </div>
-    </form>
-  </div>
-
-            <button class="editbtn" onclick="myfunction();" style="width:100%"><b>Edit</b></button>
-            <br>
-            <form action="{% url 'delete_event' %}"
-                  method="post">
-                  {% csrf_token %}
-                  <input hidden value = "{{event.id}}" name = "id_field">
-            <button style="width:100%" class="createbtn" type="submit">Delete</button>
-            </form>
-            <!-- TODO: ADD KEYWORDS (Optional) -->
-          </div>     
-      </div>
-      <script>function myfunction(){
-          document.getElementById("id02{{event.name}}").style.display = "block";
-      }
-        
-        //TODO: implement filtering script 
-        
-        </script>
-
-      
-      {% endfor %}
-   
-    <!-- Second Photo Grid-->
-    <div id="Registered" class="tabcontent w3-row-padding">
-      <div class="w3-third w3-container w3-margin-bottom">
-          <img src="{% static '/images/event1_soccer.jpg'%}" alt="Soccer" style="width:100%" class="w3-hover-opacity">
-          <div class="w3-container w3-white">
-            <h3><b>Soccer</b></h3>
-            <h5> Join my team to play some soccer on weekends! </h5>
-            <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-            <!-- TODO: ADD KEYWORDS (Optional) -->
-          </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="{% static '/images/event2_bball.jpg'%}" alt="BBall" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-              <h3><b>Basketball</b></h3>
-              <h5> Join my team to play some basketball on weekends! </h5>
-              <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-              <!-- TODO: ADD KEYWORDS (Optional) -->
-            </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="{% static '/images/event3_ski.png'%}" alt="Ski" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-              <h3><b>Ski</b></h3>
-              <h5> Let's go to St Bruno this weekend! </h5>
-              <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-              <!-- TODO: ADD KEYWORDS (Optional) -->
-            </div>
-        </div>
-      </div>
-
-      
     
+     
     <!-- Pagination -->
-    <div class="w3-center w3-padding-32" style="margin-top : 60%">
+    <div class="w3-center w3-padding-32">
       <div class="w3-bar">
         <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
         <a href="#" class="w3-bar-item w3-black w3-button">1</a>
@@ -346,21 +242,6 @@
       document.getElementById("myOverlay").style.display = "none";
   }
   
-  //Script for TAB bar (Registered and Hosted events)
-  function openCity(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
-  
   //Script for SEARCH BAR
   function myFunction() {
     var input, filter, ul, li, a, i;
@@ -394,7 +275,9 @@
         modal2.style.display = "none";
       }
     }
-
+  
+  
+  //TODO: implement filtering script 
   
   </script>
   
@@ -406,3 +289,4 @@
   <a href="{% url 'login' %}">login</a>
 {% endif %}
 {% endblock %}
+

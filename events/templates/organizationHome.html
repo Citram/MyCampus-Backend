@@ -1,17 +1,18 @@
-<!-- templates/home.html Home page with hi and then the session user.username! -->
+<h3>Welcome to the real-time HTML editor!</h3>
+<p>Type HTML in the textarea above, and it will magically appear in the frame below.</p><!-- templates/home.html Home page with hi and then the session user.username! -->
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
+
   <!DOCTYPE html>
   <html>
   <title>MyCampus</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../static/css/fontRaleway.css">
-  <link rel="stylesheet" href="../static/css/w3schools.css">
   <link rel="stylesheet" href="../static/css/modal.css">
   <!--TODO: Remove if icons work <link rel="stylesheet" href="font-awesome.min.css"> -->
   <style>
@@ -148,8 +149,8 @@
         <i class="fa fa-remove"></i>
       </a>
       <img src="{% static '/images/redAvatar.png'%}" style="width:45%;" class="w3-round"><br><br>
-      <h4><b>{{ user.username }}</b></h4>
-      <p class="w3-text-grey">My Profile</p>
+      <h4><b>PROFILE</b></h4>
+      <p class="w3-text-grey">{{ user.username }}</p>
       <p><a href="{% url 'logout' %}">logout</a></p>
     </div>
     </center>
@@ -184,7 +185,6 @@
   
       <div class="tab">
         <button class="tablinks" onclick="openCity(event, 'Hosted')">Hosted Events</button>
-        <button class="tablinks" onclick="openCity(event, 'Registered')">Registered Events</button>
       </div>
   
       </div>
@@ -206,105 +206,17 @@
             <br> Location:{{event.address_id}}
             <br> Fee:{{event.fee}}
             </p>
-            <!--EDIT EVENT POP-UP-->
-<div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
-    <form class="profilemodal-content animate" method="POST">
-      <div class="container">
-                <h1>Edit your event!</h1>
-                <hr>
-            
-                <label for="eventname"><b>Event Name</b></label>
-                <input type="text" value={{event.name}} name="eventname" required>
-            
-                <label for="eventdescription"><b>Event Description</b></label>
-                <input type="text" value={{event.description}} name="eventdescription" required>
-            
-                <label for="eventdate"><b>Date</b></label>
-                <input value = "{{event.datetime}}" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
-                <br>
-                <label for="eventlocation" ><b>Event Location</b></label>
-                <input type="text" value="{{event.address_id}}" name="eventlocation" required>
-            
-                <label for="eventkeywords"><b>Fee</b></label>
-                <input type="text" value={{event.fee}} name="eventkeywords" required>
-            
-                <button type="submit" class="editbtn" style="width:100%">Submit</button>
-          </div>
-    </form>
-  </div>
-
-            <button class="editbtn" onclick="myfunction();" style="width:100%"><b>Edit</b></button>
-            <br>
-            <form action="{% url 'delete_event' %}"
-                  method="post">
-                  {% csrf_token %}
-                  <input hidden value = "{{event.id}}" name = "id_field">
-            <button style="width:100%" class="createbtn" type="submit">Delete</button>
-            </form>
+            <button class="editbtn" onclick="" style="width:100%"><b>Edit</b></button>
+            <button class="createbtn" onclick="window.location.href='/events/delete/'" style="width:100%"><b>Delete</b></button>
             <!-- TODO: ADD KEYWORDS (Optional) -->
-          </div>     
+          </div>
       </div>
-      <script>function myfunction(){
-          document.getElementById("id02{{event.name}}").style.display = "block";
-      }
-        
-        //TODO: implement filtering script 
-        
-        </script>
-
       
       {% endfor %}
-   
-    <!-- Second Photo Grid-->
-    <div id="Registered" class="tabcontent w3-row-padding">
-      <div class="w3-third w3-container w3-margin-bottom">
-          <img src="{% static '/images/event1_soccer.jpg'%}" alt="Soccer" style="width:100%" class="w3-hover-opacity">
-          <div class="w3-container w3-white">
-            <h3><b>Soccer</b></h3>
-            <h5> Join my team to play some soccer on weekends! </h5>
-            <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-            <!-- TODO: ADD KEYWORDS (Optional) -->
-          </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="{% static '/images/event2_bball.jpg'%}" alt="BBall" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-              <h3><b>Basketball</b></h3>
-              <h5> Join my team to play some basketball on weekends! </h5>
-              <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-              <!-- TODO: ADD KEYWORDS (Optional) -->
-            </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="{% static '/images/event3_ski.png'%}" alt="Ski" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-              <h3><b>Ski</b></h3>
-              <h5> Let's go to St Bruno this weekend! </h5>
-              <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-              <!-- TODO: ADD KEYWORDS (Optional) -->
-            </div>
-        </div>
-      </div>
-
       
     
     <!-- Pagination -->
-    <div class="w3-center w3-padding-32" style="margin-top : 60%">
+    <div class="w3-center w3-padding-32">
       <div class="w3-bar">
         <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
         <a href="#" class="w3-bar-item w3-black w3-button">1</a>
@@ -346,7 +258,7 @@
       document.getElementById("myOverlay").style.display = "none";
   }
   
-  //Script for TAB bar (Registered and Hosted events)
+  //Script for TAB bar (Hosted events)
   function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -378,7 +290,6 @@
       }
     }
   }
-    // TODO: implement for Registered 
   
     //Script for Create Event modal
     // Get the modal
@@ -394,7 +305,9 @@
         modal2.style.display = "none";
       }
     }
-
+  
+  
+  //TODO: implement filtering script 
   
   </script>
   
