@@ -15,7 +15,7 @@ class User(models.Model):
     PRIVILEGE = [
         (ADMIN, 'Admin'),
         (USER, 'Regular User'),
-        (PENDING, 'Pending verification')
+        (PENDING, 'Pending verification'),
         (LOCKED, 'Locked user')
     ]
     privilege = models.CharField(
