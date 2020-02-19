@@ -136,4 +136,5 @@ class RegistrationForm(forms.Form): #maybe not needed
     event_id = forms.CharField(widget=forms.HiddenInput())
 
 class EditEventForm(forms.Form):
+    pass
     #TODO

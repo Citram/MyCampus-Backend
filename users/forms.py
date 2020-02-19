@@ -116,6 +116,17 @@ class StudentForm(OrganizationForm):
         else:
             return sex_input
 
+class ResetPasswordForm(forms.Form):
+    pass
+
+class ResetEmailForm(forms.Form):
+    pass
+
+class ResetStudentForm(forms.Form):
+    pass
+
+class ResetOrganizationForm(forms.Form):
+    pass
 
 #=========================== Review form ===========================#
 
