@@ -10,9 +10,13 @@ class User(models.Model):
     #login info
     ADMIN = 'A'
     USER = 'U'
+    PENDING = 'P'
+    LOCKED = 'L'
     PRIVILEGE = [
         (ADMIN, 'Admin'),
-        (USER, 'Regular User')
+        (USER, 'Regular User'),
+        (PENDING, 'Pending verification')
+        (LOCKED, 'Locked user')
     ]
     privilege = models.CharField(
         max_length=1,

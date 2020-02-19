@@ -77,7 +77,7 @@ def set_regular_user_details(user, name_input, description_input):
     user.description = description_input
     user.save()
 
-def see_student_details(user, age_input, gender_input, faculty_input):
+def set_student_details(user, age_input, gender_input, faculty_input):
     '''
     user is an object (student)
     this resets the name and description for a regular user

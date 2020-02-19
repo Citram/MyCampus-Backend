@@ -132,5 +132,8 @@ class CommentForm(forms.Form):
 class DeleteEventForm(forms.Form):
     id_field = forms.CharField()
 
-class RegistrationForm(forms.Form):
+class RegistrationForm(forms.Form): #maybe not needed
     event_id = forms.CharField(widget=forms.HiddenInput())
+
+class EditEventForm(forms.Form):
+    #TODO
