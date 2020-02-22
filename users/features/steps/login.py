@@ -15,8 +15,10 @@ def step_impl(step, user, password):
 
 @then(u'the system should authenticate the student')
 def step_impl(context):
+    global g_user
     assert g_user is not None
 
 @then(u'the system should not authenticate the user')
 def step_impl(context):
+    global g_user
     assert g_user is None
