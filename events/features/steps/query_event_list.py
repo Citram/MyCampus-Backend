@@ -6,13 +6,15 @@ from events.services import delete_event_by_name
 
 @when(u'the student requests a list of events')
 def step_impl(context):
-    pass
-    #raise NotImplementedError(u'STEP: When the student requests a list of events')
-
-
+    global g_exception
+    try:
+        event = Event.objects.all()
+    except Exception as e:
+        g_exception = e
 @then(u'the following list of events is generated')
 def step_impl(context):
-    pass
+    event = Event.objects.all()
+    
     #raise NotImplementedError(u'STEP: Then the following list of events is generated')
 
 
