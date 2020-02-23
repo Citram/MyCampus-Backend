@@ -15,6 +15,11 @@ class AdminForm(forms.ModelForm):
             'password',
             'email'
         ]
+        labels = {
+            'id': _('Username'),
+            'password': _('Password'),
+            'email': _('Email Address')
+        }
 
     def clean_email(self):
         email_input = self.cleaned_data['email']
@@ -54,6 +59,13 @@ class OrganizationForm(AdminForm):
             'name',
             'description'
         ]
+        labels = {
+            'id': _('Username'),
+            'password': _('Password'),
+            'email': _('Email Address'),
+            'name': _('Name'),
+            'description': _('Description')
+        }
 
     def clean_name(self):
         name_input = self.cleaned_data['name']
@@ -98,6 +110,16 @@ class StudentForm(OrganizationForm):
             'gender',
             'faculty'
         ]
+        labels = {
+             'id': _('Username'),
+             'password': _('Password'),
+             'email': _('Email Address'),
+             'name': _('Name'),
+             'description': _('Description'),
+             'age': _('Age'),
+             'gender': _('Gender'),
+             'faculty': _('Faculty')
+        }
         widgets = {
             'password' : forms.PasswordInput()
         }
@@ -140,6 +162,12 @@ class ReviewForm(forms.ModelForm):
             'author',
             'event'
         ]
+        labels = {
+            'rating': _('Rating'),
+            'comment': _('Comment'),
+            'author': _('Author'),
+            'event': _('Event')
+        }
 
         widgets = {
             'author' : forms.HiddenInput(),
@@ -171,6 +199,12 @@ class UserFlagForm(forms.ModelForm):
             'author',
             'recepient'
         ]
+        labels = {
+            'flag_type': _('Flag Type'),
+            'details': _('Details'),
+            'author': _('Author'),
+            'recepient': _('Recepient')
+        }
 
         widgets = {
             'author' : forms.HiddenInput(),
