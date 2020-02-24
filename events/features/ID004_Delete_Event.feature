@@ -1,4 +1,4 @@
-Feature: Login
+Feature: Delete Event
 
 As a registered user of the MyCampus Application System
 I would like to delete events that I have created 
