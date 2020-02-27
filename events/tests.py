@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-from .forms import EventForm, AddressForm, DeleteEventForm, UserForm
+from .forms import EventForm, AddressForm, DeleteEventForm
 from .models import Event, Address, Comment
 from .views import *
 from users.models import *
@@ -371,7 +371,6 @@ class LeaveEventViewTest(TestCase):
 
 
 
-
 class JoinEventTestCase(TestCase):
     def setUp(self):
 
@@ -404,6 +403,7 @@ class JoinEventTestCase(TestCase):
         
 # Test suite for Event views
 #TODO completely fix because this is sketch
+
 class EventViewTest(TestCase):
     c = Client()
 
