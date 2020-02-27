@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.test import Client
-from .forms import EventForm, AddressForm, DeleteEventForm
+from .forms import EventForm, AddressForm, DeleteEventForm, UserForm
 from .models import Event, Address, Comment
 from .views import *
+from users.models import *
+from events.services import UnsuccessfulOperationError
 
 # Address form test sutie
 class AddressFormTest(TestCase):
@@ -289,47 +291,119 @@ class EventFormTest(TestCase):
 
             self.assertFalse(event_form.is_valid())
 
-'''
+
 class EventDeleteFormTest(TestCase):
+    def setUp(self):
+        Event.objects.create(name="Event1",date="2022-02-02",fee=70,min_capacity=0, max_capacity=80, description="description",
+        category='GAM')
 
-    sample_data_event = {
-        'name': 'Dungeon & Dragons',
-        'fee': 69,
-        'max_capacity': 420,
-        'min_capacity': 69,
-        'datetime': "2022-02-02",
-        'description': 'Random event',
-        'category': 'GAM'
-    }
+    def delete_event_by_id(self):
+        event=Event.objects.get(name="Event1")
+        services.delete_event(event_id=event.id)
+        self.assertTrue(Event.objects.all().count(), 0)
+    
+    def delete_event_invalid_id(self):
+        try:
+            services.delete_event("FalseID")
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "Event not found with id")
 
-    sample_data_address = {
-        'city': 'Montreal',
-        'street': 'Sherbrooke Av.',
-        'number': '1980',
-        'postalcode': 'H6J3T5'
-    }
-
-    def delete_event(self):
-        address_form = AddressForm(EventFormTest.data_address)
-        self.assertTrue(address_form.is_valid())
-        test_address = address_form.save()
-
-        event_form = EventForm(EventFormTest.data_event)
-        self.assertTrue(event_form.is_valid())
-
-        test_event = event_form.save(commit=False)
-        test_event.address = test_address
-        test_event.save()
-        events = Event.objects[0]
-        event = events[0]
-
-        delete_form = DeleteEventForm(EventDeleteFormTest.sample_data_event)
+    def delete_event_by_name(self):
+        event=Event.objects.get(name="Event1")
+        services.delete_event_by_name(event.name)
         
+        self.assertTrue(Event.objects.all().count(), 0)
+    
+    def delete_event_invalid_name(self):
+        try:
+            services.delete_event("FalseName")
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "Event not found with id")
+
+
+class LeaveEventTestCase(TestCase):
+    def setUp(self):
+        #second implement
+
+        Event.objects.create(name="Event1",date="2022-02-02",fee=70,min_capacity=0, max_capacity=80, description="description",
+        category='GAM')
+
+        Student.objects.create(name="TestStudent", description="This guy just leaves events",
+        age=20, rating=4)
+
+    #TODO make sure this actually makes sense
+    def leave_event(self):
+        student=Student.objects.get(name="TestStudent")
+        event=Event.objects.get(name="Event1")
+        event.attendees.add(student)
+        event.save()
+        services.leave_event(user_id=student.id, event_id=event.id)
+        self.assertNotIn(student,event.attendees)
+    
+    def leave_event_invalid_event(self):
+        student=Student.objects.get(name="TestStudent")
+        try:
+            services.leave_event(user_id=student.id, event_id="Event2")
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "Event not found with id")
+
+    def leave_event_invalid_user(self):
+        event=Event.objects.get(name="Event1")
+        try:
+            services.leave_event(user_id="112", event_id=event.id)
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "User not found with id")
+
+    def leave_event_no_relation(self):
+        student=Student.objects.get(name="TestStudent")
+        event=Event.objects.get(name="Event1")
+        try:
+            services.leave_event(user_id=student.id, event_id=event.id)
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "User not attending event")
+
+class LeaveEventViewTest(TestCase):
+    c = Client()
+    def test_response_please(self):
+       c = Client()
+       response = c.post('/event/leave')
+       self.assertEqual(200, response.status_code)
+
+
+
+
+class JoinEventTestCase(TestCase):
+    def setUp(self):
+
+        Event.objects.create(name="Event1",date="2022-02-02",fee=70,min_capacity=0, max_capacity=80, description="description",
+        category='GAM')
+
+        Student.objects.create(name="TestStudent", description="This guy just leaves events",
+        age=20, rating=4)
+    def join_event(self):
+
+        student=Student.objects.get(name="TestStudent")
+        event=Event.objects.get(name="Event1")
+        services.join_event(user_id=student.id, event_id=event.id)
+        self.assertIn(student,event.attendees)
+        self.assertIn(event, student.events)
+
+    def join_event_invalid_user_id(self):
+        event=Event.object.get(name="Event1")
+        try:
+            services.leave_event(user_id="FalseStudent", event_id=event.id)
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "User not found with id")
         
-'''
-
-
+    def join_event_invalid_event_id(self):
+        student=Student.objects.get(name="TestStudent")
+        try:
+            services.leave_event(user_id=student.id, event_id="FalseEvent")
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, "User not found with id")
+        
 # Test suite for Event views
+#TODO completely fix because this is sketch
 class EventViewTest(TestCase):
     c = Client()
 
