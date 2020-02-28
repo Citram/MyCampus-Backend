@@ -12,6 +12,7 @@ def step_impl(step, id_element):
         leave_event(id_element, event.id)
     except Exception as e:
         g_exception = e
+
     #raise NotImplementedError(u'STEP: When the student requests to leave event "Java Workshop"')
 
 
