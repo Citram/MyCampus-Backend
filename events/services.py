@@ -138,3 +138,19 @@ def join_event (user_id, event_id):
     event.attendees.add(user)
     event.save()
     return True
+
+def leave_event(user_id, event_id):
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+    try:
+        user = Student.objects.get(user_id)
+    except:
+        raise UnsuccessfulOperationError('User not found with id', 'user_id')
+
+    if not user in event.attendees.all():
+        raise UnsuccessfulOperationError('User does not attend the event', 'event.attendees')
+    else:
+        event.attendees.remove(user)
+    return True
