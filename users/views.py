@@ -25,9 +25,18 @@ def login(request):
                 password = login_form.cleaned_data['passwrod']
                 try :
                     success = services.login(username, password)
+                    if success:
+                        request.session['id'] = username
+                        return redirect('dashboard')
                 except UnsuccessfulOperationError as e:
                     return HttpResponse(e.message)
-    #TODO
+        else:
+            login_form = LoginForm()
+            return render(
+                'users/login.html',
+                {'login_form': login_form} 
+            )
+    #SEE:
     #https://stackoverflow.com/questions/14465993/how-can-i-set-and-get-session-variable-in-django
     #https://django-book.readthedocs.io/en/latest/chapter14.html
 
