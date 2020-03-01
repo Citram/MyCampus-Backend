@@ -27,14 +27,7 @@ class User(models.Model):
 
     password = models.CharField(max_length=64)
 
-    #email and validations
-    email_domains = [
-        'mail.mcgill.ca'
-        'mcgill.ca'
-    ]
-    email_validator = EmailValidator(message='Please enter a valid McGill email address',
-                                     whitelist=email_domains)
-    email = models.EmailField(null=False, blank=False, unique=True, validators=[email_validator])
+    email = models.EmailField(null=False, blank=False, unique=True)
 
     class Meta:
         abstract = True
