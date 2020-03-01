@@ -9,7 +9,7 @@ So that I can sign up to events that interest me
       | evt_name      | evt_date   | min_cap | max_cap | evt_details         | fee | category | city     | street     | number | postalcode | 
       | Java Workshop | 2021-01-01 | 1       | 10      | Join java workshop! | 7   | GAM      | Montreal | Sherbrooke | 400    | H1A0B3     | 
       | C++ Workshop  | 2021-02-01 | 2       | 30      | Advanced C++        | 7   | OUT      | Ottawa   | Main St.   | 21     | 123456     | 
-      | Zumba Dance   | 2021-03-01 | 3       | 40      | Dance Dance Dance!  | 5   | DNC      | Toronto  | Younge     | 428    | 777777     | 
+      | Zumba Dance   | 2021-03-01 | 3       | 40      | Dance Dance Dance!  | 5   | GAM      | Toronto  | Younge     | 428    | 777777     | 
   
   Scenario: Student requests list of all events (Normal Flow)
   

@@ -1,5 +1,7 @@
 from .models import *
 from users.models import *
+from django.contrib.auth.models import User
+
 import datetime
 from django.http import JsonResponse
 from django.db.models import Q
@@ -32,7 +34,7 @@ def events_to_json(events):
         event = {}
         event['id'] = e.id
         event['name'] = e.name
-        event['date'] = e.date
+        event['datetime'] = e.datetime
         event['fee'] = e.fee
         event['max_capacity'] = e.max_capacity
         event['min_capacity'] = e.min_capacity
@@ -83,6 +85,13 @@ def get_events_by_words_in_name(words):
         result = JsonResponse(events_to_json(events))
         return result
 
+def get_event_by_name_test(event_name):
+    try:
+        return Event.objects.get(name=event_name)
+    except:
+        raise UnsuccessfulOperationError('Event not found with name ', 'event_name')
+
+
 def delete_event_by_name(event_name):
     try:
         Event.objects.get(name=event_name).delete()
@@ -125,7 +134,28 @@ def delete_comment(comment_id):
         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
     comment.delete()
 
-def join_event (user_id, event_id):
+def join_event (user_id, event_id, date=datetime.date.today()):
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        raise Exception('Event not found with id', 'event_id')
+    try:
+        user = User.objects.get(id=user_id)
+    except:
+        raise Exception('User not found with id', 'user_id')
+
+    if date > event.datetime:
+        raise Exception("Event has already occurred.")
+
+    if event.attendees.count() >= event.max_capacity:
+        raise Exception("Max capacity of event reached.")
+
+
+    event.attendees.add(user)
+    event.save()
+    return True
+
+def leave_event(user_id, event_id):
     try:
         event = Event.objects.get(id=event_id)
     except:
@@ -135,21 +165,8 @@ def join_event (user_id, event_id):
     except:
         raise UnsuccessfulOperationError('User not found with id', 'user_id')
 
-    event.attendees.add(user)
-    event.save()
+    if not user in event.attendees.all():
+        raise UnsuccessfulOperationError('User does not attend the event', 'event.attendees')
+    else:
+        event.attendees.remove(user)
     return True
-
-def leave_event (user_id, event_id):
-    try:
-     event = Event.objects.get(id=event_id)
-    except:
-        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
-    try:
-        user = event.attendees.get(user_id)
-    except:
-        raise UnsuccessfulOperationError('User not attending event', 'user_id')
-
-    event.attendees.remove(user)
-    event.save()
-    return True
-
