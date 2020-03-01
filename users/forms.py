@@ -116,6 +116,10 @@ class StudentForm(OrganizationForm):
         else:
             return sex_input
 
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=20)
+    password = forms.CharField(max_length=30,widget=forms.PasswordInput)
+
 class ResetPasswordForm(forms.Form):
     pass
 

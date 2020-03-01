@@ -7,13 +7,29 @@ from . import services
 from events.services import UnsuccessfulOperationError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
-
+from django.contrib.sessions.backends.base import SessionBase
 # We’re subclassing the generic class-based view CreateView in our SignUp class.
 # We specify the use of the built-in UserCreationForm and the not-yet-created template at signup.html
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
+def login(request):
+    if request.method == 'POST':
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
+            login_form = LoginForm(request.POST)
+            if login_form.is_valid():
+                username = login_form.cleaned_data['username']
+                password = login_form.cleaned_data['passwrod']
+                try :
+                    success = services.login(username, password)
+                except UnsuccessfulOperationError as e:
+                    return HttpResponse(e.message)
+    #TODO
+    #https://stackoverflow.com/questions/14465993/how-can-i-set-and-get-session-variable-in-django
+    #https://django-book.readthedocs.io/en/latest/chapter14.html
 
 def create_student(request):
     if request.method == 'POST':

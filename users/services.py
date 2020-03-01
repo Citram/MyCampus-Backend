@@ -3,6 +3,17 @@ from events.services import UnsuccessfulOperationError
 from events.models import Event
 from django.core.exceptions import ObjectDoesNotExist
 
+def login(username, password):
+    try:
+        user = Student.objects.get(username)
+    except ObjectDoesNotExist:
+        raise UnsuccessfulOperationError ('Invalid username', 'username')
+
+    if user.password != password:
+        raise UnsuccessfulOperationError ('Invalid password', 'password') 
+    
+    return True
+
 def create_admin(user_id, password_input, email_input):
     admin = Admin(privilege='A',id=user_id,password=password_input,email=email_input)
     admin.save()
