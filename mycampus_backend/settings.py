@@ -150,3 +150,5 @@ STATIC_URL = '/static/'
 # Activate Django-Heroku.
 # Configure Django App for Heroku.
 django_heroku.settings(locals(), test_runner=False)
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"

@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+#from users.models import RegularUser
 from hashid_field import HashidAutoField
 import datetime
 
@@ -42,9 +45,16 @@ class Event(models.Model):
         choices=CATEGORIES
     )
 
-    address = models.ForeignKey(Address, on_delete=models.PROTECT)
-    organizer = models.ForeignKey('users.RegularUser', on_delete=models.PROTECT, related_name='organizer')
-    attendees = models.ManyToManyField('users.Student', related_name='atendees')
+    address = models.OneToOneField(
+        Address,
+        on_delete=models.CASCADE,
+        null=True,
+        default=0
+    )
+
+    #address = models.ForeignKey(Address, on_delete=models.PROTECT)
+    #organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
+    attendees = models.ManyToManyField(User)
 
 class Comment(models.Model):
     """
