@@ -70,14 +70,22 @@ def search_user_by_name(names):
         raise UnsuccessfulOperationError('No users exists with that name', 'name')
     return users
 
-def set_basic_user_details(user, password_input, email_input):
+def set_password(user, password_input):
     '''
     user is an object (admin, organization or student)
-    this resets the password and the email
+    this resets the password
     '''
     user.password = password_input
+    user.save()
+
+def set_email(user, email_input):
+    '''
+    user is an object (admin, organization or student)
+    this resets the email
+    '''
     user.email = email_input
     user.save()
+
 
 def set_regular_user_details(user, name_input, description_input):
     '''
