@@ -33,3 +33,14 @@ def step_impl(context):
     pass
     #raise NotImplementedError(u'STEP: Then an error message "Event has already occurred" is issued')
 
+
+@when(u'event date is after current date')
+def step_impl(context):
+    pass
+    # raise NotImplementedError(u'STEP: When event date is after current date')
+
+
+@when(u'event date is before current date')
+def step_impl(context):
+    pass
+    # raise NotImplementedError(u'STEP: When event date is before current date')
