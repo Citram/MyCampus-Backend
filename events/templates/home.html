@@ -285,7 +285,8 @@
             <button class="editbtn" id="EditBox{{event.id}}" style="width:100%"><b>Edit</b></button>
             <!-- Check whether in registered or all -->
             {% if 'notRegistered' %}
-            <form action="{% url 'join_event' %}"
+            <!-- Join -->
+            <form
                   method="post">
                   {% csrf_token %}
                   <input hidden value = "{{user.id}}" name = "id_field">
@@ -293,7 +294,8 @@
             <button style="width:100%" class="joinbtn" type="submit">Join</button>
             </form>
             {% else %}
-            <form action="{% url 'join_event' %}"
+            <!-- Leave -->
+            <form 
                   method="post">
                   {% csrf_token %}
                   <input hidden value = "{{user.id}}" name = "id_field">
@@ -301,11 +303,7 @@
             <button style="width:100%" class="leavebtn" type="submit">Leave</button>
             </form>
             {% endif %}
-
-            <form action="{% url 'leave_event' %}"
-                  method="post">
-                  {% csrf_token %}
-
+            <!-- Delete -->
             <form action="{% url 'delete_event' %}"
                   method="post">
                   {% csrf_token %}

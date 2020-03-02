@@ -153,3 +153,45 @@ def join_event (user_id, event_id):
     event.attendees.add(user)
     event.save()
     return True
+
+def get_event_attendees(event_id):
+    event = Event.objects.get(id = event_id)
+    attendees = event.attendees.all()
+    return int(attendees)
+        
+
+def join_event (user_id, event_id, date=datetime.date.today()):
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        raise Exception('Event not found with id', 'event_id')
+    try:
+        user = User.objects.get(id=user_id)
+    except:
+        raise Exception('User not found with id', 'user_id')
+
+    if date > event.datetime:
+        raise Exception("Event has already occurred.")
+
+    if event.attendees.count() >= event.max_capacity:
+        raise Exception("Max capacity of event reached.")
+
+    event.attendees.add(user)
+    event.save()
+    return True
+
+def leave_event(user_id, event_id):
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+    try:
+        user = Student.objects.get(user_id)
+    except:
+        raise UnsuccessfulOperationError('User not found with id', 'user_id')
+
+    if not user in event.attendees.all():
+        raise UnsuccessfulOperationError('User does not attend the event', 'event.attendees')
+    else:
+        event.attendees.remove(user)
+    return True
