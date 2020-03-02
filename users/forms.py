@@ -18,7 +18,6 @@ class UserForm(forms.Form):
         'mail.mcgill.ca'
         'mcgill.ca'
     ]
-    class RangerRegistrationForm(forms.Form):
     email = forms.EmailField(label=_("Email Address"))
 
     def clean_email(self):
