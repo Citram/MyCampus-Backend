@@ -234,7 +234,7 @@
           </div>
     </form>
   </div>
-            <button class="editbtn" onclick="myfunction();" style="width:100%"><b>Edit</b></button>
+            <button class="editbtn" id="EditBox{{event.id}}" style="width:100%"><b>Edit</b></button>
             <form action="{% url 'delete_event' %}"
                   method="post">
                   {% csrf_token %}
@@ -244,9 +244,12 @@
                         <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
       </div>
-      <script>function myfunction(){
+      <script>
+          document.getElementById("EditBox{{event.id}}").onclick = function()
+          {
           document.getElementById("id02{{event.name}}").style.display = "block";
-      }
+        };
+      
         
         //TODO: implement filtering script 
         
