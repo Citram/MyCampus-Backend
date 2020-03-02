@@ -51,6 +51,12 @@ def create_event(name_input, datetime_input, fee_input, min_capacity_input, max_
     )
     event.save()
 
+def get_event_by_id(id):
+    try:
+        event = Event.objects.get(id)
+        return event
+    except:
+        raise UnsuccessfulOperationError('Invalid event id', 'event_id')
 
 def get_events_by_category(category_input):
     events = Event.objects.filter(category=category_input)

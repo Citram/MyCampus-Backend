@@ -184,14 +184,16 @@
       </div>
       <h1>Edit event</h1>
       
-      <form action="{% url 'create_event' %}"
+
+      <form action="{% url 'edit_event' %}"
             method="post">
+
             {% csrf_token %}
             {{ event_form.as_p }}
             {{ address_form.as_p }}
             <center>
                 <!-- Will also add an alert for  -->
-      <button class="editbtn" type="submit">Create</button>
+      <button class="editbtn" type="submit">Submit Changes</button>
       </center>  
     </form>
   
