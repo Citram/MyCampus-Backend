@@ -313,11 +313,14 @@ class EventServiceTest(TestCase):
     }
 
     data_user = {
+        'id': 'achoi26',
+        'password': 'lL09dshgfsy&',
+        'email': 'pp69@mail.mcgill.ca',
         'name': 'Alex Choi',
         'description': 'pp69',
         'age': 69,
         'gender': 'M',
-        'Faculty': 'Eng'
+        'faculty': 'Eng'
     }
 
     def test_delete_event(self):
@@ -436,6 +439,17 @@ class EventServiceTest(TestCase):
         event_id = events[0].id
         with self.assertRaises(Exception): get_event_by_id()
 
-    def test_join_event(self):
-        student_form = StudentForm(EventServiceTest.data_user)
-        self.assertTrue(student_form.is_valid())
+    # def test_join_event(self):
+    #     student_form = StudentForm(EventServiceTest.data_user)
+    #     self.assertTrue(student_form.is_valid())
+    #     test_student = student_form.save()
+    #     students = Student.objects.all()
+    #     student = students[0]
+
+    #     self.assertEqual(student.id, EventServiceTest.data_user.get('id'))
+    #     self.assertEqual(student.password, EventServiceTest.data_user.get('password'))
+    #     self.assertEqual(student.description, EventServiceTest.data_user.get('description'))
+    #     self.assertEqual(student.gender, EventServiceTest.data_user.get('gender'))
+    #     self.assertEqual(student.email, EventServiceTest.data_user.get('email'))
+    #     self.assertEqual(student.faculty, EventServiceTest.data_user.get('faculty'))
+    #     self.assertEqual(student.age, EventServiceTest.data_user.get('age'))

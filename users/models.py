@@ -52,7 +52,7 @@ class RegularUser(User):
     """
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=400)
-    rating_avg = models.DecimalField(max_digits=3, decimal_places=2, validators=[user_rating_validator])
+    # rating_avg = models.DecimalField(max_digits=3, decimal_places=2, validators=[user_rating_validator])
 
     class Meta:
         abstract = False
@@ -125,37 +125,37 @@ class Organization(RegularUser):
     """
     pass
 
-class Review(models.Model):
-    """
-    An review for an organizer about an event
-    """
+# class Review(models.Model):
+#     """
+#     An review for an organizer about an event
+#     """
 
-    #hashed id
-    id = HashidAutoField(primary_key=True)
+#     #hashed id
+#     id = HashidAutoField(primary_key=True)
 
-    #rating
-    class Rating(models.IntegerChoices):
-        """
-        ratings for an event, from 1 to 5
-        """
-        RATING_ONE = 1
-        RATING_TWO = 2
-        RATING_THREE = 3
-        RATING_FOUR = 4
-        RATING_FIVE = 5
+#     #rating
+#     class Rating(models.IntegerChoices):
+#         """
+#         ratings for an event, from 1 to 5
+#         """
+#         RATING_ONE = 1
+#         RATING_TWO = 2
+#         RATING_THREE = 3
+#         RATING_FOUR = 4
+#         RATING_FIVE = 5
 
-    rating = models.IntegerField(choices=Rating.choices)
+#     # rating = models.IntegerField(choices=Rating.choices)
 
-    #comment text
-    comment = models.CharField(max_length=300)
+#     #comment text
+#     comment = models.CharField(max_length=300)
 
-    #date & time
-    time = models.DateTimeField(auto_now=True)
+#     #date & time
+#     time = models.DateTimeField(auto_now=True)
 
-    #many-to-one relations
-    author = models.ForeignKey(Student, on_delete=models.DO_NOTHING) #author of comment deleted, comment stays
-    #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
-    #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
+#     #many-to-one relations
+#     author = models.ForeignKey(Student, on_delete=models.DO_NOTHING) #author of comment deleted, comment stays
+#     #recepient = models.ForeignKey(RegularUser, on_delete=models.CASCADE)
+#     #event = models.ForeignKey(events.Event, on_delete=models.CASCADE)
 
 class UserFlag(models.Model):
     """
