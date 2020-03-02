@@ -186,7 +186,7 @@ def leave_event(user_id, event_id):
     except:
         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
     try:
-        user = Student.objects.get(user_id)
+        user = Student.objects.get(id=user_id)
     except:
         raise UnsuccessfulOperationError('User not found with id', 'user_id')
 

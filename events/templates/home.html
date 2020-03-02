@@ -289,8 +289,8 @@
             <form
                   method="post">
                   {% csrf_token %}
-                  <input hidden value = "{{user.id}}" name = "id_field">
-                  <input hidden value = "{{event.id}}" name = "id_field">
+                  <input hidden value = "{{user.id}}" name = "user_id">
+                  <input hidden value = "{{event.id}}" name = "event_id">
             <button style="width:100%" class="joinbtn" type="submit">Join</button>
             </form>
             {% else %}
@@ -298,8 +298,8 @@
             <form 
                   method="post">
                   {% csrf_token %}
-                  <input hidden value = "{{user.id}}" name = "id_field">
-                  <input hidden value = "{{event.id}}" name = "id_field">
+                  <input hidden value = "{{user.id}}" name = "user_id">
+                  <input hidden value = "{{event.id}}" name = "event_id">
             <button style="width:100%" class="leavebtn" type="submit">Leave</button>
             </form>
             {% endif %}
