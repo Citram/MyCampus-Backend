@@ -126,6 +126,23 @@
     color: white; 
   }
   
+  .logoutbtn {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom:15px;
+  }
+  
+  .logoutbtn:hover {
+    background-color: rgb(75, 75, 75); 
+    color: white; 
+  }
+  
   /*************FOR TAB DESIGN****************/
   /* Style the tab */
   .tab {
@@ -197,10 +214,11 @@
       <img src="{% static '/images/redAvatar.png'%}" style="width:45%;" class="w3-round"><br><br>
       <h4><b>PROFILE</b></h4>
       <p class="w3-text-grey">{{ user.username }}</p>
-      <p><a href="{% url 'logout' %}">logout</a></p>
+     <!--<p><a href="{% url 'logout' %}">logout</a></p>-->
     </div>
-    </center>
-    <div class="w3-panel w3-large">
+  </center>
+  <div class="w3-panel w3-large">
+       <button class="logoutbtn" href="{% url 'logout' %}" style="width:100%; margin-top: 10px">Logout</button>
         <button class="createbtn" onclick="window.location.href='/events/create/'"
         style="width:100%">Create New Event!</button>
     </div>
@@ -277,7 +295,7 @@
 
                 <label for="eventmincapacity"><b>Min capacity</b></label>
                 <input type="text" value={{event.min_capacity}} name="eventkeywords" required>
-                
+
                 <label for="eventcity" ><b>City</b></label>
                 <input type="text" value="{{event.address.city}}" name="eventcity" required>
                
