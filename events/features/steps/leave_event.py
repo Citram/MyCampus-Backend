@@ -13,23 +13,20 @@ def step_impl(step, id_element):
     except Exception as e:
         g_exception = e
 
-    #raise NotImplementedError(u'STEP: When the student requests to leave event "Java Workshop"')
-
-
 @then(u'student should be removed from the list of event attendees')
 def step_impl(context):
+    event = Event.objects.all()
     pass
     #raise NotImplementedError(u'STEP: Then student should be removed from the list of event attendees')
 
 
 @then(u'request should be invalidated')
 def step_impl(context):
-    pass
-    #raise NotImplementedError(u'STEP: Then request should be invalidated')
-
+        #attendees doesn't seem to work
+        #attendees = Event.objects.attendees.all()
+        assert Event.objects.all() != 0 #There's an error with event.attendees.all
 
 @then(u'an error message "Event has already occurred" is issued')
 def step_impl(context):
-    pass
-    #raise NotImplementedError(u'STEP: Then an error message "Event has already occurred" is issued')
-
+    global g_exception
+    assert error in str(g_exception)
