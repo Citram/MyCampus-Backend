@@ -43,7 +43,7 @@ def edit_event(request):
         try:
             event = services.get_event_by_id(event_id)
         except services.UnsuccessfulOperationError as e:
-            return HttpResponse(e.message)
+            return HttpResponse(str(e))
         prefill = {
             'name' : event.name,
             'datetime' : event.datetime,
