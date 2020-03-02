@@ -139,6 +139,12 @@ def join_event (user_id, event_id):
     event.save()
     return True
 
+def get_event_attendees(event_id):
+    event = Event.objects.get(id = event_id)
+    attendees = event.attendees.all()
+    return int(attendees)
+        
+
 def leave_event(user_id, event_id):
     try:
         event = Event.objects.get(id=event_id)
