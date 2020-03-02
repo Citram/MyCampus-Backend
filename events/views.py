@@ -28,6 +28,26 @@ def create_event(request):
                       'address_form': form_address
                   })
 
+def edit_event(request):
+    if request.method == 'POST':
+        form_event = EventForm(request.POST)
+        form_address = AddressForm(request.POST)
+        if form_event.is_valid() and form_address.is_valid():
+            form_address = form_address.save()
+            form_event = form_event.save(commit=False)
+            form_event.address = form_address
+            form_event.save()
+            return redirect('edit_event')
+    else:
+         form_event = EventForm()
+         form_address = AddressForm()
+    return render(request,
+                  'events/edit.html',
+                  {
+                      'event_form': form_event,
+                      'address_form': form_address
+                  })
+
 def delete_event(request):
     if request.method == 'POST':
         delete_form = DeleteEventForm(request.POST)

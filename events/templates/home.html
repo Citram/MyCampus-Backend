@@ -101,12 +101,13 @@
   
   /* Change background color of buttons on hover */
   .tab button:hover {
-    background-color: #ddd;
-  }
-  
-  /* Create an active/current tablink class */
-  .tab button.active {
     background-color: #ccc;
+  }
+
+/* Create an active/current tablink class */
+  .tab button.active {
+   background-color: rgb(238, 52, 52);
+   color: white;
   }
   
   /* Style the tab content */
@@ -150,13 +151,14 @@
       <img src="{% static '/images/redAvatar.png'%}" style="width:45%;" class="w3-round"><br><br>
       <h4><b>{{ user.username }}</b></h4>
       <p class="w3-text-grey">My Profile</p>
-      <p><a href="{% url 'logout' %}">logout</a></p>
+      <!--<p><a href="{% url 'logout' %}">logout</a></p>-->
     </div>
-    </center>
-    <div class="w3-panel w3-large">
-        <button class="createbtn" onclick="window.location.href='/events/create/'"
-        style="width:100%">Create New Event!</button>
-    </div>
+  </center>
+  <div class="w3-panel w3-large">
+      <button class="logoutbtn" href="{% url 'logout' %}" style="width:100%; margin-top: 10px">Logout</button> 
+      <button class="createbtn" onclick="window.location.href='/events/create/'"
+      style="width:100%; margin-top: 10px">Create New Event!</button>
+  </div>
     <!--TODO: Display Followers and Following -->
   </nav>
   
@@ -169,7 +171,7 @@
     <header id="mycampus">
       <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
       <div class="w3-container">
-      <h1><b>MyCampus Events</b></h1>
+      <center><h1><b>MyCampus Events</b></h1></center>
       <div class="w3-section w3-bottombar w3-padding-16">
         <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search event.." title="Type in a event name">
         <space></space>
@@ -183,8 +185,8 @@
 
   
       <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'Hosted')">Hosted Events</button>
-        <button class="tablinks" onclick="openCity(event, 'Registered')">Registered Events</button>
+        <button class="tablinks" style="width: 50%" onclick="openCity(event, 'Hosted')">Hosted Events</button>
+        <button class="tablinks" style="width: 50%" onclick="openCity(event, 'Registered')">Registered Events</button>
       </div>
   
       </div>
@@ -233,7 +235,7 @@
     </form>
   </div>
 
-            <button class="editbtn" onclick="myfunction();" style="width:100%"><b>Edit</b></button>
+            <button class="editbtn" onclick="window.location.href='/events/edit/'" style="width:100%"><b>Edit</b></button>
             <br>
             <form action="{% url 'delete_event' %}"
                   method="post">
@@ -244,8 +246,10 @@
             <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>     
       </div>
-      <script>function myfunction(){
-          document.getElementById("id02{{event.name}}").style.display = "block";
+      <script>
+      var variable_id_event = "{{event.id}}"
+      function myfunction(event_name){
+          document.getElementById("id02{{event_name}}").style.display = "block";
       }
         
         //TODO: implement filtering script 
