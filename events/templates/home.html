@@ -78,6 +78,23 @@
     background-color: rgb(197, 7, 7); 
     color: white; 
   }
+
+  .logoutbtn {
+    background-color: black; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom:15px;
+  }
+  
+  .logoutbtn:hover {
+    background-color: rgb(73, 71, 71); 
+    color: white; 
+  }
   
   /*************FOR TAB DESIGN****************/
   /* Style the tab */
@@ -143,7 +160,7 @@
     <div class="w3-container">
       <div class="w3-bar-block" style="padding-bottom: 5px;">
         <a href="#settings" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
-          <i class="fas fa-cog w3-hover-opacity" style="padding-bottom:5px"></i>Settings</a>
+          <i class="fas fa-cog w3-hover-opacity" style="padding-bottom:5px"></i>  Settings</a>
       </div>
       <center><a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
         <i class="fa fa-remove"></i>
@@ -157,7 +174,7 @@
   <div class="w3-panel w3-large">
       <button class="logoutbtn" href="{% url 'logout' %}" style="width:100%; margin-top: 10px">Logout</button> 
       <button class="createbtn" onclick="window.location.href='/events/create/'"
-      style="width:100%; margin-top: 10px">Create New Event!</button>
+      style="width:100%; margin-top:10px">Create New Event!</button>
   </div>
     <!--TODO: Display Followers and Following -->
   </nav>
