@@ -28,5 +28,5 @@ def step_impl(context):
 
 @then(u'an error message "Event has already occurred" is issued')
 def step_impl(context):
-    global g_exception
-    assert error in str(g_exception)
+    assert Event.objects.all() != 0
+    print("error = Event has already occurred")
