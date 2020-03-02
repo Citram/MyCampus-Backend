@@ -58,6 +58,7 @@ def get_event_by_id(id):
     except:
         raise UnsuccessfulOperationError('Invalid event id', 'event_id')
 
+
 def get_events_by_category(category_input):
     events = Event.objects.filter(category=category_input)
     if len(events) == 0:
@@ -84,22 +85,30 @@ def get_events_by_words_in_name(words):
     for kw in words:
         events = events.filter(name__icontains=kw)
     if len(events) == 0:
-        raise UnsuccessfulOperationError('No events wiuth such name has been found', 'no events found')
+        raise UnsuccessfulOperationError('No events with such name has been found', 'no events found')
     else:
         result = JsonResponse(events_to_json(events))
         return result
-
-def delete_event_by_name(event_name):
-    try:
-        Event.objects.get(name=event_name).delete()
-    except:
-        raise UnsuccessfulOperationError('Event not found with name ', 'event_name')
 
 def delete_event(event_id):
     try:
         Event.objects.get(id=event_id).delete()
     except:
-        raise UnsuccessfulOperationError('Event not found with id ', 'event_id')
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+
+def editFinal_event(event_id, name_input,  datetime_input,  fee_input, description_input):
+    try:
+        event = Event.objects.get(id=event_id)
+        event.name = name_input
+        event.fee = fee_input
+        event.description = description_input
+        #will need to add datetime afterwards
+        event.save()
+        
+    except:
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+
+
 
 def create_comment(event_id, user_id, message_input):
     try:
@@ -129,7 +138,7 @@ def delete_comment(comment_id):
         comment = Comment.objects.get(id=comment_id)
     except:
         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
-    comment.delere()
+    comment.delete()
 
 def join_event (user_id, event_id):
     try:
@@ -143,26 +152,4 @@ def join_event (user_id, event_id):
 
     event.attendees.add(user)
     event.save()
-    return True
-
-def get_event_attendees(event_id):
-    event = Event.objects.get(id = event_id)
-    attendees = event.attendees.all()
-    return int(attendees)
-        
-
-def leave_event(user_id, event_id):
-    try:
-        event = Event.objects.get(id=event_id)
-    except:
-        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
-    try:
-        user = Student.objects.get(user_id)
-    except:
-        raise UnsuccessfulOperationError('User not found with id', 'user_id')
-
-    if not user in event.attendees.all():
-        raise UnsuccessfulOperationError('User does not attend the event', 'event.attendees')
-    else:
-        event.attendees.remove(user)
     return True

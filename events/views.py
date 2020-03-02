@@ -17,7 +17,7 @@ def create_event(request):
             form_event = form_event.save(commit=False)
             form_event.address = form_address
             form_event.save()
-            return redirect('create_event')
+            return redirect('/')
     else:
          form_event = EventForm()
          form_address = AddressForm()
@@ -29,6 +29,24 @@ def create_event(request):
                   })
 
 def edit_event(request):
+    if request.method == 'POST':
+            event_id = request.POST.get("eventid", "")
+            name_input = request.POST.get("eventname", "")
+            datetime_input = request.POST.get("eventdate", "")
+            fee_input = request.POST.get("eventkeywords", "")
+            description_input = request.POST.get("eventdescription", "")
+
+            try :
+                services.editFinal_event(event_id, name_input, datetime_input, fee_input, description_input)
+            except services.UnsuccessfulOperationError:
+                return HttpResponse("Event ID not valid.")
+            
+            return redirect('/')
+
+    else:
+        return redirect('/')
+
+def edit_event_2(request):
     if request.method == 'POST':
         form_event = EventForm(request.POST)
         form_address = AddressForm(request.POST)
@@ -43,7 +61,7 @@ def edit_event(request):
         try:
             event = services.get_event_by_id(event_id)
         except services.UnsuccessfulOperationError as e:
-            return HttpResponse(str(e))
+            return HttpResponse(e.message)
         prefill = {
             'name' : event.name,
             'datetime' : event.datetime,
@@ -69,25 +87,6 @@ def edit_event(request):
                 'address_form': form_address
             })
 
-"""def edit_event(request):
-    if request.method == 'POST':
-        form_event = EventForm(request.POST)
-        form_address = AddressForm(request.POST)
-        if form_event.is_valid() and form_address.is_valid():
-            form_address = form_address.save()
-            form_event = form_event.save(commit=False)
-            form_event.address = form_address
-            form_event.save()
-            return redirect('edit_event')
-    else:
-         form_event = EventForm()
-         form_address = AddressForm()
-    return render(request,
-                  'events/edit.html',
-                  {
-                      'event_form': form_event,
-                      'address_form': form_address
-                  })"""
 
 def delete_event(request):
     if request.method == 'POST':
@@ -100,7 +99,7 @@ def delete_event(request):
             except services.UnsuccessfulOperationError:
                 return HttpResponse("Delete ID not valid.")
             
-            return HttpResponse("Event deleted.")
+            return redirect('/')
        
         # try:
         #     id = request.POST.get('id', '')
