@@ -61,6 +61,24 @@
     color: black; 
     border: 2px solid rgb(0, 174, 255);
   }
+
+  .joinbtn {
+    background-color: rgb(27, 216, 52); /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom:15px;
+  }
+
+  .joinbtn:hover {
+    background-color: rgb(7, 119, 12); 
+    color: white; 
+  }
+
   
   .createbtn {
     background-color: red; /* Green */
@@ -260,6 +278,18 @@
 
             <button class="editbtn" onclick="window.location.href='/events/edit/'" style="width:100%"><b>Edit</b></button>
             <br>
+            <!-- Must change to handle join and leave -->
+            <form action="{% url 'delete_event' %}"
+                  method="post">
+                  {% csrf_token %}
+                  <input hidden value = "{{event.id}}" name = "id_field">
+            <!-- Must check if event has been registered from here -->
+            {% if 'notRegistered' %}
+            <button style="width:100%" class="joinbtn" type="submit">Join</button>
+            {% else %}
+            <button style="width:100%" class="createbtn" type="submit">Unregister</button>
+            {% endif %}
+          </form>
             <form action="{% url 'delete_event' %}"
                   method="post">
                   {% csrf_token %}
