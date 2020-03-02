@@ -110,3 +110,10 @@ def query_event_by_category(request):
         pass
     else:
         pass
+
+
+def edit_event(request):
+    if request.method == "PUT":
+        pass
+    else:
+        pass
