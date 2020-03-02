@@ -51,6 +51,13 @@ def create_event(name_input, datetime_input, fee_input, min_capacity_input, max_
     )
     event.save()
 
+def get_event_by_id(id):
+    try:
+        event = Event.objects.get(id)
+        return event
+    except:
+        raise UnsuccessfulOperationError('Invalid event id', 'event_id')
+
 
 def get_events_by_category(category_input):
     events = Event.objects.filter(category=category_input)
@@ -78,7 +85,7 @@ def get_events_by_words_in_name(words):
     for kw in words:
         events = events.filter(name__icontains=kw)
     if len(events) == 0:
-        raise UnsuccessfulOperationError('No events wiuth such name has been found', 'no events found')
+        raise UnsuccessfulOperationError('No events with such name has been found', 'no events found')
     else:
         result = JsonResponse(events_to_json(events))
         return result

@@ -42,13 +42,51 @@ def edit_event(request):
                 return HttpResponse("Event ID not valid.")
             
             return redirect('/')
-       
-        # try:
-        #     id = request.POST.get('id', '')
-        # except:
-        #     return HttpResponse("Error: ID of event to delete must be specified."
+
     else:
         return redirect('/')
+
+def edit_event_2(request):
+    if request.method == 'POST':
+        form_event = EventForm(request.POST)
+        form_address = AddressForm(request.POST)
+        if form_event.is_valid() and form_address.is_valid():
+            form_address = form_address.save()
+            form_event = form_event.save(commit=False)
+            form_event.address = form_address
+            form_event.save()
+            return redirect('/')
+    else:
+        event_id = request.GET.get('eventid','')
+        try:
+            event = services.get_event_by_id(event_id)
+        except services.UnsuccessfulOperationError as e:
+            return HttpResponse(e.message)
+        prefill = {
+            'name' : event.name,
+            'datetime' : event.datetime,
+            'fee': event.fee,
+            'max_capacity' : event.max_capacity,
+            'min_capacity': event.min_capacity,
+            'description': event.description,
+            'category' : event.category
+        }
+        address_prefill = {
+            'city' : event.address.city,
+            'street' : event.address.street,
+            'number' : event.address.number,
+            'postalcode' : event.address.postalcode
+        }
+        form_event = EventForm(initial=prefill)
+        form_address = AddressForm(inital=address_prefill)
+        return render(
+            request,
+            'events/edit.html',
+            {
+                'event_form': form_event,
+                'address_form': form_address
+            })
+
 
 def delete_event(request):
     if request.method == 'POST':
