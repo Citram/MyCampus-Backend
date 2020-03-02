@@ -260,22 +260,35 @@
       <div class="container">
                 <h1>Edit your event!</h1>
                 <hr>
-            
                 <label for="eventname"><b>Event Name</b></label>
-                <input value = "{{event.id}}" name = "eventid" hidden>
                 <input type="text" value={{event.name}} name="eventname" required>
-            
+                
                 <label for="eventdescription"><b>Event Description</b></label>
                 <input type="text" value={{event.description}} name="eventdescription" required>
             
-                <label for="eventdate"><b>Date</b></label>
+                <label for="eventdate"><b>Datetime</b></label>
                 <input value = "{{event.datetime}}" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
                 <br>
-                <label for="eventlocation" ><b>Event Location</b></label>
-                <input type="text" value="{{event.address_id}}" name="eventlocation" required>
-            
                 <label for="eventkeywords"><b>Fee</b></label>
                 <input type="text" value={{event.fee}} name="eventkeywords" required>
+
+                <label for="eventmaxcapacity"><b>Max capacity</b></label>
+                <input type="text" value={{event.max_capacity}} name="eventkeywords" required>
+
+                <label for="eventmincapacity"><b>Min capacity</b></label>
+                <input type="text" value={{event.min_capacity}} name="eventkeywords" required>
+                
+                <label for="eventcity" ><b>City</b></label>
+                <input type="text" value="{{event.address.city}}" name="eventcity" required>
+               
+                <label for="eventstreet" ><b>Street</b></label>
+                <input type="text" value="{{event.address.street}}" name="eventstreet" required>
+
+                <label for="eventnb" ><b>Number</b></label>
+                <input type="text" value="{{event.address.number}}" name="eventnb" required>
+            
+                <label for="eventpostalcode" ><b>Postal Code</b></label>
+                <input type="text" value="{{event.address.postalcode}}" name="eventpostalcode" required>
             
                 <button type="submit" class="editbtn" style="width:100%">Submit</button>
           </div>
