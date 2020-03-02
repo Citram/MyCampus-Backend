@@ -9,7 +9,7 @@ class UserForm(forms.Form):
 
     id = forms.CharField(label='Your username',
                          help_text='Your username may consist of upper and lower characters, numbers and periods',
-                         max_length=20, validators=[username_validator])
+                         max_length=20)
 
     password = forms.CharField(label='password',max_length=64, widget=forms.PasswordInput) #password restrictions?
 
@@ -18,8 +18,8 @@ class UserForm(forms.Form):
         'mail.mcgill.ca'
         'mcgill.ca'
     ]
-    class RangerRegistrationForm(forms.Form):
-    email = forms.EmailField(label=_("Email Address"))
+    
+    email = forms.EmailField(label=("Email Address"))
 
     def clean_email(self):
         submitted_data = self.cleaned_data['email']
