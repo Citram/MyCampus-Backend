@@ -279,7 +279,7 @@
             <form action="{% url 'join_event' %}"
                   method="post">
                   {% csrf_token %}
-                  <input value = "{{event.id}}" name = "id_field">
+                  <input hidden value = "{{event.id}}" name = "id_field">
             <button style="width:100%" class="joinbtn" type="submit">Join</button>
             </form>
                         <!-- TODO: ADD KEYWORDS (Optional) -->
