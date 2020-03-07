@@ -47,6 +47,19 @@ def edit_event(request):
     else:
         return redirect('/')
 
+def join_event(request):
+    if request.method == 'POST':
+            event_id = request.POST.get("id_field", "")
+            try :
+                services.join_Finalevent(event_id)
+            except services.UnsuccessfulOperationError:
+                return HttpResponse("Event ID not valid.")
+            
+            return redirect('/')
+
+    else:
+        return redirect('/')
+
 def edit_event_2(request):
     if request.method == 'POST':
         form_event = EventForm(request.POST)
@@ -120,26 +133,6 @@ def get_all_events(request):
     event_per_user = Event.objects.filter(user_id = user)
     data_out = {'data_dbs': data_dbs, 'user_events' : event_per_user}     
     return render(request, 'home.html', data_out)
-
-def register_for_event(request):
-    if request.method == 'POST':
-        registration_form = RegistrationForm(request.POST)
-        if registration_form.is_valid():
-            current_user = request.session['id'] #TODO: check
-            user_id = current_user.id
-            event_id = registration_form.data['event_id'] 
-            try:
-                services.join_event(user_id, event_id)
-                return HttpResponse("Successfully joined the event.")
-            except services.UnsuccessfulOperationError as e:
-                return HttpResponse(e.message)
-    else:
-        registration_form = RegistrationForm()
-        return render(
-            request, 
-            'events/register.html', 
-            {'registration_form': registration_form}
-        )
 
 def create_comment(request):
     if request.method == 'POST':

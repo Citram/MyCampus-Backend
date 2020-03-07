@@ -274,30 +274,13 @@
             </p>
 
             <!-- Check whether in registered or all -->
-            {% if 'notRegistered' %}
+
             <!-- Join -->
-            <form
+            <form action="{% url 'join_event' %}"
                   method="post">
                   {% csrf_token %}
-                  <input hidden value = "{{user.id}}" name = "user_id">
-                  <input hidden value = "{{event.id}}" name = "event_id">
+                  <input value = "{{event.id}}" name = "id_field">
             <button style="width:100%" class="joinbtn" type="submit">Join</button>
-            </form>
-            {% else %}
-            <!-- Leave -->
-            <form 
-                  method="post">
-                  {% csrf_token %}
-                  <input hidden value = "{{user.id}}" name = "user_id">
-                  <input hidden value = "{{event.id}}" name = "event_id">
-            <button style="width:100%" class="leavebtn" type="submit">Leave</button>
-            </form>
-            {% endif %}
-            <!-- Delete -->
-            <form action="{% url 'delete_event' %}"
-                  method="post">
-                  {% csrf_token %}
-                  <input hidden value = "{{event.id}}" name = "id_field">
             </form>
                         <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
