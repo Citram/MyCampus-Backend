@@ -155,18 +155,21 @@ def join_event (user_id, event_id, date=datetime.date.today()):
     event.save()
     return True
 
-def leave_event(user_id, event_id):
+def leave_event(user_id, event_id, date=datetime.date.today()):
     try:
         event = Event.objects.get(id=event_id)
     except:
         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
     try:
-        user = Student.objects.get(user_id)
+        user = User.objects.get(id=user_id)
     except:
         raise UnsuccessfulOperationError('User not found with id', 'user_id')
+  
+    if date > event.datetime:
+        raise UnsuccessfulOperationError("Event has already occurred.", 'event_id')
 
     if not user in event.attendees.all():
-        raise UnsuccessfulOperationError('User does not attend the event', 'event.attendees')
+        raise UnsuccessfulOperationError('User is not signed up for event.', 'user_id')
     else:
         event.attendees.remove(user)
     return True
