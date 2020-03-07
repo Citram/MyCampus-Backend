@@ -273,35 +273,8 @@
             <br> UserID:{{event.user_id}}
             </p>
              <!--EDIT EVENT POP-UP-->
-    <div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
-    <form class="profilemodal-content animate" method="POST" action = "{% url 'edit_event' %}">
-        {% csrf_token %}
-      <div class="container">
-                <h1>Edit your event!</h1>
-                <hr>
             
-                <label for="eventname"><b>Event Name</b></label>
-                <input value = "{{event.id}}" name = "eventid" hidden>
-                <input type="text" value={{event.name}} name="eventname" required>
             
-                <label for="eventdescription"><b>Event Description</b></label>
-                <input type="text" value={{event.description}} name="eventdescription" required>
-            
-                <label for="eventdate"><b>Date</b></label>
-                <input value = "{{event.datetime}}" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
-                <br>
-                <label for="eventlocation" ><b>Event Location</b></label>
-                <input type="text" value="{{event.address_id}}" name="eventlocation" required>
-            
-                <label for="eventkeywords"><b>Fee</b></label>
-                <input type="text" value={{event.fee}} name="eventkeywords" required>
-            
-                <button type="submit" class="editbtn" style="width:100%">Submit</button>
-          </div>
-    </form>
-  </div>
-            <button class="cancelbtn" id="close{{event.id}}" style="width:100%" hidden><b>Close</b></button>
-            <button class="editbtn" id="EditBox{{event.id}}" style="width:100%"><b>Edit</b></button>
             <!-- Check whether in registered or all -->
             {% if 'notRegistered' %}
             <!-- Join -->
@@ -327,27 +300,10 @@
                   method="post">
                   {% csrf_token %}
                   <input hidden value = "{{event.id}}" name = "id_field">
-            <button style="width:100%" class="createbtn" type="submit">Delete</button>
             </form>
                         <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
       </div>
-      <script>
-          document.getElementById("EditBox{{event.id}}").onclick = function()
-          {
-          document.getElementById("id02{{event.name}}").style.display = "block";
-          document.getElementById("EditBox{{event.id}}").style.display = "none";
-          document.getElementById("close{{event.id}}").style.display = "block";
-        };
-        document.getElementById("close{{event.id}}").onclick = function()
-        {
-          document.getElementById("id02{{event.name}}").style.display = "none";
-          document.getElementById("EditBox{{event.id}}").style.display = "block";
-          document.getElementById("close{{event.id}}").style.display = "none";
-        };
-        //TODO: implement filtering script 
-        
-        </script>
       {% endfor %}
     </div>
     <!-- Second Photo Grid-->
@@ -355,53 +311,99 @@
     <div id="Registered" class="tabcontent w3-row-padding">
       {% for event in user_events %}
       <div class="w3-third w3-container w3-margin-bottom">
-          <img src="{% static '/images/event1_soccer.jpg'%}" alt="Soccer" style="width:100%" class="w3-hover-opacity">
-          <div class="w3-container w3-white">
-            <h3><b>Soccer</b></h3>
-            <h5> Join my team to play some soccer on weekends! </h5>
-            <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-            <!-- TODO: ADD KEYWORDS (Optional) -->
-          </div>
+        <img src="{% static '/images/event6_movienight.jpg'%}" alt="WineTasting" style="width:100%" class="w3-hover-opacity">
+        <div class="w3-container w3-white">
+          <h3><b>{{ event.name }}</b></h3>
+          <h5> {{event.description}}</h5>
+          <hr class="w3-border-red" style="margin:auto;width:auto">
+          <p> When: {{event.datetime}}
+            <br>Type : {{event.category}}
+            <br>Max Capacity : {{event.max_capacity}}
+          <br> Location:{{event.address_id}}
+          <br> Fee:{{event.fee}}
+          <br> UserID:{{event.user_id}}
+          </p>
+           <!--EDIT EVENT POP-UP-->
+  <div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
+  <form class="profilemodal-content animate" method="POST" action = "{% url 'edit_event' %}">
+      {% csrf_token %}
+    <div class="container">
+              <h1>Edit your event!</h1>
+              <hr>
+          
+              <label for="eventname"><b>Event Name</b></label>
+              <input value = "{{event.id}}" name = "eventid" hidden>
+              <input type="text" value={{event.name}} name="eventname" required>
+          
+              <label for="eventdescription"><b>Event Description</b></label>
+              <input type="text" value={{event.description}} name="eventdescription" required>
+          
+              <label for="eventdate"><b>Date</b></label>
+              <input value = "{{event.datetime}}" id="evdate" name="eventdate" style="width:40%; margin-bottom: 15px; margin-top: 10px;">
+              <br>
+              <label for="eventlocation" ><b>Event Location</b></label>
+              <input type="text" value="{{event.address_id}}" name="eventlocation" required>
+          
+              <label for="eventkeywords"><b>Fee</b></label>
+              <input type="text" value={{event.fee}} name="eventkeywords" required>
+          
+              <button type="submit" class="editbtn" style="width:100%">Submit</button>
         </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="{% static '/images/event2_bball.jpg'%}" alt="BBall" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-              <h3><b>Basketball</b></h3>
-              <h5> Join my team to play some basketball on weekends! </h5>
-              <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-              <!-- TODO: ADD KEYWORDS (Optional) -->
-            </div>
-        
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="{% static '/images/event3_ski.png'%}" alt="Ski" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-              <h3><b>Ski</b></h3>
-              <h5> Let's go to St Bruno this weekend! </h5>
-              <hr class="w3-border-red" style="margin:auto;width:auto">
-            <p> When:
-              <br>Time:
-            <br> Location:
-            </p>
-            <button class="button" style="width:100%"><b>Unregister</b></button>
-              <!-- TODO: ADD KEYWORDS (Optional) -->
-            </div>
+  </form>
+</div>
+          <button class="cancelbtn" id="close{{event.id}}" style="width:100%" hidden><b>Close</b></button>
+          <button class="editbtn" id="EditBox{{event.id}}" style="width:100%"><b>Edit</b></button>
+          <!-- Check whether in registered or all -->
+          {% if 'notRegistered' %}
+          <!-- Join -->
+          <form
+                method="post">
+                {% csrf_token %}
+                <input hidden value = "{{user.id}}" name = "user_id">
+                <input hidden value = "{{event.id}}" name = "event_id">
+          <button style="width:100%" class="joinbtn" type="submit">Join</button>
+          </form>
+          {% else %}
+          <!-- Leave -->
+          <form 
+                method="post">
+                {% csrf_token %}
+                <input hidden value = "{{user.id}}" name = "user_id">
+                <input hidden value = "{{event.id}}" name = "event_id">
+          <button style="width:100%" class="leavebtn" type="submit">Leave</button>
+          </form>
+          {% endif %}
+          <!-- Delete -->
+          <form action="{% url 'delete_event' %}"
+                method="post">
+                {% csrf_token %}
+                <input hidden value = "{{event.id}}" name = "id_field">
+          <button style="width:100%" class="createbtn" type="submit">Delete</button>
+          </form>
+                      <!-- TODO: ADD KEYWORDS (Optional) -->
         </div>
+    </div>
+    <script>
+        document.getElementById("EditBox{{event.id}}").onclick = function()
+        {
+        document.getElementById("id02{{event.name}}").style.display = "block";
+        document.getElementById("EditBox{{event.id}}").style.display = "none";
+        document.getElementById("close{{event.id}}").style.display = "block";
+      };
+      document.getElementById("close{{event.id}}").onclick = function()
+      {
+        document.getElementById("id02{{event.name}}").style.display = "none";
+        document.getElementById("EditBox{{event.id}}").style.display = "block";
+        document.getElementById("close{{event.id}}").style.display = "none";
+      };
+      //TODO: implement filtering script 
+      
+      </script>
         {% endfor %}
       </div>
     
     <!-- Pagination -->
-    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-    <br> <br> <br> <br> <br> <br> <br> <br>
+  
     <div class="w3-center w3-padding-32">
       <div class="w3-bar">
         <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
