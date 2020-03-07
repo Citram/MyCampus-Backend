@@ -19,6 +19,10 @@ class Event(models.Model):
     """
     id = HashidAutoField(primary_key=True)
 
+    user_id = models.CharField(max_length=100, default = 0)
+
+    attendees =  models.PositiveSmallIntegerField(default = 1)
+
     name = models.CharField(max_length=100)
 
     datetime = models.DateField()

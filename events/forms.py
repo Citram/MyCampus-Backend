@@ -18,6 +18,7 @@ class EventForm(forms.ModelForm):
             'name',
             'datetime',
             'fee',
+            'user_id',
             'max_capacity',
             'min_capacity',
             'description',

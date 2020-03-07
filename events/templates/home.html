@@ -248,7 +248,8 @@
 
   
       <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'Hosted')">Hosted Events</button>
+        <button class="tablinks" onclick="openCity(event, 'Hosted')">All Events</button>
+        <button class="tablinks" onclick="openCity(event, 'Registered')">My Events</button>
         <button class="tablinks" onclick="openCity(event, 'Registered')">Registered Events</button>
       </div>
   
@@ -270,6 +271,7 @@
               <br>Max Capacity : {{event.max_capacity}}
             <br> Location:{{event.address_id}}
             <br> Fee:{{event.fee}}
+            <br> UserID:{{event.user_id}}
             </p>
              <!--EDIT EVENT POP-UP-->
     <div id="id02{{event.name}}" class="profilemodal" style = "display : none;">

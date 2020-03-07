@@ -42,12 +42,13 @@ def events_to_json(events):
 
 #================= Services =================#
 
-def create_event(name_input, datetime_input, fee_input, min_capacity_input, max_capacity_input, description_input, category_input):
+def create_event(name_input, user_id, datetime_input, fee_input, min_capacity_input, max_capacity_input, description_input, category_input):
     event = Event(
         name=name_input,date=parse_datetime(datetime_input),
         fee=fee_input,min_capacity=min_capacity_input, 
         max_capacity=max_capacity_input, description=description_input,
-        category=category_input
+        category=category_input,
+        user_id = user_id
     )
     event.save()
 

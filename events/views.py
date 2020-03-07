@@ -16,6 +16,7 @@ def create_event(request):
             form_address = form_address.save()
             form_event = form_event.save(commit=False)
             form_event.address = form_address
+            form_event.user_id = request.user.id
             form_event.save()
             return redirect('/')
     else:
