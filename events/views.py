@@ -116,9 +116,10 @@ def delete_event(request):
 def get_all_events(request):
 
     data_dbs =  Event.objects.all()
-    data_out = {'data_dbs': data_dbs}     
+    user = request.user.id
+    event_per_user = Event.objects.filter(user_id = user)
+    data_out = {'data_dbs': data_dbs, 'user_events' : event_per_user}     
     return render(request, 'home.html', data_out)
-
 
 def register_for_event(request):
     if request.method == 'POST':

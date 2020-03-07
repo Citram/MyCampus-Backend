@@ -250,7 +250,6 @@
       <div class="tab">
         <button class="tablinks" onclick="openCity(event, 'Hosted')">All Events</button>
         <button class="tablinks" onclick="openCity(event, 'Registered')">My Events</button>
-        <button class="tablinks" onclick="openCity(event, 'Registered')">Registered Events</button>
       </div>
   
       </div>
@@ -350,9 +349,11 @@
         
         </script>
       {% endfor %}
-   
+    </div>
     <!-- Second Photo Grid-->
+    
     <div id="Registered" class="tabcontent w3-row-padding">
+      {% for event in user_events %}
       <div class="w3-third w3-container w3-margin-bottom">
           <img src="{% static '/images/event1_soccer.jpg'%}" alt="Soccer" style="width:100%" class="w3-hover-opacity">
           <div class="w3-container w3-white">
@@ -380,7 +381,7 @@
             <button class="button" style="width:100%"><b>Unregister</b></button>
               <!-- TODO: ADD KEYWORDS (Optional) -->
             </div>
-        </div>
+        
         <div class="w3-third w3-container w3-margin-bottom">
             <img src="{% static '/images/event3_ski.png'%}" alt="Ski" style="width:100%" class="w3-hover-opacity">
             <div class="w3-container w3-white">
@@ -395,6 +396,7 @@
               <!-- TODO: ADD KEYWORDS (Optional) -->
             </div>
         </div>
+        {% endfor %}
       </div>
     
     <!-- Pagination -->
