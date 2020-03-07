@@ -270,11 +270,9 @@
               <br>Max Capacity : {{event.max_capacity}}
             <br> Location:{{event.address_id}}
             <br> Fee:{{event.fee}}
-            <br> UserID:{{event.user_id}}
+            <br> Attendees:{{event.attendees}}
             </p>
-             <!--EDIT EVENT POP-UP-->
-            
-            
+
             <!-- Check whether in registered or all -->
             {% if 'notRegistered' %}
             <!-- Join -->
@@ -306,8 +304,8 @@
       </div>
       {% endfor %}
     </div>
-    <!-- Second Photo Grid-->
-    
+
+    <!-- MY EVENTS!!! (THE ONLY ONES I CAN EDIT OR DELETE)-->
     <div id="Registered" class="tabcontent w3-row-padding">
       {% for event in user_events %}
       <div class="w3-third w3-container w3-margin-bottom">
@@ -321,7 +319,7 @@
             <br>Max Capacity : {{event.max_capacity}}
           <br> Location:{{event.address_id}}
           <br> Fee:{{event.fee}}
-          <br> UserID:{{event.user_id}}
+          <br> Attendees:{{event.attendees}}
           </p>
            <!--EDIT EVENT POP-UP-->
   <div id="id02{{event.name}}" class="profilemodal" style = "display : none;">
@@ -354,25 +352,7 @@
           <button class="cancelbtn" id="close{{event.id}}" style="width:100%" hidden><b>Close</b></button>
           <button class="editbtn" id="EditBox{{event.id}}" style="width:100%"><b>Edit</b></button>
           <!-- Check whether in registered or all -->
-          {% if 'notRegistered' %}
-          <!-- Join -->
-          <form
-                method="post">
-                {% csrf_token %}
-                <input hidden value = "{{user.id}}" name = "user_id">
-                <input hidden value = "{{event.id}}" name = "event_id">
-          <button style="width:100%" class="joinbtn" type="submit">Join</button>
-          </form>
-          {% else %}
-          <!-- Leave -->
-          <form 
-                method="post">
-                {% csrf_token %}
-                <input hidden value = "{{user.id}}" name = "user_id">
-                <input hidden value = "{{event.id}}" name = "event_id">
-          <button style="width:100%" class="leavebtn" type="submit">Leave</button>
-          </form>
-          {% endif %}
+ 
           <!-- Delete -->
           <form action="{% url 'delete_event' %}"
                 method="post">
