@@ -102,3 +102,17 @@ def query_event_by_category(request):
         pass
     else: 
         pass
+
+def leave_event(request):
+    if request.method == 'POST':
+            current_user = request.session['id']
+            user_id = current_user.id
+            #This is done assuming that the eventid will be in the url 
+            event_name=request.POST.get('event')
+            event_id = Event.objects.get(name=event_name)
+            try:
+                services.leave_event(user_id=user_id,event_id=event_id)
+                return HttpResponse("Successfully left the event.")
+            except services.UnsuccessfulOperationError as e:
+                return HttpResponse(e.message)
+

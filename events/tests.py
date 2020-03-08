@@ -362,6 +362,8 @@ class LeaveEventTestCase(TestCase):
         except UnsuccessfulOperationError as e:
             self.assertEqual(e, "User not attending event")
 
+#TODO actually implement this because right now it does not make sense
+'''
 class LeaveEventViewTest(TestCase):
     c = Client()
     def test_response_please(self):
@@ -369,7 +371,7 @@ class LeaveEventViewTest(TestCase):
        response = c.post('/event/leave')
        self.assertEqual(200, response.status_code)
 
-
+'''
 
 class JoinEventTestCase(TestCase):
     def setUp(self):
@@ -400,7 +402,36 @@ class JoinEventTestCase(TestCase):
             services.leave_event(user_id=student.id, event_id="FalseEvent")
         except UnsuccessfulOperationError as e:
             self.assertEqual(e, "User not found with id")
+    
+class JoinDeletedEventTestCase(TestCase):
+    def setUp(self):
+
+        Event.objects.create(name="Event1",date="2022-02-02",fee=70,min_capacity=0, max_capacity=80, description="description",
+        category='GAM')
+
+        Student.objects.create(name="TestStudent", description="This guy just leaves events",
+        age=20, rating=4)
+
+    def join_deleted_event(self):
+        event = Event.objects.get(name="Event1")
+        student = Student.objects.get(name="TestStudent")
+
+        event_Id = event.id
         
+        services.delete_event(event_id=event_Id)
+        self.assertTrue(Event.objects.all().count(), 0)
+        try:
+            services.join_event(student_id=student.id, event_id=event_Id)
+        except UnsuccessfulOperationError as e:
+            self.assertEqual(e, 'Event not found with id')
+
+class EditDeletedEventTestCase(TestCase):
+    
+
+        
+
+
+
 # Test suite for Event views
 #TODO completely fix because this is sketch
 
