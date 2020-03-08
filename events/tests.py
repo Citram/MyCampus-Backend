@@ -76,7 +76,9 @@ class EventFormTest(TestCase):
         'min_capacity': 69,
         'datetime': "2022-02-02",
         'description': 'Random event',
-        'category': 'GAM'
+        'category': 'GAM',
+        'attendees' : 1,
+        'user_id' : 111
     }
 
     data_address = {
