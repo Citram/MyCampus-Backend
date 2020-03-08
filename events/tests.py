@@ -425,6 +425,32 @@ class JoinDeletedEventTestCase(TestCase):
         except UnsuccessfulOperationError as e:
             self.assertEqual(e, 'Event not found with id')
 
+
+
+class CreateEventTestCase(TestCase):
+    def setUp(self):
+    
+    Event.objects.create(name="Event1",date="2022-02-02",fee=70,min_capacity=0, max_capacity=80, description="description",
+        category='GAM')
+    Student.objects.create(name="TestStudent", description="This guy just leaves events",
+        age=20, rating=4)
+
+    def create_event(self):
+        student = Student.objects.get(name="TestStudent")
+        event=Event.objects.get(name="Event1")
+        name_Input=student.name
+        datetime_Input=event.datetime
+        fee_Input=event.fee
+        min_capacity_Input=event.min_capacity
+        max_capacity_Input=event.max_capacity
+        description_Input=event.description
+        category_Input=event.category
+        services.create_event(name_input=name_Input,datetime_input=datetime_Input,fee_input=fee_Input,
+            min_capacity_input=min_capacity_Input,max_capacity_input=max_capacity_Input,
+            description_input=description_Input,category_input=category_Input)
+        self.assertIn(event,Event.objects.all())
+
+
 class EditDeletedEventTestCase(TestCase):
     
 
