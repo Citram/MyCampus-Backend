@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 #from users.models import RegularUser
 from hashid_field import HashidAutoField
 import datetime
@@ -21,7 +23,7 @@ class Event(models.Model):
 
     name = models.CharField(max_length=100)
 
-    date = models.DateField(default=datetime.date.today())
+    datetime = models.DateField()
 
     fee = models.DecimalField(default=0, decimal_places=3, max_digits = 1000)
  
@@ -43,9 +45,16 @@ class Event(models.Model):
         choices=CATEGORIES
     )
 
+    address = models.OneToOneField(
+        Address,
+        on_delete=models.CASCADE,
+        null=True,
+        default=0
+    )
+
     #address = models.ForeignKey(Address, on_delete=models.PROTECT)
     #organizer = models.ForeignKey(RegularUser, on_delete=models.PROTECT)
-    #attendees = models.ManyToManyField(Student)
+    attendees = models.ManyToManyField(User)
 
 class Comment(models.Model):
     """

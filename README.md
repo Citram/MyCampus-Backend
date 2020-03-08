@@ -47,4 +47,7 @@ We'll be using Django and code mostly in Python.
   
   Admin log-in information
   
-  Django admin: `mycampusbestcampus` password : `ecse428`
+  Django admin: `mycampusbestcampus` password : `ecse428123`
+  
+   New superuser in case the admin doesn't work : 
+  `python manage.py createsuperuser` Warning : Doesn't work on gitbash
