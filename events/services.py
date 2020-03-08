@@ -146,6 +146,12 @@ def join_Finalevent(event_id):
     event.attendees +=1
     event.save()
 
+def delete_event_by_name(event_name):
+    try:
+        Event.objects.get(name=event_name).delete()
+    except:
+        raise UnsuccessfulOperationError('Event not found with name ', 'event_name')
+
 def get_event_attendees(event_id):
     event = Event.objects.get(id = event_id)
     print(event.id)
