@@ -3,117 +3,143 @@ import re
 from django import forms
 from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
+from .models import Admin, Organization, Student
+from django.utils.translation import gettext_lazy as _ #not sure if this is needed but apparently its good?
 
-def username_validator(username):
-    pattern = re.compile("^[A-Za-z\\d.]*$") #upper,lower, digits and '.' only
-    if not pattern.match(username):
-        raise ValidationError("Username can only contain alphanumeric characters and '.'")
-
-def organization_name_validator(name):
-    pattern = re.compile("^[A-Za-z\\d.]*$") #upper,lower, digits and '.' only
-    if not pattern.match(name):
-        raise ValidationError("Username can only contain alphanumeric characters and '.'")
-
-def student_name_validator(name):
-    pattern = re.compile("") #TODO
-    return pattern.match(name)
 
 #=========================== User forms ===========================#
-class UserForm(forms.Form):
+class AdminForm(forms.ModelForm):
 
-    id = forms.CharField(label='Your username',
-                         help_text='Your username may consist of upper and lower characters, numbers and periods',
-                         max_length=20, validators=[username_validator])
-
-    password = forms.CharField(label='password',max_length=64, widget=forms.PasswordInput) #password restrictions?
-
-    #email and validations
-    email_domains = [
-        'mail.mcgill.ca'
-        'mcgill.ca'
-    ]
-    email = forms.EmailField(label=("Email Address"))
+    class Meta:
+        model = Admin
+        fields = [
+            'id',
+            'password',
+            'email'
+        ]
+        labels = {
+            'id': _('Username'),
+            'password': _('Password'),
+            'email': _('Email Address')
+        }
 
     def clean_email(self):
-        submitted_data = self.cleaned_data['email']
-        if '@gmail.com' not in submitted_data:
-            raise forms.ValidationError('You must register using a Gmail address')
-        return submitted_data
+        email_input = self.cleaned_data['email']
+        if '@mcgill.ca'in email_input or '@mail.mcgill.ca' in email_input:
+            return email_input
+        else:
+            raise forms.ValidationError(_('Please enter a valid McGill email address'))
+
+    def clean_id(self):
+        id_input = self.cleaned_data['id']
+        pattern = re.compile('^[a-zA-Z0-9]{5,20}$')
+        if not (pattern.match(id_input)):
+            raise forms.ValidationError(_(
+                'Your username must be between 5 and 20 characters long and only contain letters, numbers and the period'))
+        else:
+            return id_input
+
+    def clean_password(self):
+        password_input = self.cleaned_data['password']
+        pattern = re.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&^])[A-Za-z\\d@$!%*#?&]{8,}$")
+        if not (pattern.match(password_input)):
+            raise forms.ValidationError(_(
+                'Your password must be at least 8 characters long and contain at least a letter, a number and a special character.'))
+        else:
+            return password_input
+        
+
+class OrganizationForm(AdminForm):
+
+      
+    class Meta:
+        model = Organization
+        fields = [
+            'id',
+            'password',
+            'email',
+            'name',
+            'description'
+        ]
+        labels = {
+            'id': _('Username'),
+            'password': _('Password'),
+            'email': _('Email Address'),
+            'name': _('Name'),
+            'description': _('Description')
+        }
+
+    def clean_name(self):
+        name_input = self.cleaned_data['name']
+        pattern  = re.compile("^[A-Za-z]+((\\s)?((\\'|\\-|\\.)?([A-Za-z])+))*$")
+        if not (pattern.match(name_input)):
+            raise forms.ValidationError(_(
+                'Please enter a valid name.'))
+        else:
+            return name_input
+        
+
+    def clean_description(self):
+        description_input = self.cleaned_data['description']
+        if description_input is None or description_input.strip() == '':
+            raise forms.ValidationError(_('You cannot enter an empty description.'))
+        else:
+            return description_input
+
+class StudentForm(OrganizationForm):
+
+
+    faculty = forms.ChoiceField(
+        choices=Student.FACULTIES,
+        required=False
+    )
 
     
+    gender = forms.ChoiceField(
+        choices=Student.GENDERS,
+        required=False
+    )
 
+    class Meta:
+        model = Student
+        fields = [
+            'id',
+            'password',
+            'email',
+            'name',
+            'description',
+            'age',
+            'gender',
+            'faculty'
+        ]
+        labels = {
+             'id': _('Username'),
+             'password': _('Password'),
+             'email': _('Email Address'),
+             'name': _('Name'),
+             'description': _('Description'),
+             'age': _('Age'),
+             'gender': _('Gender'),
+             'faculty': _('Faculty')
+        }
+        widgets = {
+            'password' : forms.PasswordInput()
+        }
 
-class AdminForm(UserForm):
-    #subject ot change
-    pass
+    def clean_age(self):
+        age_input = self.cleaned_data['age']
+        if not (age_input > 16 or age_input < 100):
+            raise forms.ValidationError(_('Please enter a valid age.'))
+        else:
+            return age_input
 
-class RegularUserForm(UserForm):
+    def clean_gender(self):
+        sex_input = self.cleaned_data['gender']
+        if sex_input is None or (sex_input != 'M' and sex_input != 'F'):
+            raise forms.ValidationError(_('Please enter a valid gender.'))
+        else:
+            return sex_input
 
-    name = forms.CharField(label='Your organization\'s name: ', max_length=30,
-                           min_length=2, validators=[organization_name_validator])
-    description = forms.CharField(label='A short discription about your organization', max_length=400)
-
-class StudentForm(RegularUserForm):
-
-    #override
-    name = forms.CharField(label='Your name: ', max_length=30, min_length=2, validators=[student_name_validator])
-    description = forms.CharField(label='A short discription about yourself', max_length=400)
-
-    age = forms.IntegerField(label='Your age', min_value=12, max_value=120)
-
-    #ThErE aRe OnLy TwO gEnDeRs
-    MALE = 'M'
-    FEMALE = 'F'
-    OTHER = 'O'
-
-    GENDERS = [
-        (MALE, 'Male'),
-        (FEMALE, 'Female'),
-        (OTHER, 'Other')
-    ]
-
-    gender = forms.ChoiceField(choices=GENDERS, label='Your gender', required=False)
-
-    #faculties
-    FACULTY_AGRICULTURAL_AND_ENVIRONMENTAL_SCIENCES = 'AGR'
-    FACULTY_ARTS = 'ART'
-    FACULTY_CONTINUING_STUDIES = 'CNT'
-    FACULTY_DENTISTRY = 'DNT'
-    FACULTY_EDUCATION = 'EDU'
-    FACULTY_ENGINEERING = 'ENG'
-    FACULTY_GRADUATE_AND_POSTDOCTORAL_STUDIES = 'GRD'
-    FACULTY_LAW = 'LAW'
-    FACULTY_MANAGEMENT = 'MNG'
-    FACULTY_MEDICINE = 'MED'
-    FACULTY_MUSIC = 'MUS'
-    FACULTY_SCIENCE = 'SCI'
-    ALUMNI = 'ALU'
-
-    FACULTIES = [
-        (FACULTY_AGRICULTURAL_AND_ENVIRONMENTAL_SCIENCES, 'Faculty of Agricultural and Environmental Sciences'),
-        (FACULTY_ARTS, 'Faculty of Arts'),
-        (FACULTY_CONTINUING_STUDIES, 'School of Continuing Studies'),
-        (FACULTY_DENTISTRY, 'Faculty of Dentistry'),
-        (FACULTY_EDUCATION, 'Faculty of Education'),
-        (FACULTY_ENGINEERING, 'Faculty of Engineering'),
-        (FACULTY_GRADUATE_AND_POSTDOCTORAL_STUDIES, 'Graduate and Postdoctoral Studies'),
-        (FACULTY_LAW, 'Faculty of Law'),
-        (FACULTY_MANAGEMENT, 'Desautels Faculty of Management'),
-        (FACULTY_MEDICINE, 'Faculty of Medicine'),
-        (FACULTY_MUSIC, 'Schulich School of Music'),
-        (FACULTY_SCIENCE, 'Faculty of Science'),
-        (ALUMNI, 'Alumni'),
-    ]
-
-    faculty = forms.ChoiceField(choices=FACULTIES, label='Your faculty', required=False)
-
-class OrganizationForm(RegularUserForm):
-    pass
-
-#=========================== Comment form ===========================#
-
-
-#=========================== Flag form ===========================#
-
-
-#================ validators ================#
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=20)
+    password = forms.CharField(max_length=30,widget=forms.PasswordInput)

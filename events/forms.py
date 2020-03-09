@@ -24,7 +24,6 @@ class EventForm(forms.ModelForm):
             'category'
         ]
         
-
     def clean_name(self):
         name_input = self.cleaned_data['name']
         if name_input is None or name_input.strip() == '':

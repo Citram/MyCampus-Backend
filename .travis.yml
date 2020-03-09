@@ -12,6 +12,8 @@ install:
 # run test scripts
 script:
 - python manage.py collectstatic
+- python manage.py makemigrations
+- python manage.py migrate
 - python manage.py test
 - python manage.py behave events/features
 - python3 manage.py behave users/features
