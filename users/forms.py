@@ -41,7 +41,7 @@ class AdminForm(forms.ModelForm):
 
     def clean_password(self):
         password_input = self.cleaned_data['password']
-        pattern = re.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
+        pattern = re.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&^])[A-Za-z\\d@$!%*#?&]{8,}$")
         if not (pattern.match(password_input)):
             raise forms.ValidationError(_(
                 'Your password must be at least 8 characters long and contain at least a letter, a number and a special character.'))

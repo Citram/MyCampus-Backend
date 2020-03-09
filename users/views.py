@@ -108,36 +108,36 @@ def create_organization(request):
             {'org_form': org_form}
         )
 
-def create_review(request):
-    if request.method == 'POST':
-        review_form = ReviewForm(request.POST)
-        if review_form.is_valid():
-            user_id = request.session['id'] #TODO: check
-            event_id = review_form.data['event']
-            rating = review_form.data['rating']
-            comment = review_form.data['comment']
-            try:
-                services.create_review(user_id,event_id, rating, comment)
-            except UnsuccessfulOperationError as e:
-                return HttpResponse(e.message)
-            return redirect('users/review') #TODO
-    else:
-        review_form = ReviewForm()
-        return render(
-            request,
-            'users/review.html', #TODO
-            {'review_form' : review_form}
-        )
+# def create_review(request):
+#     if request.method == 'POST':
+#         review_form = ReviewForm(request.POST)
+#         if review_form.is_valid():
+#             user_id = request.session['id'] #TODO: check
+#             event_id = review_form.data['event']
+#             rating = review_form.data['rating']
+#             comment = review_form.data['comment']
+#             try:
+#                 services.create_review(user_id,event_id, rating, comment)
+#             except UnsuccessfulOperationError as e:
+#                 return HttpResponse(e.message)
+#             return redirect('users/review') #TODO
+#     else:
+#         review_form = ReviewForm()
+#         return render(
+#             request,
+#             'users/review.html', #TODO
+#             {'review_form' : review_form}
+#         )
 
-def delete_review(request):
-    if request.method == 'POST':
-        user_id = request.session['id'] #TODO: check
-        review_id = request.cleaned_data['review_id']
-        try:
-            services.delete_review(user_id, review_id)
-        except services.UnsuccessfulOperationError:
-            return HttpResponse("Delete ID not valid.")
+# def delete_review(request):
+#     if request.method == 'POST':
+#         user_id = request.session['id'] #TODO: check
+#         review_id = request.cleaned_data['review_id']
+#         try:
+#             services.delete_review(user_id, review_id)
+#         except services.UnsuccessfulOperationError:
+#             return HttpResponse("Delete ID not valid.")
             
-        return HttpResponse("Review deleted.")
-    else:
-        return redirect('reviews') #TODO
+#         return HttpResponse("Review deleted.")
+#     else:
+#         return redirect('reviews') #TODO
