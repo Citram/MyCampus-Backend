@@ -1,8 +1,11 @@
 from django.test import TestCase
 from django.test import Client
+from .services import *
 from .forms import EventForm, AddressForm, DeleteEventForm
 from .models import Event, Address, Comment
-from .views import *
+from hashid_field import Hashid
+from users.models import *
+from users.forms import *
 
 # Address form test sutie
 class AddressFormTest(TestCase):
@@ -289,28 +292,149 @@ class EventFormTest(TestCase):
 
             self.assertFalse(event_form.is_valid())
 
-# Test suite for Event views
-class EventViewTest(TestCase):
-    c = Client()
+# Test suite for Event services
+class EventServiceTest(TestCase):
 
     data_event = {
-       'name': 'Dungeon & Dragons',
+        'name': 'Dungeon & Dragons',
         'fee': 69,
         'max_capacity': 420,
         'min_capacity': 69,
+        'datetime': "2022-02-02",
         'description': 'Random event',
         'category': 'GAM'
     }
 
     data_address = {
-       'city': 'Montreal',
-       'street': 'Sherbrooke Av.',
-       'number': '1980',
-       'postalcode': 'H6J3T5'
+        'city': 'Montreal',
+        'street': 'Sherbrooke Av.',
+        'number': '1980',
+        'postalcode': 'H6J3T5'
     }
 
-    def test_response_please(self):
-       c = Client()
-    #    response = HttpResponse()
-       response = c.post('/login/')
-       self.assertEqual(200, response.status_code)
+    data_user = {
+        'id': 'achoi26',
+        'password': 'lL09dshgfsy&',
+        'email': 'pp69@mail.mcgill.ca',
+        'name': 'Alex Choi',
+        'description': 'pp69',
+        'age': 69,
+        'gender': 'M',
+        'faculty': 'Eng'
+    }
+
+    def test_delete_event(self):
+        address_form = AddressForm(EventServiceTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventServiceTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address # Insert the Address association
+        test_event.save()
+        events = Event.objects.all() # Get all objects from database
+        self.assertTrue(len(events), 1)
+        delete_event(events[0].id)
+        events = Event.objects.all() # Get all objects from database
+        self.assertEqual(len(events), 0)
+
+    def test_delete_event_fail_invalid_id(self):
+        address_form = AddressForm(EventServiceTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventServiceTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address # Insert the Address association
+        test_event.save()
+        events = Event.objects.all() # Get all objects from database
+        self.assertEqual(len(events), 1)
+        with self.assertRaises(Exception): delete_event('Invalid Name')
+
+    def test_delete_event_fail_empty_id(self):
+        address_form = AddressForm(EventServiceTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventServiceTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address # Insert the Address association
+        test_event.save()
+        events = Event.objects.all() # Get all objects from database
+        self.assertEqual(len(events), 1)
+        with self.assertRaises(Exception): delete_event('')
+    
+    def test_get_event_by_id(self):
+        address_form = AddressForm(EventServiceTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventServiceTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address # Insert the Address association
+        test_event.save()
+
+        event_id = test_event.id
+
+        events = Event.objects.all() # Get all objects from database
+        self.assertEqual(len(events), 1)
+        event_id = events[0].id
+        retrieved_event = get_event_by_id(event_id)
+
+        self.assertEqual(retrieved_event.name, EventFormTest.data_event.get('name'))
+        self.assertEqual(retrieved_event.datetime.strftime("%Y-%m-%d"), EventFormTest.data_event.get('datetime'))
+        self.assertEqual(retrieved_event.fee, EventFormTest.data_event.get('fee'))
+        self.assertEqual(retrieved_event.max_capacity, EventFormTest.data_event.get('max_capacity'))
+        self.assertEqual(retrieved_event.min_capacity, EventFormTest.data_event.get('min_capacity'))
+        self.assertEqual(retrieved_event.description, EventFormTest.data_event.get('description'))
+        self.assertEqual(retrieved_event.category, EventFormTest.data_event.get('category'))
+        self.assertEqual(retrieved_event.address.city, EventFormTest.data_address.get('city'))
+        self.assertEqual(retrieved_event.address.street, EventFormTest.data_address.get('street'))
+        self.assertEqual(retrieved_event.address.number, EventFormTest.data_address.get('number'))
+        self.assertEqual(retrieved_event.address.postalcode, EventFormTest.data_address.get('postalcode'))
+
+    def test_get_event_by_id_fail_invalid_id(self):
+        address_form = AddressForm(EventServiceTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventServiceTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address # Insert the Address association
+        test_event.save()
+
+        event_id = test_event.id
+
+        events = Event.objects.all() # Get all objects from database
+        self.assertEqual(len(events), 1)
+        event_id = events[0].id
+        with self.assertRaises(Exception): get_event_by_id(1234)
+    
+    def test_get_event_by_id_fail_empty_id(self):
+        address_form = AddressForm(EventServiceTest.data_address)
+        self.assertTrue(address_form.is_valid())
+        test_address = address_form.save()
+
+        event_form = EventForm(EventServiceTest.data_event)
+        self.assertTrue(event_form.is_valid())
+
+        test_event = event_form.save(commit=False)
+        test_event.address = test_address # Insert the Address association
+        test_event.save()
+
+        event_id = test_event.id
+
+        events = Event.objects.all() # Get all objects from database
+        self.assertEqual(len(events), 1)
+        event_id = events[0].id
+        with self.assertRaises(Exception): get_event_by_id()
