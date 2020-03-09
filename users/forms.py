@@ -3,7 +3,7 @@ import re
 from django import forms
 from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
-from .models import Admin, Organization, Student, Review, UserFlag
+from .models import Admin, Organization, Student
 from django.utils.translation import gettext_lazy as _ #not sure if this is needed but apparently its good?
 
 

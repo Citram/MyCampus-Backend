@@ -1,7 +1,6 @@
 from django.db import models
 from django import forms
 from hashid_field import HashidAutoField
-from django.core.validators import EmailValidator
 #from events.models import *
 
 class User(models.Model):
