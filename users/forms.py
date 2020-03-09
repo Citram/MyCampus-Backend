@@ -2,7 +2,21 @@
 import re
 from django import forms
 from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
 
+def username_validator(username):
+    pattern = re.compile("^[A-Za-z\\d.]*$") #upper,lower, digits and '.' only
+    if not pattern.match(username):
+        raise ValidationError("Username can only contain alphanumeric characters and '.'")
+
+def organization_name_validator(name):
+    pattern = re.compile("^[A-Za-z\\d.]*$") #upper,lower, digits and '.' only
+    if not pattern.match(name):
+        raise ValidationError("Username can only contain alphanumeric characters and '.'")
+
+def student_name_validator(name):
+    pattern = re.compile("") #TODO
+    return pattern.match(name)
 
 #=========================== User forms ===========================#
 class UserForm(forms.Form):
@@ -18,14 +32,15 @@ class UserForm(forms.Form):
         'mail.mcgill.ca'
         'mcgill.ca'
     ]
-    class RangerRegistrationForm(forms.Form):
-    email = forms.EmailField(label=_("Email Address"))
+    email = forms.EmailField(label=("Email Address"))
 
     def clean_email(self):
         submitted_data = self.cleaned_data['email']
         if '@gmail.com' not in submitted_data:
             raise forms.ValidationError('You must register using a Gmail address')
         return submitted_data
+
+    
 
 
 class AdminForm(UserForm):
@@ -49,9 +64,12 @@ class StudentForm(RegularUserForm):
     #ThErE aRe OnLy TwO gEnDeRs
     MALE = 'M'
     FEMALE = 'F'
+    OTHER = 'O'
+
     GENDERS = [
         (MALE, 'Male'),
-        (FEMALE, 'Female')
+        (FEMALE, 'Female'),
+        (OTHER, 'Other')
     ]
 
     gender = forms.ChoiceField(choices=GENDERS, label='Your gender', required=False)
@@ -99,14 +117,3 @@ class OrganizationForm(RegularUserForm):
 
 
 #================ validators ================#
-def username_validator(username):
-    pattern = re.compile("^[A-Za-z\\d.]*$") #upper,lower, digits and '.' only
-    return pattern.match(username)
-
-def organization_name_validator(name):
-    pattern = re.compile("") #TODO
-    return pattern.match(name)
-
-def student_name_validator(name):
-    pattern = re.compile("") #TODO
-    return pattern.match(name)
