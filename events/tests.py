@@ -430,7 +430,13 @@ class JoinDeletedEventTestCase(TestCase):
         except UnsuccessfulOperationError as e:
             self.assertEqual(e, 'Event not found with id')
 
+#class EditDeletedEventTestCase(TestCase):
+    
+# Test suite for Event views
+#TODO completely fix because this is sketch
 
+class EventViewTest(TestCase):
+    c = Client()
 
 class CreateEventTestCase(TestCase):
     def setUp(self):
@@ -452,15 +458,6 @@ class CreateEventTestCase(TestCase):
             min_capacity_input=min_capacity_Input,max_capacity_input=max_capacity_Input,
             description_input=description_Input,category_input=category_Input)
         self.assertIn(event,Event.objects.all())
-
-
-#class EditDeletedEventTestCase(TestCase):
-    
-# Test suite for Event views
-#TODO completely fix because this is sketch
-
-class EventViewTest(TestCase):
-    c = Client()
 
 # Test suite for Event services
 class EventServiceTest(TestCase):
