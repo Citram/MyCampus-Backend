@@ -111,51 +111,51 @@ def get_event_by_id(id):
     except:
         raise UnsuccessfulOperationError('Invalid event id', 'event_id')
 
-def create_comment(event_id, user_id, message_input):
-    try:
-        event = Event.objects.get(id=event_id)
-    except:
-        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
-    try:
-        user = RegularUser.objects.get(user_id)
-    except:
-        raise UnsuccessfulOperationError('User not found with id', 'user_id')
+# def create_comment(event_id, user_id, message_input):
+#     try:
+#         event = Event.objects.get(id=event_id)
+#     except:
+#         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
+#     try:
+#         user = RegularUser.objects.get(user_id)
+#     except:
+#         raise UnsuccessfulOperationError('User not found with id', 'user_id')
 
-    comment = Comment(message=message_input)
-    comment.author = user
-    comment.event = event
-    comment.save()
+#     comment = Comment(message=message_input)
+#     comment.author = user
+#     comment.event = event
+#     comment.save()
 
-def set_comment(comment_id, massage_input):
-    try:
-        comment = Comment.objects.get(id=comment_id)
-    except:
-        raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
-    comment.message = massage_input
-    comment.save()
+# def set_comment(comment_id, massage_input):
+#     try:
+#         comment = Comment.objects.get(id=comment_id)
+#     except:
+#         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
+#     comment.message = massage_input
+#     comment.save()
 
-def delete_comment(comment_id):
-    try:
-        comment = Comment.objects.get(id=comment_id)
-    except:
-        raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
-    comment.delete()
+# def delete_comment(comment_id):
+#     try:
+#         comment = Comment.objects.get(id=comment_id)
+#     except:
+#         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
+#     comment.delete()
 
 def join_event (user_id, event_id, date=datetime.date.today()):
     try:
         event = Event.objects.get(id=event_id)
     except:
-        raise Exception('Event not found with id', 'event_id')
+        raise UnsuccessfulOperationError('Event not found with id', 'event_id')
     try:
         user = User.objects.get(id=user_id)
     except:
-        raise Exception('User not found with id', 'user_id')
+        raise UnsuccessfulOperationError('User not found with id', 'user_id')
 
     if date > event.datetime:
-        raise Exception("Event has already occurred.")
+        raise UnsuccessfulOperationError("Event has already occurred.", 'date')
 
     if event.attendees.count() >= event.max_capacity:
-        raise Exception("Max capacity of event reached.")
+        raise UnsuccessfulOperationError("Max capacity of event reached.", 'event.max_capacity')
 
 
     event.attendees.add(user)
