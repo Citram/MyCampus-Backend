@@ -74,7 +74,7 @@
   }
 
 .leavebtn {
-    background-color: orange; /* Green */
+    background-color: rgb(236, 60, 47); /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -86,7 +86,7 @@
   }
 
   .leavebtn:hover {
-    background-color: rgb(245, 163, 31); 
+    background-color: rgb(190, 14, 2); 
     color: white; 
   }
 
@@ -273,15 +273,28 @@
             <br> Attendees:{{event.attendees}}
             </p>
 
-            <!-- Check whether in registered or all -->
-
+            <!-- Conditional Join or leave based on whether user has already registered for the event -->
+            <!-- Need Get attendsEvent boolean from backend -->
+            
             <!-- Join -->
+            {% if false %} <!-- false renders "Leave", true == true renders "Join" -->
             <form action="{% url 'join_event' %}"
                   method="post">
                   {% csrf_token %}
                   <input hidden value = "{{event.id}}" name = "id_field">
             <button style="width:100%" class="joinbtn" type="submit">Join</button>
             </form>
+            <!-- Leave -->
+            {% else %}
+            <form action="{% url 'leave_event' %}"
+                  method="post">
+                  {% csrf_token %}
+                  <input hidden value = "{{user.id}}" name = "userid">
+                  <input hidden value = "{{event.id}}" name = "eventid">
+            <button style="width:100%" class="leavebtn" type="submit">Leave</button>
+            </form>
+            {% endif %}
+            
                         <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
       </div>

@@ -60,6 +60,21 @@ def join_event(request):
     else:
         return redirect('/')
 
+def leave_event(request):
+    if request.method == 'POST':
+            # user_id = request.user.id
+            user_id = request.POST.get("userid", "")
+            event_id = request.POST.get("eventid", "")
+            try :
+                services.leave_event(user_id, event_id)
+            except services.UnsuccessfulOperationError:
+                return HttpResponse("User ID or Event ID not valid.")
+            
+            return redirect('/')
+
+    else:
+        return redirect('/')
+
 def edit_event_2(request):
     if request.method == 'POST':
         form_event = EventForm(request.POST)

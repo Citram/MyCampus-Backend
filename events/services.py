@@ -154,6 +154,8 @@ def get_event_attendees(event_id):
         
 
 def leave_event(user_id, event_id):
+    print(event_id)
+    print(user_id)
     try:
         event = Event.objects.get(id=event_id)
     except:
