@@ -9,6 +9,9 @@ from events.services import UnsuccessfulOperationError
 from hashid_field import Hashid
 from users.models import *
 from users.forms import *
+from hashid_field import Hashid
+from users.models import *
+from users.forms import *
 
 
 # Address form test sutie
@@ -295,7 +298,6 @@ class EventFormTest(TestCase):
             })
 
             self.assertFalse(event_form.is_valid())
-
 
 class EventDeleteFormTest(TestCase):
     def setUp(self):
