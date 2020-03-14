@@ -142,7 +142,7 @@ def delete_comment(comment_id):
     comment.delete()
 
 # def join_Finalevent(event_id, user_id):
-def join_Finalevent(event_id, user_id):
+def join_Finalevent(event_id):
     event = Event.objects.get(id=event_id)
     # attendance = Attendance(
     #     attendee = user_id, 
