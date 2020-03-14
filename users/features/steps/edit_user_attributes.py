@@ -1,3 +1,8 @@
+@given(u'the following users are registered in the system')
+def step_impl(context):
+    pass
+    # raise NotImplementedError(u'STEP: Given the following users are registered in the system')
+
 @given(u'student with username "mycampus1" is logged in')
 def step_impl(context):
     pass

@@ -5,7 +5,7 @@ I would like to edit the information about my user in the system
 So that I can ensure that the information in the system is accurate
 
   Background: 
-    Given the following users are in the system:
+    Given the following users are registered in the system:
       | username  | password     | email               | 
       | mycampus1 | android1298  | test@mail.mcgill.ca | 
       | citram37  | django234243 | cit@mail.mcgill.ca  | 
