@@ -49,8 +49,11 @@ def edit_event(request):
 
 def join_event(request):
     if request.method == 'POST':
+            # user_id = request.POST.get("user_id", "")
+            # user_id = request.session['user']
             event_id = request.POST.get("id_field", "")
             try :
+                # services.join_Finalevent(event_id, user_id)
                 services.join_Finalevent(event_id)
             except services.UnsuccessfulOperationError:
                 return HttpResponse("Event ID not valid.")
@@ -62,13 +65,14 @@ def join_event(request):
 
 def leave_event(request):
     if request.method == 'POST':
-            # user_id = request.user.id
-            user_id = request.POST.get("userid", "")
-            event_id = request.POST.get("eventid", "")
+            # current_user = request.session['user'] 
+            # user_id = current_user.id
+            user_id = request.POST.get("user_id", "")
+            event_id = request.POST.get("event_id", "")
             try :
                 services.leave_event(user_id, event_id)
-            except services.UnsuccessfulOperationError:
-                return HttpResponse("User ID or Event ID not valid.")
+            except ObjectDoesNotExist as error:
+                return HttpResponse(error)
             
             return redirect('/')
 

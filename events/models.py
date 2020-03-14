@@ -1,5 +1,6 @@
 from django.db import models
-#from users.models import RegularUser
+# from users.models import RegularUser
+from users.models import Student
 from hashid_field import HashidAutoField
 import datetime
 
@@ -72,3 +73,8 @@ class Comment(models.Model):
     #many-to-one relations
     #author = models.ForeignKey(RegularUser, on_delete=models.SET_NULL)
     #event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+class Attendance(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    attendee = models.ForeignKey(Student, on_delete=models.CASCADE)
+    is_attending = models.BooleanField(default=False)

@@ -141,8 +141,15 @@ def delete_comment(comment_id):
         raise UnsuccessfulOperationError('Comment not found with id', 'comment_id')
     comment.delete()
 
-def join_Finalevent(event_id):
+# def join_Finalevent(event_id, user_id):
+def join_Finalevent(event_id, user_id):
     event = Event.objects.get(id=event_id)
+    # attendance = Attendance(
+    #     attendee = user_id, 
+    #     event = event,
+    #     is_attending = True
+    #     )
+    # attendance.save()
     event.attendees +=1
     event.save()
 
@@ -161,6 +168,7 @@ def leave_event(user_id, event_id):
     except:
         raise UnsuccessfulOperationError('Event not found with id', 'event_id')
     try:
+        # user = Attendance.objects.get_event_attendees(id=user_id)
         user = Student.objects.get(id=user_id)
     except:
         raise UnsuccessfulOperationError('User not found with id', 'user_id')

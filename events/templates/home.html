@@ -277,10 +277,12 @@
             <!-- Need Get attendsEvent boolean from backend -->
             
             <!-- Join -->
-            {% if false %} <!-- false renders "Leave", true == true renders "Join" -->
+            <!-- false renders "Leave", true == true renders "Join" -->
+            {% if false == false %} 
             <form action="{% url 'join_event' %}"
                   method="post">
                   {% csrf_token %}
+                  <input hidden value = "{{user.username}}" name = "user_id">
                   <input hidden value = "{{event.id}}" name = "id_field">
             <button style="width:100%" class="joinbtn" type="submit">Join</button>
             </form>
@@ -289,11 +291,11 @@
             <form action="{% url 'leave_event' %}"
                   method="post">
                   {% csrf_token %}
-                  <input hidden value = "{{user.id}}" name = "userid">
-                  <input hidden value = "{{event.id}}" name = "eventid">
+                  <input hidden value = "{{user}}" name = "user_id">
+                  <input hidden value = "{{event.id}}" name = "event_id">
             <button style="width:100%" class="leavebtn" type="submit">Leave</button>
             </form>
-            {% endif %}
+            <!-- {% endif %} -->
             
                         <!-- TODO: ADD KEYWORDS (Optional) -->
           </div>
